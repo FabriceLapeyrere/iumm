@@ -956,6 +956,7 @@ class html
 	}
         function support($id)
         {
+		$html="";
 		if ($id==0) {
 			$html.="Aucun support.";
 		} else {

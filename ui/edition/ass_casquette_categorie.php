@@ -10,10 +10,22 @@
 	$c=new Casquette($id_casquette);
 	$c->ass_categorie($id_categorie);
 	$id_etablissement=$c->id_etablissement;
+	$e=new Etablissement($id_etablissement);
 	
 	#on rend le cache obsolete
 	Cache::set_obsolete('casquette',$id_casquette);
 	Cache::set_obsolete('etablissement',$id_etablissement);
+	foreach($e->casquettes() as $id_cas=>$cas){
+		Cache::set_obsolete('casquette',$id_cas);	
+		$js="
+		$('#sel_tree').dynatree('getTree').reload();
+		$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+		";
+		$js.=Js::casquette($id_cas);
+		$js.="
+		ed_scapi.reinitialise();
+		";
+	}
 	
 	$js="
 	$('#sel_tree').dynatree('getTree').reload();

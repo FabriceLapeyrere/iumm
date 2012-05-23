@@ -54,7 +54,10 @@ class Casquette {
 		}
 		
 		#on récupere les categories :
-		$sql_cat="SELECT t1.rowid as rowid, t1.nom as nom FROM categories as t1  inner join ass_casquette_categorie as t2 on t1.rowid=t2.id_categorie WHERE t2.id_casquette=$id AND t2.statut=1 AND t2.date IN (select max(date) from ass_casquette_categorie group by id_casquette,id_categorie having id_casquette=$id)";
+		$sql_cat="SELECT t1.rowid as rowid, t1.nom as nom FROM categories as t1  inner join ass_casquette_categorie as t2 on t1.rowid=t2.id_categorie WHERE t2.id_casquette=$id AND t2.id_casquette||','||t2.id_categorie||','||1||','||t2.date IN (
+SELECT id_casquette||','||id_categorie||','||statut||','||max ( date )
+FROM 'ass_casquette_categorie'
+GROUP BY id_casquette,id_categorie)";
 		$res_cat = $base->query($sql_cat);
 		while ($tab_cat=$res_cat->fetchArray(SQLITE3_ASSOC)) {
 			$this->categories[$tab_cat['rowid']]=array('nom'=>$tab_cat['nom']);

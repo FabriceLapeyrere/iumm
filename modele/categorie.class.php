@@ -59,10 +59,10 @@ class Categorie {
 		$base->busyTimeout (10000);
 		$sql="SELECT t3.rowid, t3.nom FROM casquettes as t3
 INNER join ass_casquette_categorie AS t4 ON t3.rowid=t4.id_casquette
-WHERE t3.nom!='####' and t4.id_categorie=".$this->id." AND t4.id_casquette||','||t4.date IN (
-SELECT id_casquette||','||max ( date )
+WHERE t3.nom!='####' and t4.id_categorie=".$this->id." AND t4.statut=1 AND t4.id_casquette||','||t4.id_categorie||','||1||','||t4.date IN (
+SELECT id_casquette||','||id_categorie||','||statut||','||max ( date )
 FROM 'ass_casquette_categorie'
-GROUP BY id_casquette )";
+GROUP BY id_casquette,id_categorie)";	
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$rowid=$tab['rowid'];

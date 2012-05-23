@@ -1,6 +1,8 @@
 *~
 db/*
 ui/cache/db/*
+fichiers/emails/*
+fichiers/envois/*
 tmp/*
 modele/corbeille/*
 

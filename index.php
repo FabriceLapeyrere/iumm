@@ -138,7 +138,7 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #sel_structures{position:absolute;}
 #sel_filtres{position:absolute;}
 #sel_filtres>div {float:left;height:30px;}
-#sel_filtres input {width:150px;}
+#sel_filtres input[type='text'] {width:150px;}
 
 #structures .filtre {width:280px;margin-bottom:4px;}
 #selection .filtre input {

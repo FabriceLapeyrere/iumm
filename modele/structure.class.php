@@ -18,6 +18,7 @@ class Structure {
 	
 		#on récupere le nom:
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select nom from structures where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -37,6 +38,7 @@ class Structure {
 	function mod_nom($nom){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="update structures set nom='$nom' where rowid=".$this->id;
 		$base->query($sql);
 		$base->close();
@@ -45,6 +47,7 @@ class Structure {
 			$id_casquette=$e->casquette_propre();
 			$tri=SQLite3::escapeString($nom);
 			$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 			$sql="update casquettes set tri='$tri' where rowid=$id_casquette";
 			$base->query($sql);
 			$base->close();
@@ -55,6 +58,7 @@ class Structure {
 		$nom=SQLite3::escapeString($nom);
 		$id_structure=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="insert into etablissements (nom) values ('$nom')";
 		$base->query($sql);
 		$id_etablissement=$base->lastInsertRowID();
@@ -82,6 +86,7 @@ class Structure {
 			$e->suppr();
 		}
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="update structures set nom='####' where rowid=".$this->id;
 		$base->query($sql);
 		$base->close();
@@ -95,6 +100,7 @@ class Structure {
 		$content="";
 		foreach ($this->etablissements as $id=>$etablissement){
 			$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 			$sql="select content from cache_etablissement where rowid=$id";
 			$res = $base->query($sql);
 			while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -129,6 +135,7 @@ class Structure {
 		#on teste si le cache existe
 		$sql="select count(*) from cache_structure where rowid=$id";
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$res = $base->query($sql);
 		$n=0;
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -140,6 +147,7 @@ class Structure {
 	function de_index(){
 		$id=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="delete from cache_structure where rowid=$id";
 		$res = $base->query($sql);
 		$base->close();	

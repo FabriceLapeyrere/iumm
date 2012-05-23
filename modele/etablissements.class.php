@@ -11,6 +11,7 @@ class Etablissements {
 	
 	function existe($id) {
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select count(*) from etablissements where rowid=$id and nom!='####'";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -21,6 +22,7 @@ class Etablissements {
 	}
 	function tous() {
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select rowid from etablissements where nom!='####'";
 		$liste=array();
 		$res = $base->query($sql);

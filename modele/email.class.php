@@ -19,6 +19,7 @@ class Email {
 	
 		#on récupere le nom:
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select t1.sujet as sujet, t2.html as html, t2.pj as pj from emails as t1 inner join donnees_email as t2 on t1.rowid=t2.id_email where t1.rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -36,6 +37,7 @@ class Email {
 	function mod_sujet($sujet){
 		$sujet=SQLite3::escapeString($sujet);
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="update emails set sujet='$sujet' where rowid=".$this->id;
 		$base->query($sql);
 		$base->close();		
@@ -45,12 +47,14 @@ class Email {
 		$pj=SQLite3::escapeString($pj);
 		$id_email=$this->id;
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="insert into donnees_email (id_utilisateur,id_email,html,pj) values (1,$id_email,'$html','$pj')";
 		$base->query($sql);
 		$base->close();
 	}
 	function suppr(){
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="update emails set sujet='####' where rowid=".$this->id;
 		$base->query($sql);
 		$sql="delete from donnnees_email where id_email=".$this->id;

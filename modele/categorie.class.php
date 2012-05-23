@@ -18,6 +18,7 @@ class Categorie {
 	
 		#on récupere le nom et l'id_parent:
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select nom, idparent from categories where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -29,19 +30,21 @@ class Categorie {
 	function mod_nom($nom){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="update categories set nom='$nom' where rowid=".$this->id;
 		$base->query($sql);
 		$base->close();		
 	}
 	function mod_parent($idparent){
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="update categories set idparent=$idparent where rowid=".$this->id;
 		$base->query($sql);
 		$base->close();		
 	}
 	public function nbincat()
         {
-		return count($this->casquettes());;
+		return count($this->casquettes());
 	}
 	public function total()
         {
@@ -53,6 +56,7 @@ class Categorie {
 		$casquettes=array();
 		$id=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="SELECT t3.rowid, t3.nom FROM casquettes as t3
 INNER join ass_casquette_categorie AS t4 ON t3.rowid=t4.id_casquette
 WHERE t3.nom!='####' and t4.id_categorie=".$this->id." AND t4.id_casquette||','||t4.date IN (
@@ -73,6 +77,7 @@ GROUP BY id_casquette )";
 		$categories=array();
 		$id=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql_enfants="select rowid, nom, idparent from categories where idparent=$id and nom!='####' order by nom";
 		if ($res_enfants = $base->query($sql_enfants)){
 			while ($tab_enfants=$res_enfants->fetchArray(SQLITE3_ASSOC)) {
@@ -87,6 +92,7 @@ GROUP BY id_casquette )";
 		$id=$this->id;
 		$nb=0;
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select count(*) from categories where idparent=$id and nom!='####'";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -97,6 +103,7 @@ GROUP BY id_casquette )";
 	}
 	function suppr(){
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="delete from ass_casquette_categorie where id_categorie=".$this->id;
 		$base->query($sql);
 		$sql="update categories set nom='####' where rowid=".$this->id;

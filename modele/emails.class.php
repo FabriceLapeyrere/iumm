@@ -26,6 +26,7 @@ class Emails {
 		}
 		#on récupere le nombre d'emails:
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select count(*) from emails where sujet!='####'$cond_motifs";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -49,6 +50,7 @@ class Emails {
 			$cond_motifs=" AND ( ".implode($tab_cond_motifs,' AND ')." )";
 		}
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select * from emails where sujet!='####'$cond_motifs order by date desc limit $binf,20";
 		#echo $sql;
 		$res = $base->query($sql);
@@ -62,6 +64,7 @@ class Emails {
 	function aj_email($sujet) {
 		$sujet=SQLite3::escapeString($sujet);
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="insert into emails (id_utilisateur,sujet) values (1,'$sujet')";
 		$base->query($sql);
 		$id_email=$base->lastInsertRowID();
@@ -72,6 +75,7 @@ class Emails {
 	function dernier() {
 		$id=0;
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select rowid from emails where sujet!='####' order by date desc limit 0,1";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -82,6 +86,7 @@ class Emails {
 	}
 	function expediteurs() {
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select rowid, nom, email from expediteurs order by date desc";
 		$res = $base->query($sql);
 		$expediteurs=array();
@@ -93,6 +98,7 @@ class Emails {
 	}
 	function expediteur($id) {
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select rowid, nom, email from expediteurs where rowid=$id";
 		$res = $base->query($sql);
 		$expediteurs=array();
@@ -110,6 +116,7 @@ class Emails {
 		$from=SQLite3::escapeString(json_encode($expediteur));
 		$nb_email=count($liste_casquettes);
 		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
 		$sql="insert into envois (html, sujet, expediteur, nb, log, statut, pid) VALUES ('$html', '$sujet', '$from', $nb_email, '', 1, 0);";
 		$base->query($sql);
 		$id_envoi=$base->lastInsertRowID();

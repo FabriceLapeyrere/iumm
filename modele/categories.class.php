@@ -12,6 +12,7 @@ class Categories {
 	function Categories() {
 		#on récupere le nombre de contacts:
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select count(*) from categories$cond";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
@@ -21,6 +22,7 @@ class Categories {
 	function aj_categorie($nom) {
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql="insert into categories (nom,idparent) values ('$nom',0)";
 		$base->query($sql);
 		$sql="select max(rowid) from categories";
@@ -41,6 +43,7 @@ class Categories {
 		foreach($c as $idc=>$casquette) $casquettes[]=$idc;
 		error_log(date('d/m/Y H:i:s')." - total catégorie $id Parent : ".implode(', ',$casquettes)."\n", 3, "tmp/debug.log");
 		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
 		$sql_enfants="select rowid, nom, idparent from categories where idparent=$id and nom!='####' order by nom";
 		$enfants=array();
 		if ($res_enfants = $base->query($sql_enfants)){

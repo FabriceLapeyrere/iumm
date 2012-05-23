@@ -17,7 +17,9 @@ $(function() {
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
-			})
+			});
+			$('#menu a').css('color','#000');
+			$('a[href=#edition]').css('color','#ff8000');
 			break;
 		case '#selection':
 			$("#edition").css('z-index',0);
@@ -29,7 +31,9 @@ $(function() {
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
-			})
+			});
+			$('#menu a').css('color','#000');
+			$('a[href=#selection]').css('color','#ff8000');
 			break;
 		case '#email':
 			$("#edition").css('z-index',0);
@@ -41,7 +45,9 @@ $(function() {
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
-			})
+			});
+			$('#menu a').css('color','#000');
+			$('a[href=#email]').css('color','#ff8000');
 			break;
 		case '#emailing':
 			$("#edition").css('z-index',0);
@@ -53,7 +59,9 @@ $(function() {
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
-			})
+			});
+			$('#menu a').css('color','#000');
+			$('a[href=#emailing]').css('color','#ff8000');
 			break;
 		case '#publipostage':
 			$("#edition").css('z-index',0);
@@ -65,7 +73,9 @@ $(function() {
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
-			})
+			});
+			$('#menu a').css('color','#000');
+			$('a[href=#publipostage]').css('color','#ff8000');
 			break;
 		}
 	})

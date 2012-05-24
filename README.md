@@ -18,6 +18,7 @@ Iumm n'a été testé qu'avec Firefox 3.6+ et Chrome... Iumm ne fonctionne pas a
 
 ##Installation
 Les repertoires suivants doivent être accessible en écriture par le serveur web :
+
     db/
     ui/cache/db/
     fichiers/emails/

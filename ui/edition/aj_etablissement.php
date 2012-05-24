@@ -7,7 +7,7 @@
 	$succes=1;
 	$id_structure=$_POST['id_structure'];
 	$s=new Structure($id_structure);
-	$id_etablissement=$s->aj_etablissement('nouveau');
+	$id_etablissement=$s->aj_etablissement('Siège Social');
 	$js="
 	$.post('ajax.php',{
 			action:'edition/structure',

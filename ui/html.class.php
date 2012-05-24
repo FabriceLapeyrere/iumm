@@ -589,7 +589,10 @@ class html
 				$structure=$c->nom_structure;
 				$nom_etab=$c->nom_etablissement;
 				$html.="<div class='cas-etablissement-$id_casquette'><h3>Structure</h3><div class='etabContact$rowid_etab'><span class='etabcas' data-id='$rowid_etab'><span class='titre'><b>$structure</b>, $nom_etab</span></span> ".Html::bouton_suppr($id_casquette,'moins','supprimer')."</div><div class='cadre etabContact$rowid_etab'>\n";
-				$html.=Html::etablissement($rowid_etab,false);
+				$html_etab=str_replace(Html::bouton_suppr($rowid_etab,'moins','supprimer'),"",Html::etablissement($rowid_etab,false));
+				$e=new Etablissement($rowid_etab);
+				foreach($e->casquettes() as $id_cas=>$cas) $html_etab=str_replace(Html::bouton_suppr($id_cas,'moins','supprimer'),"",$html_etab);
+				$html.=$html_etab;
 				$html.="</div></div>\n";
 			}
 			$cat=Html::cas_categories($id_casquette);

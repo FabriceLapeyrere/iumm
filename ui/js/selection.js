@@ -555,7 +555,7 @@ $(function() {
 			cursorAt: { top: -10 },
 			helper: function(){return $(this).clone();}
 		});
-		$('#sel_casquettes .casquette .dynatree-node').contextMenu({
+		$('#sel_casquettes .casquette .cas>div>div>span.dynatree-node').contextMenu({
 			menu: 'sel_menu_categorie_contact',
 			},
 			function(action, el, pos) {

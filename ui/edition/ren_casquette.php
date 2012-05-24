@@ -32,14 +32,24 @@
 			'json'
 		);
 	";
-	if ($c->id_etablissement>0){
-		#on rend le cache obsolete
-		Cache::set_obsolete('etablissement',$c->id_etablissement);
+	$id_etablissement=$c->id_etablissement;
+	Cache::set_obsolete('etablissement',$id_etablissement);
+	$js.="
+	$('#ed_etablissement-$id_etablissement').html('".json_escape(Html::etablissement($id_etablissement))."');
+	";
+	$js.=Js::etablissement($id_etablissement);
+	$js.="
+	ed_ssapi.reinitialise();
+	";
+	$e=new Etablissement($id_etablissement);
+	foreach($e->casquettes() as $id_cas=>$cas){
+		Cache::set_obsolete('casquette',$id_cas);	
 		$js.="
-			if ($('#ed_contactsEtab-".$c->id_etablissement."').length!=0)
-			$.post('ajax.php',{action:'edition/mcasquette', id_casquette:$id},function(data){
-				$('#ed_contactsEtab-".$c->id_etablissement." a[data-id=$id]').html(data.titre);
-			},'json');
+		$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+		";
+		$js.=Js::casquette($id_cas);
+		$js.="
+		ed_scapi.reinitialise();
 		";
 	}
 	if($succes) {

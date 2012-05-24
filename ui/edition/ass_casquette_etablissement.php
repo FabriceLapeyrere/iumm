@@ -19,9 +19,9 @@
 		Cache::set_obsolete('etablissement',$old_etablissement);
 		if ($old_etablissement!=$id_etablissement) {
 			$c->ass_etablissement($id_etablissement);
-			$c=new Casquette($id_casquette);
-			$c->mod_nom($c->nom_structure);
 		}
+		$c=new Casquette($id_casquette);
+		$c->mod_nom($c->nom_structure);
 		$e=new Etablissement($id_etablissement);
 		foreach($e->casquettes() as $id_cas=>$cas){
 			Cache::set_obsolete('casquette',$id_cas);	

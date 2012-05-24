@@ -219,110 +219,6 @@ select {width:270px;}
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="ui/includes/upload/js/html5.js"></script><![endif]-->
 <!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-            <td>
-                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-            </td>
-            <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Démarrer l'upload</span>
-                </button>
-            {% } %}</td>
-        {% } else { %}
-            <td colspan="2"></td>
-        {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>Annuler</span>
-            </button>
-        {% } %}</td>
-    </tr>
-{% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        {% if (file.error) { %}
-            <td></td>
-            <td class="name"><span>{%=file.name%}</span></td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else { %}
-            <td class="preview">{% if (file.thumbnail_url) { %}
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-            {% } %}</td>
-            <td class="name">
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-            </td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td colspan="2"></td>
-        {% } %}
-        <td class="delete">
-            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-trash icon-white"></i>
-                <span>Supprimer</span>
-            </button>
-            <input type="checkbox" name="delete" value="1">
-        </td>
-    </tr>
-{% } %}
-</script>
-
-<!-- fin fonctionnalité d'upload -->
-
-<script src="ui/js/jquery.min.js"></script>
-<script src="ui/js/jquery-ui.min.js"></script>
-<script src="ui/js/jquery.dataset.js" type="text/javascript"></script>
-<script src="ui/js/jquery.mousewheel.js" type="text/javascript"></script>
-<script src="ui/js/jquery.jscrollpane.js" type="text/javascript"></script>
-<script src="ui/js/jquery.dynatree.js" type="text/javascript"></script>
-<script src="ui/js/jquery.contextMenu.js" type="text/javascript"></script>
-<script src="ui/js/jquery.ba-hashchange.js" type="text/javascript"></script>
-<script type="text/javascript" src="ui/includes/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="ui/includes/ckeditor/adapters/jquery.js"></script>
-<script src="ui/js/edition.js" type="text/javascript"></script>
-<script src="ui/js/selection.js" type="text/javascript"></script>
-<script src="ui/js/email.js" type="text/javascript"></script>
-<script src="ui/js/emailing.js" type="text/javascript"></script>
-<script src="ui/js/publipostage.js" type="text/javascript"></script>
-<script src="ui/js/iumm.js" type="text/javascript"></script>
-
-<!-- fonctionnalité d'upload -->
-
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="ui/includes/upload/js/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="ui/includes/upload/js/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="ui/includes/upload/js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-<script src="ui/includes/upload/js/bootstrap.min.js"></script>
-<script src="ui/includes/upload/js/bootstrap-image-gallery.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="ui/includes/upload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="ui/includes/upload/js/jquery.fileupload.js"></script>
-<!-- The File Upload image processing plugin -->
-<script src="ui/includes/upload/js/jquery.fileupload-ip.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="ui/includes/upload/js/jquery.fileupload-ui.js"></script>
-<!-- The localization script -->
-<script src="ui/includes/upload/js/locale.js"></script>
-<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
-<!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
-
-<!-- fin fonctionnalité d'upload -->
 </head>
 <body>
 <div id="mask">
@@ -555,5 +451,113 @@ select {width:270px;}
 	</div>
 </div>
 <div id="menu"><div class='boite-menu'><a href="#edition">edition</a> <a href="#selection">selection</a> <a href="#email">email</a> <a href="#emailing">e-mailing</a>  <a href="#publipostage">publipostage</a> <a href="doc.php?t=export_csv" target="_blank">csv</a></div></div>
+
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Démarrer l'upload</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>Annuler</span>
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td></td>
+            <td class="name"><span>{%=file.name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+            <td class="preview">{% if (file.thumbnail_url) { %}
+                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+            {% } %}</td>
+            <td class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td colspan="2"></td>
+        {% } %}
+        <td class="delete">
+            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-trash icon-white"></i>
+                <span>Supprimer</span>
+            </button>
+            <input type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>
+
+<!-- fin fonctionnalité d'upload -->
+
+<script src="ui/js/jquery.min.js"></script>
+<script src="ui/js/jquery-ui.min.js"></script>
+<script src="ui/js/jquery.dataset.js" type="text/javascript"></script>
+<script src="ui/js/jquery.mousewheel.js" type="text/javascript"></script>
+<script src="ui/js/jquery.jscrollpane.js" type="text/javascript"></script>
+<script src="ui/js/jquery.dynatree.js" type="text/javascript"></script>
+<script src="ui/js/jquery.contextMenu.js" type="text/javascript"></script>
+<script src="ui/js/jquery.ba-hashchange.js" type="text/javascript"></script>
+<script type="text/javascript" src="ui/includes/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="ui/includes/ckeditor/adapters/jquery.js"></script>
+<script src="ui/js/edition.js" type="text/javascript"></script>
+<script src="ui/js/selection.js" type="text/javascript"></script>
+<script src="ui/js/email.js" type="text/javascript"></script>
+<script src="ui/js/emailing.js" type="text/javascript"></script>
+<script src="ui/js/publipostage.js" type="text/javascript"></script>
+<script src="ui/js/iumm.js" type="text/javascript"></script>
+
+<!-- fonctionnalité d'upload -->
+
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="ui/includes/upload/js/tmpl.min.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="ui/includes/upload/js/load-image.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="ui/includes/upload/js/canvas-to-blob.min.js"></script>
+<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
+<script src="ui/includes/upload/js/bootstrap.min.js"></script>
+<script src="ui/includes/upload/js/bootstrap-image-gallery.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="ui/includes/upload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="ui/includes/upload/js/jquery.fileupload.js"></script>
+<!-- The File Upload image processing plugin -->
+<script src="ui/includes/upload/js/jquery.fileupload-ip.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="ui/includes/upload/js/jquery.fileupload-ui.js"></script>
+<!-- The localization script -->
+<script src="ui/includes/upload/js/locale.js"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
+<!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
+
+<!-- fin fonctionnalité d'upload -->
+
+
+
 </body>
 </html>

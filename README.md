@@ -9,9 +9,9 @@ Logiciel de gestion de contacts
 * PHP5 avec support SQLite3 et curl
 * Le serveur doit résoudre correctement son propre nom de domaine.
 
-Si vous accedez à iumm avec cette adresse www.toto.org/iumm alors il faut que pour le serveur, www.toto.org pointe vers localhost. Si ce n'est pas le cas, il faut modifier le fichier /etc/hosts et rajouter la ligne :
+Si vous accedez à iumm avec cette adresse www.example.org/iumm alors il faut que pour le serveur, www.example.org pointe vers localhost. Si ce n'est pas le cas, il faut modifier le fichier /etc/hosts et rajouter la ligne :
 
-    127.0.0.1       www.toto.org
+    127.0.0.1       www.example.org
 
 ###Client
 Iumm n'a été testé qu'avec Firefox 3.6+ et Chrome... Iumm ne fonctionne pas avec IE7 ni IE8.

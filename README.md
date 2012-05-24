@@ -2,3 +2,41 @@ iumm
 ====
 
 Logiciel de gestion de contacts
+
+##Prérequis
+###Serveur
+* Un serveur web (testé avec apache2)
+* PHP5 avec support SQLite3 et curl
+* Le serveur doit résoudre correctement son propre nom de domaine.
+
+Si vous accedez à iumm avec cette adresse www.toto.org/iumm alors il faut que pour le serveur, www.toto.org pointe vers localhost. Si ce n'est pas le cas, il faut modifier le fichier /etc/hosts et rajouter la ligne :
+
+    127.0.0.1       www.toto.org
+
+###Client
+Iumm n'a été testé qu'avec Firefox 3.6+ et Chrome... Iumm ne fonctionne pas avec IE7 ni IE8.
+
+##Installation
+Les repertoires suivants doivent être accessible en écriture par le serveur web :
+    db/
+    ui/cache/db/
+    fichiers/emails/
+    fichiers/envois/
+    tmp/
+    modele/corbeille/
+
+Exemple d'installation sous ubuntu :
+
+    sudo aptitude install apache2 php5-sqlite php5-curl unzip
+    sudo /etc/init.d/apache2 restart
+    cd /var/www/
+    sudo wget https://github.com/FabriceLapeyrere/iumm/zipball/master
+    sudo unzip master
+    sudo mv FabriceLapeyrere-iumm-xxxxxxx iumm
+    sudo chown www-data:www-data -R iumm
+    cd iumm
+    sudo chmod u+w db/ ui/cache/db/ fichiers/emails/ fichiers/envois/ tmp/ modele/corbeille/
+    cd ..
+    rm master
+
+Iumm est maintenant disponible à l'url http://localhost/iumm/

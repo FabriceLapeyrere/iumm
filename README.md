@@ -3,6 +3,8 @@ iumm
 
 Logiciel de gestion de contacts
 
+http://iumm.surlefil.org/demo
+
 ##Prérequis
 ###Serveur
 * Un serveur web (testé avec apache2)

@@ -6,37 +6,44 @@
 	$reponse=array();
 	$succes=1;
 	$id_casquette=$_POST['id_casquette'];
-	
-	#on rend le cache obsolete
-	Cache::set_obsolete('casquette',$id_casquette);
-	Cache::set_obsolete('etablissement',$id_etablissement);
-	
 	$c=new Casquette($id_casquette);
 	$id_etablissement=$c->id_etablissement;
+	$e=new Etablissement($id_etablissement);
+	$casquettes=$e->casquettes();
 	$c->deass_etablissement();
-	$js="
+	
+	#on rend le cache obsolete
+	Cache::set_obsolete('etablissement',$id_etablissement);
+	
+	$c->mod_nom("Perso");
+	$js="";
+	$js.="$('#edition li[data-tab=\"#ed_casquette-$id_casquette\"] a').html('Perso');";
+		
+	foreach($casquettes as $id_cas=>$cas){
+		Cache::set_obsolete('casquette',$id_cas);	
+		$js.="
+		$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+		";
+		$js.=Js::casquette($id_cas);
+		$js.="
+		ed_scapi.reinitialise();
+		";
+	}
+	$js.="
+	$('#ed_etablissement-$id_etablissement').html('".json_escape(Html::etablissement($id_etablissement))."');
+	";
+	$js.=Js::etablissement($id_etablissement);
+	$js.="
+	ed_ssapi.reinitialise();
+	";
+	$js.="
 	$.post('ajax.php',{
-			action:'edition/casquette',
-			id_casquette:$id_casquette,
+			action:'selection/selection_humains',
 			format:'html'
 		},function(data){
 			if(data.succes==1){
-				$('#ed_casquette-$id_casquette').html(data.html)
+				$('#sel_humains').html(data.html);
 				eval(data.js);
-				ed_scapi.reinitialise();
-			}
-		},
-		'json'
-	);
-	$.post('ajax.php',{
-			action:'edition/etablissement',
-			id_etablissement:$id_etablissement,
-			format:'html'
-		},function(data){
-			if(data.succes==1){
-				$('#ed_etablissement-$id_etablissement').html(data.html);
-				eval(data.js);
-				ed_ssapi.reinitialise();
 			}
 		},
 		'json'

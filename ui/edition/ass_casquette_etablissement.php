@@ -23,10 +23,10 @@
 		$c=new Casquette($id_casquette);
 		$c->mod_nom($c->nom_structure);
 		$e=new Etablissement($id_etablissement);
+		$js.="$('#edition li[data-tab=\"#ed_casquette-$id_casquette\"] a').html('".json_escape($c->nom_structure)."');";
 		foreach($e->casquettes() as $id_cas=>$cas){
 			Cache::set_obsolete('casquette',$id_cas);	
 			$js.="
-			$('#edition li[data-tab=\"#ed_casquette-$id_cas\"] a').html('".json_escape($c->nom_structure)."');
 			$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
 			";
 			$js.=Js::casquette($id_cas);

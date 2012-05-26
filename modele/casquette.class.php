@@ -104,6 +104,7 @@ GROUP BY id_casquette,id_categorie)";
 		return $emails;
 	}
 	function adresse() {
+		$adresse="";
 		$adresse_complete="";
 		$donnees=$this->donnees();
 		if (trim($this->prenom_contact)!="" and trim($this->nom_contact)!="$$$$") $adresse_complete.=trim($this->prenom_contact)." ";

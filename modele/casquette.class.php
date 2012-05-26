@@ -104,13 +104,13 @@ GROUP BY id_casquette,id_categorie)";
 		return $emails;
 	}
 	function adresse() {
-		$adresse="";
+		$adresse_complete="";
 		$donnees=$this->donnees();
+		if (trim($this->prenom_contact)!="" and trim($this->nom_contact)!="$$$$") $adresse_complete.=trim($this->prenom_contact)." ";
+		if (trim($this->nom_contact)!="" and trim($this->nom_contact)!="$$$$") $adresse_complete.=$this->nom_contact;
 		foreach ($donnees as $nom=>$donnee) {
 			if ($donnee['valeur']!="" && $donnee['type']=='adresse') {
 				$adresse="";
-				if (trim($this->prenom_contact)!="") $adresse.=trim($this->prenom_contact)." ";
-		   		if (trim($this->nom_contact)!="" and trim($this->nom_contact)!="$$$$") $adresse.=$this->nom_contact;
 				if (trim($adresse)!="") $adresse.="\n";
 				$t=json_decode($donnee['valeur']);
 				foreach ($t as $cle=>$val){
@@ -138,7 +138,8 @@ GROUP BY id_casquette,id_categorie)";
 				$adresse=rtrim($adresse);				
 			}
 		}
-		return $adresse;
+		$adresse_complete.="\n".$adresse;
+		return $adresse_complete;
 	}
 	function ass_categorie($id_categorie){
 		$base = new SQLite3('db/contacts.sqlite');

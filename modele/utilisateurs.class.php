@@ -25,17 +25,19 @@ class Utilisateurs {
 	}
 	function ok($login,$mdp) {
 		$login=SQLite3::escapeString($login);
-		$mdp=SQLite3::escapeString(md5_crypt($mdp));
+		$mdp=SQLite3::escapeString($mdp);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select * from utilisateurs where login='$login' and mdp='$mdp'";
+		error_log(date('d/m/Y H:i:s')." - $sql \n", 3, "tmp/auth.log");
 		$res = $base->query($sql);
-		$utilisateur=array();
+		$utilisateurs=array();
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$utilisateurs=$tab;
+			$utilisateurs[]=$tab;
 		}
 		$base->close();
-		return count($utilisateur)==1;
+		error_log(date('d/m/Y H:i:s')." - tentative pour $login : ".count($utilisateurs)."\n", 3, "tmp/auth.log");
+		return count($utilisateurs)==1 ? $utilisateurs[0]['rowid'] : 0;
 	}
 }
 ?>

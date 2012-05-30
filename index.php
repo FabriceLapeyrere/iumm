@@ -14,6 +14,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.CLASS_MODELE_DIR.PATH_SEPARAT
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
+include "ctl/auth.php";
 include "utils/toujours.php";
 include "ui/html.class.php";
 include "ui/js.class.php";
@@ -450,7 +451,7 @@ select {width:270px;}
 	<?=Html::support(Publipostage::dernier())?>
 	</div>
 </div>
-<div id="menu"><div class='boite-menu'><a href="#edition">edition</a> <a href="#selection">selection</a> <a href="#email">email</a> <a href="#emailing">e-mailing</a>  <a href="#publipostage">publipostage</a> <a href="doc.php?t=export_csv" target="_blank">csv</a></div></div>
+<div id="menu"><div class='boite-menu'><a href="#edition">edition</a> <a href="#selection">selection</a> <a href="#email">email</a> <a href="#emailing">e-mailing</a>  <a href="#publipostage">publipostage</a> <a href="doc.php?t=export_csv" target="_blank">csv</a>  <a href="?deconnecte">(déconnecter <?=$_SESSION['user']['nom']?>)</a></div><div></div>
 
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}

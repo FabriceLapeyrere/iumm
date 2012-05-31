@@ -17,6 +17,9 @@
 	if (!file_exists('db/publipostage.sqlite')) {
 		copy('ctl/init/publipostage.sqlite.init','db/publipostage.sqlite');
 	}
+	if (!file_exists('ui/cache/db/utilisateurs.sqlite')) {
+		copy('ctl/init/utilisateurs.sqlite.init','db/utilisateurs.sqlite');
+	}
 	if (!file_exists('ui/cache/db/cache.sqlite')) {
 		copy('ctl/init/cache.sqlite.init','ui/cache/db/cache.sqlite');
 	}

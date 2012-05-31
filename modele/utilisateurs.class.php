@@ -12,7 +12,7 @@
 class Utilisateurs {
 	function tous() {
 		$id=$this->id;
-		$base = new SQLite3('db/contacts.sqlite');
+		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select * from utilisateurs";
 		$res = $base->query($sql);
@@ -26,7 +26,7 @@ class Utilisateurs {
 	function ok($login,$mdp) {
 		$login=SQLite3::escapeString($login);
 		$mdp=SQLite3::escapeString($mdp);
-		$base = new SQLite3('db/contacts.sqlite');
+		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select * from utilisateurs where login='$login' and mdp='$mdp'";
 		error_log(date('d/m/Y H:i:s')." - $sql \n", 3, "tmp/auth.log");

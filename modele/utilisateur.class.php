@@ -16,7 +16,7 @@ class Utilisateur {
 	}
 	function nom() {
 		$id=$this->id;
-		$base = new SQLite3('db/contacts.sqlite');
+		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select nom from utilisateurs where rowid=$id";
 		$res = $base->query($sql);
@@ -28,7 +28,7 @@ class Utilisateur {
 	}
 	function mdp() {
 		$id=$this->id;
-		$base = new SQLite3('db/contacts.sqlite');
+		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select mdp from utilisateurs where rowid=$id";
 		$res = $base->query($sql);
@@ -37,6 +37,33 @@ class Utilisateur {
 		}
 		$base->close();
 		return $nom;
+	}
+	function mod_mdp($mdp) {
+		$id=$this->id;
+		$mdp=SQLite3::escapeString($mdp);
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="update utilisateurs set mdp='$mdp' where rowid=$id";
+		$base->query($sql);
+		$base->close();
+	}
+	function mod_login($login) {
+		$id=$this->id;
+		$mdp=SQLite3::escapeString($login);
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="update utilisateurs set login='$login' where rowid=$id";
+		$base->query($sql);
+		$base->close();
+	}
+	function mod_nom($nom) {
+		$id=$this->id;
+		$mdp=SQLite3::escapeString($nom);
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="update utilisateurs set nom='$nom' where rowid=$id";
+		$base->query($sql);
+		$base->close();
 	}
 }
 ?>

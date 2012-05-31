@@ -55,22 +55,23 @@ class Etablissement {
 		$base->close();		
 		return $donnees;
 	}
-	function aj_donnee($nom, $label, $type, $valeur){
+	function aj_donnee($nom, $label, $type, $valeur, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$label=SQLite3::escapeString($label);
 		$type=SQLite3::escapeString($type);
 		$valeur=SQLite3::escapeString($valeur);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into donnees_etablissement (id_utilisateur, id_etablissement, nom, label, type, valeur) values (1, ".$this->id.", '$nom', '$label', '$type', '$valeur')";
+		$sql="insert into donnees_etablissement (id_utilisateur, id_etablissement, nom, label, type, valeur) values ($id_utilisateur, ".$this->id.", '$nom', '$label', '$type', '$valeur')";
 		$base->query($sql);
 		$base->close();
 		$this->cache();	
 	}
-	function suppr(){
+	function suppr($id_utilisateur=1){
 		#on écrit les données de l'établissement dans un fichier html dans tmp/corbeille/ avant de le supprimer.
+		$u=new Utilisateur($id_utilisateur);
 		$nom="etablissement-".filter(trim($this->nom_structure))."-".filter(trim($this->nom))."-".$this->id.".html";
-		$html="<!DOCTYPE html><html><head><title>".trim($this->nom_structure)." - ".trim($this->nom)."</title><meta content='text/html; charset=UTF-8' http-equiv='Content-Type'></head><body><h1>".trim($this->nom_structure)." - ".trim($this->nom)." (date de suppression : ".date('d/m/Y H:i:s').")</h1><hr />";
+		$html="<!DOCTYPE html><html><head><title>".trim($this->nom_structure)." - ".trim($this->nom)."</title><meta content='text/html; charset=UTF-8' http-equiv='Content-Type'></head><body><h1>".trim($this->nom_structure)." - ".trim($this->nom)." (supprimé le ".date('d/m/Y H:i:s')." par ".$u->nom().")</h1><hr />";
 		$html.=str_replace("<span class='ui-button-text'>supprimer</span>","",Html::etablissement($this->id))."<hr />";
 		$html.="</body></html>";
 		file_put_contents("modele/corbeille/$nom",$html);
@@ -101,11 +102,11 @@ class Etablissement {
 		$base->close();
 		$this->de_index();		
 	}
-	function sup_donnee($nom){
+	function sup_donnee($nom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into donnees_etablissement (id_utilisateur, id_etablissement, nom, label, type, valeur) values (1, ".$this->id.", '$nom', '', '', '####')";
+		$sql="insert into donnees_etablissement (id_utilisateur, id_etablissement, nom, label, type, valeur) values ($id_utilisateur, ".$this->id.", '$nom', '', '', '####')";
 		$base->query($sql);
 		$base->close();		
 		$this->cache();	
@@ -177,7 +178,7 @@ GROUP BY id_casquette ) ";
 		}
 		return $id;
 	}
-	function mod_nom($nom){
+	function mod_nom($nom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);

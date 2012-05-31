@@ -12,7 +12,7 @@
 	Cache::set_obsolete('casquette',$id);
 
 	$c=new Casquette($id);
-	$liste=$c->sup_donnee($nom);
+	$liste=$c->sup_donnee($nom, $_SESSION['user']['id']);
 	$js="";
 	$js.="
 $.post('ajax.php',{

@@ -9,7 +9,7 @@
 	$nom=$_POST['nom']['valeur'];
 	$prenom=$_POST['prenom']['valeur'];
 	$c= new Contacts();
-	$id_contact=$c->aj_contact($nom,$prenom);
+	$id_contact=$c->aj_contact($nom,$prenom, $_SESSION['user']['id']);
 	$cont= new Contact($id_contact);
 	$casquettes=$cont->casquettes;
 	$id_casquette=0;

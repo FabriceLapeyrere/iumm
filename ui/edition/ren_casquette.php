@@ -12,7 +12,7 @@
 	Cache::set_obsolete('casquette',$id);
 		
 	$c=new Casquette($id);
-	$c->mod_nom($nom);
+	$c->mod_nom($nom, $_SESSION['user']['id']);
 	$js="
 		$('li[data-tab=\"#ed_casquette-$id\"] a').html('".addslashes($nom)."');
 		if ($('#mcas$id').length>0)

@@ -6,7 +6,7 @@
 	$reponse=array();
 	$succes=1;
 	$nom=$_POST['nom']['valeur'];
-	$id_structure=Structures::aj_structure($nom);
+	$id_structure=Structures::aj_structure($nom, $_SESSION['user']['id']);
 	$str= new Structure($id_structure);
 	$etablissements=$str->etablissements;
 	$id_etablissement=0;

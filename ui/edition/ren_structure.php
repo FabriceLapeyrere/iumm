@@ -9,7 +9,7 @@
 	$nom=$_POST['nom']['valeur'];
 	
 	$s=new Structure($id);
-	$s->mod_nom($nom);
+	$s->mod_nom($nom, $_SESSION['user']['id']);
 	$etablissements=$s->etablissements;
 	$js="
 		$('#ed_structure-$id span.titre').html('".addslashes($nom)."');

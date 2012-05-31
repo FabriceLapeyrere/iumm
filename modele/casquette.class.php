@@ -142,29 +142,29 @@ GROUP BY id_casquette,id_categorie)";
 		$adresse_complete.="\n".$adresse;
 		return $adresse_complete;
 	}
-	function ass_categorie($id_categorie){
+	function ass_categorie($id_categorie, $id_utilisateur=1){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$id_casquette=$this->id;
-		$sql="insert into ass_casquette_categorie (id_casquette, id_categorie, statut) values ($id_casquette,$id_categorie, 1)";
+		$sql="insert into ass_casquette_categorie (id_utilisateur, id_casquette, id_categorie, statut) values ($id_utilisateur, $id_casquette,$id_categorie, 1)";
 		$base->query($sql);
 		$base->close();
 		$this->cache();
 	}
-	function deass_categorie($id_categorie){
+	function deass_categorie($id_categorie, $id_utilisateur=1){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$id_casquette=$this->id;
-		$sql="insert into ass_casquette_categorie (id_casquette, id_categorie, statut) values ($id_casquette,$id_categorie, 0)";
+		$sql="insert into ass_casquette_categorie (id_utilisateur, id_casquette, id_categorie, statut) values ($id_utilisateur, $id_casquette,$id_categorie, 0)";
 		$base->query($sql);
 		$base->close();
 		$this->cache();
 	}
-	function ass_etablissement($id_etablissement){
+	function ass_etablissement($id_etablissement, $id_utilisateur=1){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$id_casquette=$this->id;
-		$sql="insert into ass_casquette_etablissement (id_etablissement, id_casquette) values ($id_etablissement,$id_casquette)";
+		$sql="insert into ass_casquette_etablissement (id_utilisateur, id_etablissement, id_casquette) values ($id_utilisateur, $id_etablissement,$id_casquette)";
 		$base->query($sql);
 		if ($this->casquette_etab==1){
 			$e=new Etablissement($id_etablissement);
@@ -175,42 +175,43 @@ GROUP BY id_casquette,id_categorie)";
 		$base->close();
 		$this->cache();
 	}
-	function deass_etablissement(){
+	function deass_etablissement($id_utilisateur=1){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$id_casquette=$this->id;
 		$id_etablissement=$this->id_etablissement;
-		$sql="insert into ass_casquette_etablissement (id_casquette,id_etablissement) values ($id_casquette,0)";
+		$sql="insert into ass_casquette_etablissement (id_utilisateur, id_casquette, id_etablissement) values ($id_utilisateur, $id_casquette, 0)";
 		$base->query($sql);
 		$base->close();
 		$this->cache();
 	}
-	function aj_donnee($nom, $label, $type, $valeur){
+	function aj_donnee($nom, $label, $type, $valeur, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$label=SQLite3::escapeString($label);
 		$type=SQLite3::escapeString($type);
 		$valeur=SQLite3::escapeString($valeur);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into donnees_casquette (id_utilisateur, id_casquette, nom, label, type, valeur) values (1, ".$this->id.", '$nom', '$label', '$type', '$valeur')";
+		$sql="insert into donnees_casquette (id_utilisateur, id_casquette, nom, label, type, valeur) values ($id_utilisateur, ".$this->id.", '$nom', '$label', '$type', '$valeur')";
 		$base->query($sql);
 		$base->close();		
 		$this->cache();
 	}
-	function sup_donnee($nom){
+	function sup_donnee($nom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into donnees_casquette (id_utilisateur, id_casquette, nom, label, type, valeur) values (1, ".$this->id.", '$nom', '', '', '####')";
+		$sql="insert into donnees_casquette (id_utilisateur, id_casquette, nom, label, type, valeur) values ($id_utilisateur, ".$this->id.", '$nom', '', '', '####')";
 		$base->query($sql);
 		$base->close();		
 		$this->cache();
 	}
-	function suppr(){
+	function suppr($id_utilisateur=1){
 		if ($this->nom_contact!='$$$$'){
+			$u=new Utilisateur($id_utilisateur);
 			#on écrit les données de la casquette dans un fichier html dans corbeille/ avant de la supprimer.
 			$nom="casquette-".filter(trim($this->nom_contact).trim($this->prenom_contact))."-".filter(trim($this->nom))."-".$this->id.".html";
-			$html="<!DOCTYPE html><html><head><title>".trim($this->prenom_contact)." ".trim($this->nom_contact)." - ".trim($this->nom)."</title><meta content='text/html; charset=UTF-8' http-equiv='Content-Type'></head><body><h1>".trim($this->prenom_contact)." ".trim($this->nom_contact)." - ".trim($this->nom)." (date de suppression : ".date('d/m/Y H:i:s').")</h1><hr />";
+			$html="<!DOCTYPE html><html><head><title>".trim($this->prenom_contact)." ".trim($this->nom_contact)." - ".trim($this->nom)."</title><meta content='text/html; charset=UTF-8' http-equiv='Content-Type'></head><body><h1>".trim($this->prenom_contact)." ".trim($this->nom_contact)." - ".trim($this->nom)." (supprimé le ".date('d/m/Y H:i:s')." par ".$u->nom().")</h1><hr />";
 			$html.=str_replace("<span class='ui-button-text'>supprimer</span>","",Html::casquette($this->id))."<hr />";
 			$html.="</body></html>";
 			file_put_contents("modele/corbeille/$nom",$html);
@@ -231,7 +232,7 @@ GROUP BY id_casquette,id_categorie)";
 		$base->close();
 		$this->de_index();		
 	}
-	function mod_nom($nom){
+	function mod_nom($nom, $id_utilisateur=1){
 		$this->nom=$nom;
 		$nom=SQLite3::escapeString($nom);
 		if ($this->casquette_etab==1){
@@ -340,17 +341,5 @@ GROUP BY id_casquette,id_categorie)";
 		$res = $base->query($sql);
 		$base->close();	
 	}
-	function adresse_cache($id) {
-		#on teste si le cache existe
-		$sql="select adresse from cache_casquette where rowid=$id";
-		$base = new SQLite3('db/contacts.sqlite');
-		$base->busyTimeout (10000);
-		$res = $base->query($sql);
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$adresse=$tab['adresse'];
-		}
-		$base->close();		
-		return $adresse;
-	}	
 }
 ?>

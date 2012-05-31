@@ -68,11 +68,11 @@ class Structures {
 		$base->close();
 		return $listes;
 	}
-	function aj_structure($nom) {
+	function aj_structure($nom, $id_utilisateur=1) {
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into structures (nom) values ('$nom')";
+		$sql="insert into structures (id_utilisateur, nom) values ($id_utilisateur, '$nom')";
 		$base->query($sql);
 		$id_structure=$base->lastInsertRowID();
 		$s=new Structure($id_structure);

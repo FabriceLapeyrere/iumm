@@ -35,7 +35,7 @@ class Structure {
 		}
 		$base->close();		
 	}
-	function mod_nom($nom){
+	function mod_nom($nom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -54,15 +54,15 @@ class Structure {
 			$e->cache();
 		}	
 	}
-	function aj_etablissement($nom) {
+	function aj_etablissement($nom, $id_utilisateur=1) {
 		$nom=SQLite3::escapeString($nom);
 		$id_structure=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into etablissements (nom) values ('$nom')";
+		$sql="insert into etablissements (id_utilisateur, nom) values ($id_utilisateur, '$nom')";
 		$base->query($sql);
 		$id_etablissement=$base->lastInsertRowID();
-		$sql="insert into ass_etablissement_structure (id_etablissement, id_structure) values ($id_etablissement,$id_structure)";
+		$sql="insert into ass_etablissement_structure (id_utilisateur, id_etablissement, id_structure) values ($id_utilisateur, $id_etablissement, $id_structure)";
 		$res = $base->query($sql);
 		$base->close();
 		#on met à jour les etablissements :
@@ -75,15 +75,15 @@ class Structure {
 		foreach($c->casquettes as $id=>$casquette) $id_casquette=$id;
 		$cas=new Casquette($id_casquette);
 		$cas->ass_etablissement($id_etablissement);
-		$e->aj_donnee('Telephone_fixe','Téléphone fixe','telephone','');
-		$e->aj_donnee('Email','E-mail','email','');
-		$e->aj_donnee('Adresse','Adresse','adresse','');
+		$e->aj_donnee('Telephone_fixe','Téléphone fixe','telephone','',$id_utilisateur);
+		$e->aj_donnee('Email','E-mail','email','',$id_utilisateur);
+		$e->aj_donnee('Adresse','Adresse','adresse','',$id_utilisateur);
 		return $id_etablissement;
 	}
-	function suppr(){
+	function suppr($id_utilisateur=1){
 		foreach($this->etablissements as $id_etablissement=>$etablissement){
 			$e=new Etablissement($id_etablissement);
-			$e->suppr();
+			$e->suppr($id_utilisateur);
 		}
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);

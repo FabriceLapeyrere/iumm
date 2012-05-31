@@ -423,6 +423,17 @@ class Casquettes {
 		$base->close();
 		return $liste;
 	}
-	
+	function adresse_cache($id) {
+		#on teste si le cache existe
+		$sql="select adresse from cache_casquette where rowid=$id";
+		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$adresse=$tab['adresse'];
+		}
+		$base->close();		
+		return $adresse;
+	}	
 }
 ?>

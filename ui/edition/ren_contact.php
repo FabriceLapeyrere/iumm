@@ -10,7 +10,7 @@
 	$prenom=$_POST['prenom']['valeur'];
 	
 	$c=new Contact($id);
-	$c->mod_nom($nom, $prenom);
+	$c->mod_nom($nom, $prenom, $_SESSION['user']['id']);
 	if ($prenom!='') $prenom=$prenom." ";
 
 	$casquettes=$c->casquettes;

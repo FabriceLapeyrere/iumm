@@ -7,7 +7,7 @@
 	$succes=0;
 	$id_contact=$_POST['id_contact'];
 	$c=new Contact($id_contact);
-	$id_casquette=$c->aj_casquette('Perso');
+	$id_casquette=$c->aj_casquette('Perso', $_SESSION['user']['id']);
 	$succes=0;
 	if ($id_casquette>0) $succes=1;
 	$js="

@@ -81,7 +81,7 @@
 	$h_page=$support['h_page'];
 	$l_page=$support['l_page'];
 	function rectangle($pdf,$x,$y,$l,$h,$id_casquette,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$taille_police) {
-		$adresse=Casquette::adresse_cache($id_casquette);
+		$adresse=Casquettes::adresse_cache($id_casquette);
 		if($adresse!="") {
 			$htexte=10000;
 			$hcase=$h-$mc_haut-$mc_bas;

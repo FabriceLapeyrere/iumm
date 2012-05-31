@@ -190,6 +190,19 @@ class html
 		return $html;
 		
 	}
+        function filtre_utilisateur($motifs="")
+        {
+		$motif=addslashes($motifs);
+		$html="
+		<input type='text' name='motif' value='$motifs'>
+		<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title='rechercher'>
+			<span class='ui-button-icon-primary ui-icon ui-icon-search'></span>
+			<span class='ui-button-text'>rechercher</span>
+		</button>
+		";
+		return $html;
+		
+	}
         function pagination_structures($binf=0,$motif='')
         {
 		$c= new structures($motif);
@@ -954,6 +967,17 @@ class html
 			foreach($supports as $id=>$support){
 				$html.="<div class='publipostage-support ui-widget-header ui-corner-all' data-id='$id'>".$support['nom']." <span class='maj'>(".$support['datel'].")</span></div>";
 			}
+		}
+		return $html;
+	}
+        function utilisateurs()
+        {
+		$binf=$_SESSION['admin']['binf'];
+		$motifs=$_SESSION['admin']['motifs'];
+		$utilisateurs=Utilisateurs::tous($binf,$motifs);
+		$html="";
+		foreach($utilisateurs as $id=>$utilisateur){
+			$html.="<div class='admin-utilisateur ui-widget-header ui-corner-all' data-id='$id'>".$utilisateur['nom']."</div>";
 		}
 		return $html;
 	}

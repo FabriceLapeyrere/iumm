@@ -38,6 +38,18 @@ class Utilisateur {
 		$base->close();
 		return $nom;
 	}
+	function droits() {
+		$id=$this->id;
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select droits from utilisateurs where rowid=$id";
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$droits=$tab['droits'];
+		}
+		$base->close();
+		return $droits;
+	}
 	function mod_mdp($mdp) {
 		$id=$this->id;
 		$mdp=SQLite3::escapeString($mdp);

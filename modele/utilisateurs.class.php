@@ -11,7 +11,6 @@
 							
 class Utilisateurs {
 	function tous() {
-		$id=$this->id;
 		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select * from utilisateurs";
@@ -39,5 +38,31 @@ class Utilisateurs {
 		error_log(date('d/m/Y H:i:s')." - tentative pour $login : ".count($utilisateurs)."\n", 3, "tmp/auth.log");
 		return count($utilisateurs)==1 ? $utilisateurs[0]['rowid'] : 0;
 	}
+	function nb_utilisateurs($motifs="") {
+		$tab_cond_motifs=array();
+		if ($motifs!="") {
+			$tab_motifs=explode(' ',$motifs);
+			foreach($tab_motifs as $motif){
+				$motif=SQLite3::escapeString($motif);
+				$tab_cond_motifs[]="
+				nom like '%$motif%'
+				";
+			}
+		}
+		$cond_motifs="where 1 ";
+		if(count($tab_cond_motifs)>0) {
+			$cond_motifs.="AND ".implode($tab_cond_motifs,' AND ');
+		}
+			$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select count(*) from utilisateurs $cond_motifs";
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$nb=$tab['count(*)'];
+		}
+		$base->close();
+		return $nb;
+	}
+	
 }
 ?>

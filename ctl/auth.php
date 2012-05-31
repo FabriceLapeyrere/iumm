@@ -5,6 +5,7 @@ if (isset($_POST['login']) AND isset($_POST['passwd'])) {
 	if ($id>0) {
 		$u=new Utilisateur($id);
 		$_SESSION['user']['nom']=$u->nom();
+		$_SESSION['user']['droits']=$u->droits();
 		$_SESSION['user']['id']=$id;
 	}
 }

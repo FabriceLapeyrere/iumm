@@ -113,7 +113,7 @@ $html_structures_sel=Html::structures_selection($sel_binfs,$sel_motifs);
     </tr>
 {% } %}
 </script>
-<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/iumm.js,ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js,ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
 
@@ -349,9 +349,43 @@ $html_structures_sel=Html::structures_selection($sel_binfs,$sel_motifs);
 	<?=Html::support(Publipostage::dernier())?>
 	</div>
 </div>
-<div id="menu"><div class='boite-menu'><a href="#edition">edition</a> <a href="#selection">selection</a> <a href="#email">email</a> <a href="#emailing">e-mailing</a>  <a href="#publipostage">publipostage</a> <a href="doc.php?t=export_csv" target="_blank">csv</a>  <a href="?deconnecte">(déconnecter <?=$_SESSION['user']['nom']?>)</a></div><div></div>
 
+<?php if($_SESSION['user']['droits']>=4){ ?>
+<div id="admin">
+	<ul id="admin_menu_utilisateur" class="contextMenu">
+	    <li class="edit">
+		<a href="#edit">Modifier</a>
+	    </li>
+	    <li class="delete">
+		<a href="#delete">Supprimer</a>
+	    </li>
+	</ul>
+	<div id="admin_utilisateurs_head">
+		<div class='titre'>Utilisateurs</div>
+		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel e-mail">
+			<span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+			<span class="ui-button-text">Nouvel Utilisateur</span>
+		</button>
+		<div class="filtre"><?=Html::filtre_utilisateur()?></div>
+		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['admin']['binf'],Utilisateurs::nb_utilisateurs())?></span>
+	</div>
+	<div id="admin_utilisateurs">
+	<?=Html::utilisateurs()?>
+	</div>
+</div>
+<?php } ?>
+<div id="menu">
+<div class='boite-menu'>
+<a href="#edition">edition</a> 
+<a href="#selection">selection</a> 
+<a href="#email">email</a> 
+<a href="#emailing">e-mailing</a> 
+<a href="#publipostage">publipostage</a> 
+<?php if($_SESSION['user']['droits']>=4){ ?>
+<a href="#admin">gestion des utilisateurs</a> 
+<?php } ?>
 
+<a href="doc.php?t=export_csv" target="_blank">csv</a>  <a href="?deconnecte">(déconnecter <?=$_SESSION['user']['nom']?>)</a></div>
 
 </body>
 </html>

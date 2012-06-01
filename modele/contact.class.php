@@ -48,6 +48,8 @@ class Contact {
 			$tri=SQLite3::escapeString($nom." ".$prenom);
 			$sql="update casquettes set tri='$tri' where rowid=$id";
 			$base->query($sql);
+			$c=new Casquette($id);
+			$c->cache();	
 		}
 		$base->close();		
 		$this->cache();

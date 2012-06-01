@@ -33,7 +33,7 @@ function cp($string)
 	if ($string!="") {
 		$matches=array();
 		$pattern = '/^\d{4,5}/';
-		preg_match($pattern, $string, $matches);
+		preg_match($pattern, str_replace(" ","",$string), $matches);
 		$cp=$matches[0];
 	}
 	return $cp;

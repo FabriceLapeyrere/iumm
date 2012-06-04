@@ -72,7 +72,7 @@
 	foreach($casquettes as $id_cas=>$nom_cas){
 
 		#on rend le cache obsolete
-		Cache::set_obsolete('casquette',$id_casquette);
+		Cache::set_obsolete('casquette',$id_cas);
 
 		$js.="
 		$.post('ajax.php',{
@@ -87,6 +87,27 @@
 			'json'
 		);
 		";
+		$cas=new Casquette($id_cas);
+		if ($cas->id_etablissement!=0){
+			$id_etablissement=$cas->id_etablissement;
+			#on rend le cache obsolete
+			Cache::set_obsolete('etablissement',$id_etablissement);
+			$js.="
+			$.post('ajax.php',{
+					action:'edition/etablissement',
+					id_etablissement:$id_etablissement,
+					format:'html'
+				},function(data){
+					if(data.succes==1) { 
+						$('#ed_etablissement-$id_etablissement').html(data.html);
+					}
+					eval(data.js);
+					ed_ssapi.reinitialise();
+				},
+				'json'
+			);
+			";
+		};
 	};
 	if($succes) {
 		$reponse['succes']=1;

@@ -11,6 +11,7 @@ class cache {
 		$o=1;
 		$sql="select obsolete from $table where rowid=$id";
 		$base = new SQLite3('ui/cache/db/cache.sqlite');
+		$base->busyTimeout (10000);
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$o=$tab['obsolete'];
@@ -20,6 +21,7 @@ class cache {
 	}
 	function set_obsolete($table, $id){
 		$base = new SQLite3('ui/cache/db/cache.sqlite');
+		$base->busyTimeout (10000);
 		#on teste si le cache existe
 		$sql="select count(*) from $table where rowid=$id";
 		$res = $base->query($sql);
@@ -41,6 +43,7 @@ class cache {
 	}	
 	function put($table, $id, $html){
 		$html=SQLite3::escapeString($html);
+		$base->busyTimeout (10000);
 		$base = new SQLite3('ui/cache/db/cache.sqlite');
 		#on teste si le cache existe
 		$sql="select count(*) from $table where rowid=$id";
@@ -64,6 +67,7 @@ class cache {
 	function get($table, $id){
 		$html="";
 		$base = new SQLite3('ui/cache/db/cache.sqlite');
+		$base->busyTimeout (10000);
 		$sql="select html from $table where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {

@@ -43,8 +43,8 @@ class cache {
 	}	
 	function put($table, $id, $html){
 		$html=SQLite3::escapeString($html);
-		$base->busyTimeout (10000);
 		$base = new SQLite3('ui/cache/db/cache.sqlite');
+		$base->busyTimeout (10000);
 		#on teste si le cache existe
 		$sql="select count(*) from $table where rowid=$id";
 		$res = $base->query($sql);

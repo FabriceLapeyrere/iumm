@@ -70,6 +70,7 @@ class Contact {
 		$c->aj_donnee('Telephone_fixe','Téléphone fixe','telephone','');
 		$c->aj_donnee('Telephone_portable','Téléphone portable','telephone','');
 		$c->aj_donnee('Email','E-mail','email','');
+		$c->aj_donnee('Fonction','Fonction','texte_court','');
 		$this->cache();
 		return $id_casquette;
 	}

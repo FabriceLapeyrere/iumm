@@ -531,6 +531,7 @@ class html
 			$tel="";
 			$email="";
 			$adresse="";
+			$fonction="";
 			$divers="";
 			foreach($c->donnees() as $nom=>$donnee){
 				$rowid_d=$donnee['rowid'];
@@ -573,13 +574,23 @@ class html
 						}
 						break;
 					default:
-						if ($divers==""){
-							$divers="<div class='cas-div-$id_casquette'><h3>Divers</h3><ul>";
-					
+						if ($nom=="Fonction" && $donnee['valeur']!="") {
+							if ($fonction==""){
+								$fonction="<div class='cas-email-$id_casquette'><ul>";
+						
+							}
+							$fonction.="<li class='donneeCas-$nom_d'><span class='label'>$label_d :</span> <span class='maj'>($date_d)</span><br /><span class='valeur'>".nl2br($donnee['valeur'])."</span></li>";
 						}
-						if ($donnee['valeur']!="") $divers.="<li class='donneeCas-$nom_d'><span class='label'>$label_d :</span> <span class='maj'>($date_d)</span><br /><span class='valeur'>".nl2br($donnee['valeur'])."</span></li>";	
+						elseif ($donnee['valeur']!="") {
+							if ($divers==""){
+								$divers="<div class='cas-div-$id_casquette'><h3>Divers</h3><ul>";
+					
+							}
+						$divers.="<li class='donneeCas-$nom_d'><span class='label'>$label_d :</span> <span class='maj'>($date_d)</span><br /><span class='valeur'>".nl2br($donnee['valeur'])."</span></li>";
+						}
 				}
 			}
+			if ($fonction!="") $html.="$fonction</ul></div>";
 			if ($tel!="") $html.="$tel</ul></div>";
 			if ($email!="") $html.="$email</ul></div>";
 			if ($adresse!="") $html.="$adresse</ul></div>";

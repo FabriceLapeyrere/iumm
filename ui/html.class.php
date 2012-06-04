@@ -680,13 +680,15 @@ class html
 				$html.="<div id='ed_cas-etablissement-$id_etablissement'><h3>Contacts</h3><ul class='contactsEtab' id='ed_contactsEtab-$id_etablissement'>";
 				foreach($e->casquettes() as $id=>$nom){
 					$cas=new Casquette($id);
+					$fonction=$cas->fonction();
+					if ($fonction!="") $fonction=", $fonction";
 					if ($cas->prenom_contact=='' && $cas->nom_contact=='' ) $nom_c="(sans nom)";
 					else {
 						$prenom="";
 						if ($cas->prenom_contact!='') $prenom=$cas->prenom_contact." ";
 						$nom_c=$prenom.$cas->nom_contact;
 					}
-					$html.="<li><a class='etabCas$id' data-id='$id' style='text-decoration:none;'><b>$nom_c</b>, $nom</a>".Html::bouton_suppr($id,'moins','supprimer')."</li>";
+					$html.="<li><a class='etabCas$id' data-id='$id' style='text-decoration:none;'><b>$nom_c</b>$fonction</a>".Html::bouton_suppr($id,'moins','supprimer')."</li>";
 				}
 				$html.="</ul></div>";
 			}

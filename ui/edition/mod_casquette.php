@@ -49,17 +49,29 @@
 			},
 			'json'
 		);
+		$('#mcas$id').dialog('close');
+	";
+	if ($c->id_etablissement!=0){
+		$id_etablissement=$c->id_etablissement;
+		#on rend le cache obsolete
+		Cache::set_obsolete('etablissement',$id_etablissement);
+		$js.="
 		$.post('ajax.php',{
-				action:'selection/casquette',
-				id_casquette:$id,
+				action:'edition/etablissement',
+				id_etablissement:$id_etablissement,
 				format:'html'
 			},function(data){
-				if(data.succes==1) $('#sel_casquette-$id').html(data.html)
+				if(data.succes==1) { 
+					$('#ed_etablissement-$id_etablissement').html(data.html);
+				}
 				eval(data.js);
+				ed_ssapi.reinitialise();
 			},
 			'json'
 		);
-		$('#mcas$id').dialog('close');
+		";
+	};
+	$js.="
 	$.post('ajax.php',{
 			action:'selection/selection_humains',
 			format:'html'

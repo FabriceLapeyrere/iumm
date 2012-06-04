@@ -15,14 +15,18 @@
 	$html="";
 	$js="";
 	$test=1;
+	$test2=1;
 	$adresse="";
 	foreach($c->donnees() as $nom=>$donnee){
 		if ($donnee['type']=='adresse') $test=0;
+		if ($nom=='Fonction') $test2=0;
 	}
 	$adresse="<li class='champ' data-type='adresse'>Adresse</li>";
 	$a="";
 	if ($test==1) $a=$adresse;
-
+	$fonction="<li class='champ' data-type='texte_court'>Fonction</li>";
+	$b="";
+	if ($test2==1) $b=$fonction;	
 	$html.="
 <button class='plus'>Ajouter un champ</button>
 <ul class='plus ui-widget-content'>
@@ -30,7 +34,7 @@
 	<li class='champ' data-type='telephone'>Téléphone fixe</li>
 	<li class='champ' data-type='telephone'>Téléphone portable</li>
 	<li class='champ' data-type='email'>E-mail</li>
-	<li class='champ' data-type='texte_court'>Fonction</li>
+	$b
 	<li class='champ' data-type='texte_long'>Note</li>
 	<li><span class='generique'>Champ personnalisé</span>
 	<div class='perso' style='display:none;'>
@@ -125,6 +129,9 @@ $('#mcas$id').on('click',' ul.champs>li .moins', function(){
 	var type=$(this).parent().parent().dataset('type');
 	if (type=='adresse') {
 		$('#mcas$id ul.plus').prepend(\"$adresse\");
+	}
+	if (nom=='Fonction') {
+		$('#mcas$id ul.plus').prepend(\"$fonction\");
 	}
 	$.post('ajax.php',{
 			action:'edition/sup_champ_casquette',

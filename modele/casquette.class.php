@@ -142,6 +142,16 @@ GROUP BY id_casquette,id_categorie)";
 		$adresse_complete.="\n".$adresse;
 		return $adresse_complete;
 	}
+	function fonction() {
+		$fonction="";
+		$donnees=$this->donnees();
+		foreach ($donnees as $nom=>$donnee) {
+			if ($donnee['valeur']!="" && $nom=='Fonction') {
+				$fonction=rtrim($donnee['valeur']);
+			}
+		}
+		return $fonction;
+	}
 	function ass_categorie($id_categorie){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);

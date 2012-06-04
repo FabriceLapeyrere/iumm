@@ -44,6 +44,7 @@ $.post('ajax.php',{
 $('#mcas$id ul.champs>li[data-nom=\"$nom\"] label:nth-child(1)').after('".addslashes(html::bouton_suppr(0,'moins','supprimer','5px'))."');
 	";	
 	if ($type=='adresse') $js.="$('#mcas$id ul.plus [data-type=\"adresse\"]').remove();";
+	if ($nom=='Fonction') $js.="$('#mcas$id ul.plus li:contains(\"Fonction\")').remove();";
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";

@@ -36,12 +36,15 @@
 		";
 		$e=new Etablissement($id);
 		$casquettes=$e->casquettes();
+		$js_cas="";
 		foreach($casquettes as $id_cas=>$nom_cas){
-	
+			$cas=new Casquette($id_cas);
+			$cas->mod_nom($nom);
 			#on rend le cache obsolete
 			Cache::set_obsolete('casquette',$id_cas);
 		
 			$js_cas.="
+			$('li[data-tab=\"#ed_casquette-$id\"] a').html('".addslashes($nom)."');
 			$.post('ajax.php',{
 					action:'edition/casquette',
 					id_casquette:$id_cas,
@@ -55,6 +58,7 @@
 			);
 			";
 		};
+		$js.=$js_cas;
 	}
 	if($succes) {
 		$reponse['succes']=1;

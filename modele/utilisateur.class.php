@@ -26,17 +26,17 @@ class Utilisateur {
 		$base->close();
 		return $nom;
 	}
-	function mdp() {
+	function login() {
 		$id=$this->id;
 		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select mdp from utilisateurs where rowid=$id";
+		$sql="select login from utilisateurs where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$mdp=$tab['nom'];
+			$login=$tab['login'];
 		}
 		$base->close();
-		return $nom;
+		return $login;
 	}
 	function droits() {
 		$id=$this->id;
@@ -52,7 +52,7 @@ class Utilisateur {
 	}
 	function mod_mdp($mdp) {
 		$id=$this->id;
-		$mdp=SQLite3::escapeString($mdp);
+		$mdp=SQLite3::escapeString(crypt($mdp,"keller"));
 		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update utilisateurs set mdp='$mdp' where rowid=$id";
@@ -74,6 +74,22 @@ class Utilisateur {
 		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update utilisateurs set nom='$nom' where rowid=$id";
+		$base->query($sql);
+		$base->close();
+	}
+	function mod_droits($droits) {
+		$id=$this->id;
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="update utilisateurs set droits=$droits where rowid=$id";
+		$base->query($sql);
+		$base->close();
+	}
+	function suppr() {
+		$id=$this->id;
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="delete from utilisateurs where rowid=$id";
 		$base->query($sql);
 		$base->close();
 	}

@@ -363,7 +363,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 	</ul>
 	<div id="admin_utilisateurs_head">
 		<div class='titre'>Utilisateurs</div>
-		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel e-mail">
+		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel utilisateur">
 			<span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
 			<span class="ui-button-text">Nouvel Utilisateur</span>
 		</button>

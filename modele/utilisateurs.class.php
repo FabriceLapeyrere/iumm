@@ -22,6 +22,18 @@ class Utilisateurs {
 		$base->close();
 		return $utilisateurs;
 	}
+	function existe($login) {
+		$login=SQLite3::escapeString($login);
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select count(*) from utilisateurs where login='$login'";
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$n=$tab['count(*)'];
+		}
+		$base->close();
+		return $n>0;
+	}
 	function liste_rapide($motifs,$binf=0) {
 		$listes=array();
 		$tab_cond_motifs=array();
@@ -96,6 +108,18 @@ class Utilisateurs {
 		$base->close();
 		return $nb;
 	}
-	
+	function aj_utilisateur($nom, $login, $mdp, $droits) {
+		$nom=SQLite3::escapeString($nom);
+		$login=SQLite3::escapeString($login);
+		$mdp=SQLite3::escapeString($mdp);
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$sql="insert into utilisateurs (nom, login, mdp, droits) values ('$nom','$login','$mdp','$droits')";
+		$base->query($sql);
+		$id_utilisateur=$base->lastInsertRowID();
+		$base->close();
+		return $id_utilisateur;
+	}
+
 }
 ?>

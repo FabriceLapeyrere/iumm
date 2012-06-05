@@ -135,5 +135,4 @@ if (isset($_SESSION['admin']['motifs'])) $motifsadmin=$_SESSION['admin']['motifs
 else $_SESSION['admin']['motifs'] = $motifsadmin;
 
 
-
 ?>

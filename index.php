@@ -42,6 +42,7 @@ if($N==1) $html_N="checked";
 $html_contacts=Html::contacts($binfc,$motifc);
 $html_structures=Html::structures($binfs,$motifs);
 $html_structures_sel=Html::structures_selection($sel_binfs,$sel_motifs);
+$html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 
 ?>
 <!DOCTYPE HTML>
@@ -367,10 +368,10 @@ $html_structures_sel=Html::structures_selection($sel_binfs,$sel_motifs);
 			<span class="ui-button-text">Nouvel Utilisateur</span>
 		</button>
 		<div class="filtre"><?=Html::filtre_utilisateur()?></div>
-		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['admin']['binf'],Utilisateurs::nb_utilisateurs())?></span>
+		<span class="pagination ui-buttonset"><?=$html_utilisateurs['pagination']?></span>
 	</div>
 	<div id="admin_utilisateurs">
-	<?=Html::utilisateurs()?>
+	<?=$html_utilisateurs['html']?>
 	</div>
 </div>
 <?php } ?>

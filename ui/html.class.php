@@ -970,16 +970,17 @@ class html
 		}
 		return $html;
 	}
-        function utilisateurs()
+        function utilisateurs($binf,$motifs)
         {
-		$binf=$_SESSION['admin']['binf'];
-		$motifs=$_SESSION['admin']['motifs'];
-		$utilisateurs=Utilisateurs::tous($binf,$motifs);
+		$utilisateurs=Utilisateurs::liste_rapide($motifs,$binf);
 		$html="";
-		foreach($utilisateurs as $id=>$utilisateur){
+		foreach($utilisateurs['liste'] as $id=>$utilisateur){
 			$html.="<div class='admin-utilisateur ui-widget-header ui-corner-all' data-id='$id'>".$utilisateur['nom']."</div>";
 		}
-		return $html;
+		$retour=array();
+		$retour['html']=$html;
+		$retour['pagination']=Html::pagination($binf,$utilisateurs['nb']);
+		return $retour;
 	}
         function support($id)
         {

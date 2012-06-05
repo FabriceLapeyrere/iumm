@@ -1,6 +1,75 @@
-﻿/*
-Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
+/**
+ * CkEditor autogrow plugin
+ * 
+ * @version 0.9.6
+ *
+ * @author Alexander Makarov
+ * @author Eugenia Makarova
+ *
+ * @link http://rmcreative.ru/
+ *
+ */
+(function() {
+    var CKAutoGrow = {
+        editor: null,
+        wrapper: null,
 
-(function(){function a(c){var d=c.getStyle('overflow-y'),e=c.getDocument(),f=CKEDITOR.dom.element.createFromHtml('<span style="margin:0;padding:0;border:0;clear:both;width:1px;height:1px;display:block;">'+(CKEDITOR.env.webkit?'&nbsp;':'')+'</span>',e);e[CKEDITOR.env.ie?'getBody':'getDocumentElement']().append(f);var g=f.getDocumentPosition(e).y+f.$.offsetHeight;f.remove();c.setStyle('overflow-y',d);return g;};var b=function(c){if(!c.window)return;var d=c.document,e=new CKEDITOR.dom.element(d.getWindow().$.frameElement),f=d.getBody(),g=d.getDocumentElement(),h=c.window.getViewPaneSize().height,i=d.$.compatMode=='BackCompat'?f:g,j=a(i);j+=c.config.autoGrow_bottomSpace||0;var k=c.config.autoGrow_minHeight!=undefined?c.config.autoGrow_minHeight:200,l=c.config.autoGrow_maxHeight||Infinity;j=Math.max(j,k);j=Math.min(j,l);if(j!=h){j=c.fire('autoGrow',{currentHeight:h,newHeight:j}).newHeight;c.resize(c.container.getStyle('width'),j,true);}if(i.$.scrollHeight>i.$.clientHeight&&j<l)i.setStyle('overflow-y','hidden');else i.removeStyle('overflow-y');};CKEDITOR.plugins.add('autogrow',{init:function(c){c.addCommand('autogrow',{exec:b,modes:{wysiwyg:1},readOnly:1,canUndo:false,editorFocus:false});var d={contentDom:1,key:1,selectionChange:1,insertElement:1};c.config.autoGrow_onStartup&&(d.instanceReady=1);for(var e in d)c.on(e,function(f){var g=c.getCommand('maximize');if(f.editor.mode=='wysiwyg'&&(!g||g.state!=CKEDITOR.TRISTATE_ON))setTimeout(function(){b(f.editor);b(f.editor);},100);});}});})();
+        check : function() {
+            if (!CKAutoGrow.editor.document) return;
+            if (CKAutoGrow.editor.container.getChild(0).hasClass('cke_maximized')) return;
+            
+            var newHeight = CKAutoGrow.getHeight();
+            newHeight = CKAutoGrow.getEffectiveHeight(newHeight);
+
+            if(CKAutoGrow.wrapper || (CKAutoGrow.wrapper = document.getElementById('cke_contents_' + CKAutoGrow.editor.name))){
+                CKAutoGrow.wrapper.style.height = newHeight + "px";
+            }
+        },
+
+        getEffectiveHeight : function(height) {
+            var minHeight = CKAutoGrow.editor.config.minHeight ? CKAutoGrow.editor.config.minHeight : false;
+            var maxHeight = CKAutoGrow.editor.config.maxHeight ? CKAutoGrow.editor.config.maxHeight : false;
+
+            if (minHeight && height <= minHeight) {
+                height = minHeight;
+            }
+            else if(maxHeight && height > maxHeight) {
+                height = maxHeight;                
+            }
+            
+            else {
+                // TODO: what height do we need not to show scrollbar?
+                height+=54;
+            }
+            
+            return height;
+        },
+
+        getHeight : function() {
+            //TODO: if(CKAutoGrow.editor.document.compatMode!='CSS1Compat'){
+            //ie in quirks mode → scrollHeight? 
+            return CKAutoGrow.editor.document.getBody().$.clientHeight;
+        },
+
+        setListeners : function(editor) {            
+            editor.on('contentDom', CKAutoGrow.check);
+            editor.on('key', CKAutoGrow.check);
+            editor.on('selectionChange', CKAutoGrow.check);
+            editor.on('insertElement', function(){
+                setTimeout(CKAutoGrow.check, 1000);
+            });
+        }
+    };
+
+
+    CKEDITOR.plugins.add('autogrow', {
+        init : function(editor) {
+            CKAutoGrow.editor = editor;
+
+            // need this if we are destroying and then recreating editor on the same page
+            CKAutoGrow.wrapper = document.getElementById('cke_contents_' + CKAutoGrow.editor.name);
+
+            CKAutoGrow.setListeners(editor);
+        }
+    });
+})();

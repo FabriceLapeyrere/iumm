@@ -22,6 +22,39 @@ class Utilisateurs {
 		$base->close();
 		return $utilisateurs;
 	}
+	function liste_rapide($motifs,$binf=0) {
+		$listes=array();
+		$tab_cond_motifs=array();
+		if ($motifs!="") {
+			$tab_motifs=explode(' ',str_replace(',','',$motifs));
+			foreach($tab_motifs as $motif){
+				$motif=SQLite3::escapeString($motif);
+				$tab_cond_motifs[]="
+				(
+					nom like '%$motif%'
+				)
+				";
+			}
+		}
+		$cond=" WHERE ( ".implode($tab_cond_motifs,' AND ')." )";
+		if (count($tab_cond_motifs)==0) $cond="";
+		$sql="select * from utilisateurs $cond limit $binf,20";
+		$base = new SQLite3('db/utilisateurs.sqlite');
+		$base->busyTimeout (10000);
+		$liste=array();
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$liste[$tab['rowid']]=$tab;
+		}
+		$listes['liste']=$liste;
+		$sql="select count(*) from utilisateurs $cond";
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$listes['nb']=$tab['count(*)'];
+		}
+		$base->close();
+		return $listes;
+	}
 	function ok($login,$mdp) {
 		$login=SQLite3::escapeString($login);
 		$mdp=SQLite3::escapeString($mdp);

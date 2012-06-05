@@ -23,15 +23,15 @@
 	
 	switch ($format){
 		case 'html':
-			$html_contact=Html::utilisateurs($_SESSION['utilisateurs']['binf'],$_SESSION['utilisateurs']['motifs']);
+			$retour=Html::utilisateurs($binf,$motifs);
 			$js='
-			ad_utilisateurs();
-			ad_ajuste();
+			admin_utilisateurs();
+			admin_ajuste();
 			';			
 			$reponse['succes']=1;
 			$reponse['message']="";
-			$reponse['html']=$html_contact['html'];
-			$reponse['pagination']=$html_contact['pagination'];
+			$reponse['html']=$retour['html'];
+			$reponse['pagination']=$retour['pagination'];
 			$reponse['js']=$js;
 			break;
 	}

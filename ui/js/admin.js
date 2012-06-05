@@ -42,8 +42,8 @@ $(function() {
 		var H=window.innerHeight
 		$("#admin").css({
 			'top': '0px',
-			'left': '0px',
-			'width': W+'px',
+			'left': '10px',
+			'width': W-10+'px',
 			'height': H+'px'
 		});
 		$("#admin_utilisateurs_head").css({
@@ -59,6 +59,8 @@ $(function() {
 			'height': (H-170)+'px'
 		});
 		admin_uapi.reinitialise()
+	}
+	admin_utilisateurs=function(){
 	}
 	admin_ajuste();
 	$(window).resize(admin_ajuste);

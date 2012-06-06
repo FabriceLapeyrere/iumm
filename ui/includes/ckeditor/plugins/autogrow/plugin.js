@@ -13,17 +13,20 @@
     var CKAutoGrow = {
         editor: null,
         wrapper: null,
-
+		height:0,
         check : function() {
             if (!CKAutoGrow.editor.document) return;
             if (CKAutoGrow.editor.container.getChild(0).hasClass('cke_maximized')) return;
             
             var newHeight = CKAutoGrow.getHeight();
             newHeight = CKAutoGrow.getEffectiveHeight(newHeight);
-
-            if(CKAutoGrow.wrapper || (CKAutoGrow.wrapper = document.getElementById('cke_contents_' + CKAutoGrow.editor.name))){
-                CKAutoGrow.wrapper.style.height = newHeight + "px";
-            }
+			if (this.height==0 || this.height!=newHeight) {
+				this.height=newHeight;
+				if(CKAutoGrow.wrapper || (CKAutoGrow.wrapper = document.getElementById('cke_contents_' + CKAutoGrow.editor.name))){
+					CKAutoGrow.wrapper.style.height = newHeight + "px";
+				}
+				mail_smapi.reinitialise();
+			}
         },
 
         getEffectiveHeight : function(height) {

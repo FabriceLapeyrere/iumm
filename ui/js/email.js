@@ -242,7 +242,18 @@ $(function() {
 			'json'
 		);
 	$(window).resize(mail_ajuste);
-	emailImages = [];
+	emailImages = function(){
+		var tab=[];
+		$('#fileupload .template-download .name a').each(function(i,e){
+			var valid_extensions = /(.JPG|.jpg|.JPEG|.jpeg|.GIF|.gif|.PNG|.png)$/i;
+			var fichier=$(e).attr('href');
+			if(valid_extensions.test(fichier))
+			{ 
+  				tab.push([fichier]);
+			}
+		});
+		return tab;
+	}
 	mail_ajuste();
 
 });

@@ -593,7 +593,6 @@ $(function () {
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload();
     $('#fileupload').bind('fileuploadadd', function (e, data) {console.log('add');setTimeout(mail_smapi.reinitialise,1000);});
-    $('#fileupload').bind('fileuploaddone', function (e, data) {emailImages.push(['fichiers/emails/'+$('.enr-email').dataset('id')+'/'+ data.result[0].name])});
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
         'option',

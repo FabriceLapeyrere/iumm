@@ -34,19 +34,20 @@
 	
 		";
 		$js.="
-		emailImages=[ ".implode(", ",$images)." ];
 		$( 'textarea.editor' ).ckeditor(function(){mail_smapi.reinitialise();});
 		$('textarea.editor').ckeditorGet().on( 'resize', function( e ){ mail_smapi.reinitialise(); });
 		var majImg=function(){
-			for (index in emailImages) {
-				var r=new RegExp('src=\"'+emailImages[index][0]);
+			var images=emailImages();
+			for (index in images) {
+				
+				var r=new RegExp('src=\"'+images[index][0]);
 				var html=$('textarea.editor').val();
 				if (r.test(html)) {
-					if ($('button[data-url*=\"'+emailImages[index][0].replace(/\\\\/g,'/').replace(/.*\\//,'' )+'\"]').css('display')=='inline-block')
-						$('button[data-url*=\"'+emailImages[index][0].replace(/\\\\/g,'/').replace(/.*\\//,'' )+'\"]').css('display','none').next().remove();
+					if ($('button[data-url*=\"'+images[index][0].replace(/\\\\/g,'/').replace(/.*\\//,'' )+'\"]').css('display')=='inline-block')
+						$('button[data-url*=\"'+images[index][0].replace(/\\\\/g,'/').replace(/.*\\//,'' )+'\"]').css('display','none').next().remove();
 				} else {
-					if ($('button[data-url*=\"'+emailImages[index][0].replace(/\\\\/g,'/').replace(/.*\\//,'' )+'\"]').css('display')=='none')
-						$('button[data-url*=\"'+emailImages[index][0].replace(/\\\\/g,'/').replace( /.*\\//, '' )+'\"]').css('display','inline-block').after('<input type=\"checkbox\" value=\"1\" name=\"delete\">');	
+					if ($('button[data-url*=\"'+images[index][0].replace(/\\\\/g,'/').replace(/.*\\//,'' )+'\"]').css('display')=='none')
+						$('button[data-url*=\"'+images[index][0].replace(/\\\\/g,'/').replace( /.*\\//, '' )+'\"]').css('display','inline-block').after('<input type=\"checkbox\" value=\"1\" name=\"delete\">');	
 				}
 			}
 		};

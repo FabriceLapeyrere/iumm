@@ -531,6 +531,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 													original.setAttribute( 'src', newUrl );
 
 													// Query the preloader to figure out the url impacted by based href.
+
 													previewPreloader.setAttribute( 'src', newUrl );
 													dialog.preview.setAttribute( 'src', previewPreloader.$.src );
 													updatePreview( dialog );
@@ -590,14 +591,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							type : 'select',
 							id : 'img_select',
 							label : 'Images disponibles',
-							items : emailImages,
+							items : [],
 							onChange : function( api ) {
 								CKEDITOR.dialog.getCurrent().setValueOf( 'info', 'txtUrl', this.getValue()) ;
 							},
 							onShow : function( api ) {
-								console.log(emailImages);
-								this.items=emailImages;
-								console.log(this.items);
+								this.clear();
+								var images=emailImages();
+								for(i in images){
+									this.add(images[i][0]);
+								}
 								CKEDITOR.dialog.getCurrent().setValueOf( 'info', 'txtUrl', this.getValue()) ;
 								CKEDITOR.dialog.getCurrent().commitContent() ;
 							}

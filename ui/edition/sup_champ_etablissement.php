@@ -9,7 +9,7 @@
 	$nom=$_POST['nom'];
 	$e=new Etablissement($id);
 	$casquettes=$e->casquettes();
-	$liste=$e->sup_donnee($nom);
+	$liste=$e->sup_donnee($nom, $_SESSION['user']['id']);
 	$js="";
 	$js.="
 $.post('ajax.php',{

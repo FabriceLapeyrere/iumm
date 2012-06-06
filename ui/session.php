@@ -123,4 +123,16 @@ else $_SESSION['publipostage']['binf'] = $binfpublipostage;
 if (isset($_SESSION['publipostage']['motifs'])) $motifspublipostage=$_SESSION['publipostage']['motifs'];
 else $_SESSION['publipostage']['motifs'] = $motifspublipostage;
 
+#variables de session admin
+
+$binfadmin=0;
+$motifsadmin='';
+
+if (! isset($_SESSION['admin'])) $_SESSION['admin']= array();
+if (isset($_SESSION['admin']['binf'])) $binfadmin=$_SESSION['admin']['binf'];
+else $_SESSION['admin']['binf'] = $binfadmin;
+if (isset($_SESSION['admin']['motifs'])) $motifsadmin=$_SESSION['admin']['motifs'];
+else $_SESSION['admin']['motifs'] = $motifsadmin;
+
+
 ?>

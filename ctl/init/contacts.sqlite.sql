@@ -29,8 +29,6 @@ CREATE TABLE 'donnees_etablissement' (rowid INTEGER PRIMARY KEY AUTOINCREMENT,
 );
 CREATE TABLE etablissements (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, date DEFAULT (CURRENT_TIMESTAMP));
 CREATE TABLE structures (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, date DEFAULT (CURRENT_TIMESTAMP));
-CREATE TABLE utilisateurs (rowid INTEGER PRIMARY KEY AUTOINCREMENT, nom , login , mdp , date DEFAULT (CURRENT_TIMESTAMP));
-INSERT INTO utilisateurs (nom,login,mdp) VALUES ('admin', 'admin', 'admin');
 
 
 CREATE VIRTUAL TABLE cache_casquette USING fts3(content TEXT, cp TEXT, email TEXT, adresse TEXT);

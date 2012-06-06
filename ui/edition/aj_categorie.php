@@ -7,7 +7,7 @@
 	$succes=1;
 	$nom=$_POST['nom']['valeur'];
 	$c= new Categories();
-	$rowid=$c->aj_categorie($nom);
+	$rowid=$c->aj_categorie($nom, $_SESSION['user']['id']);
 	$js="
 	$('#ncat').remove();
 	$('#sel_tree').dynatree('getTree').reload();

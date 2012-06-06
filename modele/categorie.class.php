@@ -27,7 +27,7 @@ class Categorie {
 		}
 		$base->close();		
 	}
-	function mod_nom($nom){
+	function mod_nom($nom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -35,7 +35,7 @@ class Categorie {
 		$base->query($sql);
 		$base->close();		
 	}
-	function mod_parent($idparent){
+	function mod_parent($idparent, $id_utilisateur=1){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update categories set idparent=$idparent where rowid=".$this->id;
@@ -101,7 +101,7 @@ GROUP BY id_casquette,id_categorie)";
 		$base->close();
 		return $nb;
 	}
-	function suppr(){
+	function suppr($id_utilisateur=1){
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="delete from ass_casquette_categorie where id_categorie=".$this->id;

@@ -37,7 +37,7 @@ class Contact {
 		}
 		$base->close();		
 	}
-	function mod_nom($nom, $prenom){
+	function mod_nom($nom, $prenom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
 		$prenom=SQLite3::escapeString($prenom);
 		$base = new SQLite3('db/contacts.sqlite');
@@ -54,30 +54,30 @@ class Contact {
 		$base->close();		
 		$this->cache();
 	}
-	function aj_casquette($nom) {
+	function aj_casquette($nom, $id_utilisateur=1) {
 		$nom=SQLite3::escapeString($nom);
 		$tri=SQLite3::escapeString($this->nom." ".$this->prenom);
 		$id_contact=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into casquettes (nom, tri) values ('$nom', '$tri')";
+		$sql="insert into casquettes (id_utilisateur, nom, tri) values ($id_utilisateur, '$nom', '$tri')";
 		$base->query($sql);
 		$id_casquette=$base->lastInsertRowID();
-		$sql="insert into ass_casquette_contact (id_casquette, id_contact) values ($id_casquette,$id_contact)";
+		$sql="insert into ass_casquette_contact (id_utilisateur, id_casquette, id_contact) values ($id_utilisateur, $id_casquette,$id_contact)";
 		$res = $base->query($sql);
 		$base->close();
 		$c=new Casquette($id_casquette);
-		$c->aj_donnee('Telephone_fixe','Téléphone fixe','telephone','');
-		$c->aj_donnee('Telephone_portable','Téléphone portable','telephone','');
-		$c->aj_donnee('Email','E-mail','email','');
-		$c->aj_donnee('Fonction','Fonction','texte_court','');
+		$c->aj_donnee('Telephone_fixe','Téléphone fixe','telephone','',$id_utilisateur);
+		$c->aj_donnee('Telephone_portable','Téléphone portable','telephone','',$id_utilisateur);
+		$c->aj_donnee('Email','E-mail','email','',$id_utilisateur);
+		$c->aj_donnee('Fonction','Fonction','texte_court','',$id_utilisateur);
 		$this->cache();
 		return $id_casquette;
 	}
-	function suppr(){
+	function suppr($id_utilisateur=1){
 		foreach($this->casquettes as $id_casquette=>$nom_casquette){
 			$c=new Casquette($id_casquette);
-			$c->suppr();
+			$c->suppr($id_utilisateur);
 		}
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);

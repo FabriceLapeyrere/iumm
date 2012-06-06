@@ -11,7 +11,7 @@
 	if($c->nb_enfants()==0) {
 		$casquettes=$c->casquettes();
 		$id_parent=$c->id_parent;
-		$c->suppr();
+		$c->suppr($_SESSION['user']['id']);
 		$js="
 			$('#sel_tree').dynatree('getTree').reload();
 			$('#ed_tree').dynatree('getTree').getNodeByKey('$id').remove();

@@ -23,7 +23,7 @@
 		$nom="$nom_orig"."_$j";
 		$label="$label_orig"." $j";
 	}
-	$c->aj_donnee($nom,$label,$type,"");
+	$c->aj_donnee($nom,$label,$type,"", $_SESSION['user']['id']);
 	$form=new formulaires;
 	$form->prefixe="metab$id";
 	$form->ajoute_entree($nom, $type, $valeur, '',array(1), $label);

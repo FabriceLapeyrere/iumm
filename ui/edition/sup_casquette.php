@@ -30,7 +30,7 @@
 		";
 	}
 	else {
-		$liste=$c->suppr();
+		$c->suppr($_SESSION['user']['id']);
 	
 		#on rend le cache obsolete
 		Cache::set_obsolete('etablissement',$id_etablissement);

@@ -8,10 +8,8 @@ CKEDITOR.editorConfig = function( config )
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-	config.extraPlugins = 'autogrow';
-	config.extraPlugins = 'onchange';
+	config.extraPlugins = 'onchange,autogrow';
 	config.toolbar = 'Lefil';
-	config.autoGrow_onStartup = true;
 	config.toolbar_Lefil =
 	[
 		{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','-','Undo','Redo' ] },

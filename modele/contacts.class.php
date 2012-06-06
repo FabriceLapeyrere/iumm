@@ -44,16 +44,16 @@ class Contacts {
 		$base->close();
 		return $listes;
 	}
-	function aj_contact($nom, $prenom) {
+	function aj_contact($nom, $prenom, $id_utilisateur=1) {
 		$nom=SQLite3::escapeString($nom);
 		$prenom=SQLite3::escapeString($prenom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into contacts (nom, prenom) values ('$nom', '$prenom')";
+		$sql="insert into contacts (id_utilisateur, nom, prenom) values ($id_utilisateur, '$nom', '$prenom')";
 		$base->query($sql);
 		$id_contact=$base->lastInsertRowID();
 		$c=new Contact($id_contact);
-		$c->aj_casquette('Perso');
+		$c->aj_casquette('Perso', $id_utilisateur);
 		$base->close();
 		return $id_contact;
 	}

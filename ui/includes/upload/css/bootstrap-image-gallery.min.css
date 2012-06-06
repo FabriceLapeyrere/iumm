@@ -3,7 +3,7 @@
 .contacts-upload .modal-gallery .modal-body{max-height:none;}
 .contacts-upload .modal-gallery .modal-title{display:inline-block;max-height:54px;overflow:hidden;}
 .contacts-upload .modal-gallery .modal-image{position:relative;margin:auto;min-width:128px;min-height:128px;overflow:hidden;cursor:pointer;}
-.contacts-upload .modal-loading .modal-image{background:url(../img/loading.gif) center no-repeat;}
+.contacts-upload .modal-loading .modal-image{background:url(img/loading.gif) center no-repeat;}
 .contacts-upload .modal-gallery.fade .modal-image{-webkit-transition:width 0.15s ease, height 0.15s ease;-moz-transition:width 0.15s ease, height 0.15s ease;-ms-transition:width 0.15s ease, height 0.15s ease;-o-transition:width 0.15s ease, height 0.15s ease;transition:width 0.15s ease, height 0.15s ease;}
 .contacts-upload .modal-gallery .modal-image *{position:absolute;top:0;opacity:0;filter:alpha(opacity=0);}
 .contacts-upload .modal-gallery.fade .modal-image *{-webkit-transition:opacity 0.5s linear;-moz-transition:opacity 0.5s linear;-ms-transition:opacity 0.5s linear;-o-transition:opacity 0.5s linear;transition:opacity 0.5s linear;}

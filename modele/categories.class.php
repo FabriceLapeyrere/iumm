@@ -19,11 +19,11 @@ class Categories {
 			$this->nbcontacts=$tab['count(*)'];
 		}
 	}
-	function aj_categorie($nom) {
+	function aj_categorie($nom, $id_utilisateur=1) {
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into categories (nom,idparent) values ('$nom',0)";
+		$sql="insert into categories (id_utilisateur,nom,idparent) values ($id_utilisateur, '$nom', 0)";
 		$base->query($sql);
 		$sql="select max(rowid) from categories";
 		$res = $base->query($sql);

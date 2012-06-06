@@ -8,7 +8,7 @@
 	$id_casquette=$_POST['id_casquette'];
 	$id_categorie=$_POST['id_categorie'];
 	$c=new Casquette($id_casquette);
-	$c->ass_categorie($id_categorie);
+	$c->ass_categorie($id_categorie, $_SESSION['user']['id']);
 	$id_etablissement=$c->id_etablissement;
 	$e=new Etablissement($id_etablissement);
 	

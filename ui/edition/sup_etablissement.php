@@ -30,7 +30,7 @@
 		";
 	}
 	else {
-		$e->suppr();
+		$e->suppr($_SESSION['user']['id']);
 		$js="";
 		$js.="
 			if ($('#ed_structure-$id_structure').length!=0)$.post('ajax.php',{action:'edition/structure',id_structure:$id_structure,format:'html'},function(data){

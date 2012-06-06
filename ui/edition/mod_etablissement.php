@@ -35,7 +35,7 @@
 			else $valeur=$donnee['valeur'];
 			$label=$old[$nom]['label'];
 			$type=$donnee['type'];
-			$e->aj_donnee($nom,$label,$type,$valeur);
+			$e->aj_donnee($nom,$label,$type,$valeur, $_SESSION['user']['id']);
 		}
 	}
 	$js_cas="";

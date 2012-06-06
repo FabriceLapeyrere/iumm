@@ -9,9 +9,9 @@
 	$id_contact=$_POST['id_contact'];
 	$e=new Etablissement($id_etablissement);
 	$c=new Contact($id_contact);
-	$id_casquette=$c->aj_casquette($e->nom_structure);
+	$id_casquette=$c->aj_casquette($e->nom_structure, $_SESSION['user']['id']);
 	$cas= new Casquette($id_casquette);
-	$cas->ass_etablissement($id_etablissement);
+	$cas->ass_etablissement($id_etablissement, $_SESSION['user']['id']);
 	$succes=0;
 	if ($id_casquette>0) $succes=1;
 	$js="

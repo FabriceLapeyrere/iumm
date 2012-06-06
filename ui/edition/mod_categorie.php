@@ -9,7 +9,7 @@
 	$id=$_POST['id'];
 	$id_parent=$_POST['id_parent'];
 	$c=new Categorie($id);
-	$c->mod_parent($id_parent);
+	$c->mod_parent($id_parent, $_SESSION['user']['id']);
 	$js="
 	$('#sel_tree').dynatree('getTree').reload();
 	";

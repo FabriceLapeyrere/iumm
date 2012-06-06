@@ -34,7 +34,7 @@ class Email {
 		}
 		$base->close();		
 	}
-	function mod_sujet($sujet){
+	function mod_sujet($sujet, $id_utilisateur=1){
 		$sujet=SQLite3::escapeString($sujet);
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
@@ -42,17 +42,17 @@ class Email {
 		$base->query($sql);
 		$base->close();		
 	}
-	function aj_donnee($html, $pj) {
+	function aj_donnee($html, $pj, $id_utilisateur=1) {
 		$html=SQLite3::escapeString($html);
 		$pj=SQLite3::escapeString($pj);
 		$id_email=$this->id;
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into donnees_email (id_utilisateur,id_email,html,pj) values (1,$id_email,'$html','$pj')";
+		$sql="insert into donnees_email (id_utilisateur,id_email,html,pj) values ($id_utilisateur,$id_email,'$html','$pj')";
 		$base->query($sql);
 		$base->close();
 	}
-	function suppr(){
+	function suppr($id_utilisateur=1){
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update emails set sujet='####' where rowid=".$this->id;

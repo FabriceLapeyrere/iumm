@@ -10,7 +10,7 @@
 	$id_etablissement=$c->id_etablissement;
 	$e=new Etablissement($id_etablissement);
 	$casquettes=$e->casquettes();
-	$c->deass_etablissement();
+	$c->deass_etablissement($_SESSION['user']['id']);
 	
 	#on rend le cache obsolete
 	Cache::set_obsolete('etablissement',$id_etablissement);

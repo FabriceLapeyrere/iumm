@@ -1,0 +1,155 @@
+body {font-size:10px;margin:0px;}
+label{margin-right:10px;}
+#infos {background:#C1E2DB;display:none;position:absolute;left:0;bottom:0;padding:5px;z-index:9999;}
+div.menu {position:relative;height:30px;}
+ul {list-style:none;margin:0;padding:0;}
+ul.plus {display:none;position:absolute;margin-left:50%;top:0;left:-75px;width:152px;padding:2px;z-index:1;border-bottom-right-radius:4px;
+	border-bottom-left-radius:4px;border:none;
+	-webkit-box-shadow: 0 6px 6px -6px black;
+	-moz-box-shadow: 0 6px 6px -6px black;
+	box-shadow: 0 6px 12px -6px black;
+}
+ul.plus li {cursor:pointer;border:1px solid #aaa;padding:5px 0 5px 0;border-radius:4px;width:150px;margin-bottom:2px;text-align:center;font-weight:bold;position:relative;}
+ul.champs li {text-align:right; margin-bottom:10px}
+ul.champs li .tooltip {margin-right:40px;}
+.tooltip {display:none;}
+.ui-dialog .ui-dialog-content {overflow:visible;}
+.ui-dialog {
+	overflow:visible;
+}
+.titre{font-size:14px;padding:5px;}
+.tabs{float:left;padding:2px;margin:0 0 5px 5px;}
+.ui-state-default.actif {border-color:#aaa;}
+.ui-draggable-dragging {background:#FFF;opacity:0.5;border-radius:4px;border:1px solid #aaa;}
+.cadre{border:1px solid #aaa;padding:2px 15px 10px 15px;border-radius: 4px;}
+a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
+.barre {font-size:10px;position:absolute;right:0px;top:3px;}
+.pagination a.first {border-right:none;}
+.pagination a.int {border-right:none;border-left:none;}
+.pagination a.last {border-left:none;}
+.pagination a.on span {text-decoration:underline;}
+.casquette h3, .etablissement h3 {font-size:14px;color:#888;margin-bottom:5px;}
+.maj {font-size:10px;color:#aaa;}
+.label {font-size:12px;color:#888;}
+.valeur {font-size:14px;color:#000;}
+.pagination .ui-button-text-only .ui-button-text {
+    padding: 3px;
+}
+#edition {position:absolute;background:#fff;z-index:0;}
+
+#ed_contacts{position:absolute;}
+#ed_contacts-head{position:absolute;}
+#ed_contacts-head .titre {position:absolute;width:199px;height:22px;color:#333; font-size:22px;font-family:sans-serif;}
+#ed_structures{position:absolute;}
+#ed_structures-head{position:absolute;}
+#ed_structures-head .titre {position:absolute;width:199px;height:22px;color:#333; font-size:22px;font-family:sans-serif;}
+#ed_categories{position:absolute;}
+#ed_categories-head{position:absolute;}
+#ed_categories-head .titre {position:absolute;width:199px;height:22px;color:#333; font-size:22px;font-family:sans-serif;}
+#ed_structures .contactsEtab li a {cursor:pointer;}
+#edition .contextMenu, .ui-dialog{
+	border:none;
+	-webkit-box-shadow: 2px 4px 10px -4px black;
+	-moz-box-shadow: 2px 4px 10px -4px black;
+	box-shadow: 2px 4px 10px -4px black;
+}
+#edition .pagination {position:absolute;width:280px;}
+#edition .filtre {position:absolute;width:280px;}
+#edition .filtre input {
+	width:199px;
+	height:22px;
+	border:1px solid #ccc;
+	border-radius:4px;
+	position:relative;
+	top:2px;
+	margin-right:5px;
+	padding-left:5px;
+}
+#edition button.ajmain {
+	position:absolute;
+}
+#edition .etabcas {cursor:pointer;}
+#edition div.perso input {width:140px;}
+
+#selection {position:absolute;background:#fff;z-index:1;}
+
+#sel_casquettes{position:absolute;}
+#sel_casquettes .casquette {width:200px;height:250px;float:left;margin:0 5px 5px 0;overflow:hidden;}
+#sel_casquettes .casquette div.nomstr {padding:5px;}
+#sel_casquettes .casquette div.nometab {margin:5px;}
+#sel_casquettes .etabcas{margin-bottom:5px;}
+#sel_casquettes .cas {padding:5px;}
+#sel_categories{position:absolute;}
+#sel_structures{position:absolute;}
+#sel_filtres{position:absolute;}
+#sel_filtres>div {float:left;height:30px;}
+#sel_filtres input[type='text'] {width:150px;}
+
+#structures .filtre {width:280px;margin-bottom:4px;}
+#selection .filtre input {
+	width:199px;
+	height:22px;
+	border:1px solid #ccc;
+	border-radius:4px;
+	position:relative;
+	top:2px;
+	margin-right:5px;
+	padding-left:5px;
+}
+#selection .maj {font-size:10px;color:#aaa;}
+#selection .blanc {color:#fff;}
+#selection .etab-sel {background:#aaa;border: 1px solid #bbb;}
+#selection .etab-sel a { color:#fff;}
+#sel_humains .cadre {float:left;padding:2px;}
+#sel_humains .cadre1 {float:left;padding:2px;width:196px;}
+#sel_humains .recherche {float:left;width:200px;padding:2px;}
+#sel_humains .op {float:left;margin:2px;}
+#sel_humains {position:absolute;top:40px;}
+#sel_structures .filtre {margin-bottom:4px;}
+#menu {position:absolute;z-index:10;height:25px;width:100%;
+	-webkit-box-shadow: 2px 4px 10px -4px black;
+	-moz-box-shadow: 2px 4px 10px -4px black;
+	box-shadow: 2px 4px 10px -4px black;
+}
+#menu .boite-menu {padding-top:5px;}
+#menu a {text-decoration:none; color:#333; font-size:14px;margin-left:20px; font-family:sans-serif;}
+
+#email {position:absolute;background:#fff;z-index:0;}
+#mail_entetes {position:absolute;}
+#mail_entetes .mail-entete {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#mail_entetes_head {position:absolute;}
+#mail_email {position:absolute;}
+#mail_email .enr-email.off {opacity:0.5;}
+#email .titre{color:#333; font-size:22px;font-family:sans-serif;}
+#mail_email .titre {font-size:22px;}
+#mail_editeur {margin:10px 0 10px 0;}
+
+#newsletter {position:absolute;background:#fff;z-index:0;}
+#emailing {position:absolute;background:#fff;z-index:0;}
+#emailing_envois {position:absolute;}
+#emailing_envois_head {position:absolute;}
+#emailing_envois .emailing-envoi {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#emailing_envoi {position:absolute;}
+#emailing .titre{color:#333; font-size:22px;font-family:sans-serif;}
+#emailing_envoi .meta {margin-top:10px;font-family:sans-serif;font-size:14px;}
+#emailing_envoi .titre {font-size:22px;}
+
+#publipostage {position:absolute;background:#fff;z-index:0;}
+#publipostage_support {position:absolute;}
+#publipostage_supports {position:absolute;}
+#publipostage_supports .publipostage-support {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#publipostage_supports_head {position:absolute;}
+#publipostage .titre{color:#333; font-size:22px;font-family:sans-serif;}
+#publipostage_support .titre {font-size:22px;}
+.case_a {background:#eee;position:absolute;border:1px solid #ddd;}
+.plan {position:relative;}
+
+#admin {position:absolute;background:#fff;z-index:0;}
+#admin_utilisateurs_head {position:absolute;}
+#admin_utilisateurs {position:absolute;}
+#admin_utilisateurs .admin-utilisateur {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+
+#mask {position:absolute;z-index:8;width:100%; height:100%; background:#FFF;}
+#mask .loader{position:absolute;width:66px; height:66px; background:url('images/ajax-loader.gif');left:50%;top:50%;margin-left:-33px;margin-top:-33px;}
+select {width:270px;}
+

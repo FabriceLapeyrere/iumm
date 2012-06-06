@@ -80,7 +80,7 @@
 			}
 		}
 	}
-	$c->suppr();
+	$c->suppr($_SESSION['user']['id']);
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";

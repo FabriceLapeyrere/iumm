@@ -9,7 +9,7 @@
 	$nom=$_POST['nom']['valeur'];
 	
 	$c=new Categorie($id);
-	$c->mod_nom($nom);
+	$c->mod_nom($nom, $_SESSION['user']['id']);
 	$casquettes=$c->casquettes();
 	$js="
 		$.post('ajax.php',{action:'edition/categorie', id_categorie:$id},function(data){

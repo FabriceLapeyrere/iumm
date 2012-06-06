@@ -119,7 +119,7 @@ $(function() {
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
-					delete window['formnemail' + id];
+					delete window['formnemail'];
 				}
 			});	
 			$.post('ajax.php',{action:'email/nemail'},

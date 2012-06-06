@@ -12,7 +12,7 @@
 	Cache::set_obsolete('etablissement',$id);
 	
 	$e=new Etablissement($id);
-	$e->mod_nom($nom);
+	$e->mod_nom($nom, $_SESSION['user']['id']);
 	$casquettes=$e->casquettes();
 	$js="";
 	$js.="

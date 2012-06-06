@@ -18,10 +18,10 @@
 		$old_etablissement=$c->id_etablissement;
 		Cache::set_obsolete('etablissement',$old_etablissement);
 		if ($old_etablissement!=$id_etablissement) {
-			$c->ass_etablissement($id_etablissement);
+			$c->ass_etablissement($id_etablissement, $_SESSION['user']['id']);
 		}
 		$c=new Casquette($id_casquette);
-		$c->mod_nom($c->nom_structure);
+		$c->mod_nom($c->nom_structure, $_SESSION['user']['id']);
 		$e=new Etablissement($id_etablissement);
 		$js.="$('#edition li[data-tab=\"#ed_casquette-$id_casquette\"] a').html('".json_escape($c->nom_structure)."');";
 		foreach($e->casquettes() as $id_cas=>$cas){

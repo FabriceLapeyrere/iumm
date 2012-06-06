@@ -14,6 +14,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.CLASS_MODELE_DIR.PATH_SEPARAT
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
+include "ctl/auth.php";
 include "utils/toujours.php";
 include "ui/html.class.php";
 include "ui/js.class.php";
@@ -41,6 +42,7 @@ if($N==1) $html_N="checked";
 $html_contacts=Html::contacts($binfc,$motifc);
 $html_structures=Html::structures($binfs,$motifs);
 $html_structures_sel=Html::structures_selection($sel_binfs,$sel_motifs);
+$html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 
 ?>
 <!DOCTYPE HTML>
@@ -48,177 +50,75 @@ $html_structures_sel=Html::structures_selection($sel_binfs,$sel_motifs);
 <head>
 <title>contacts</title>
 <meta http-equiv="Content-Type" Content="text/html; charset=UTF-8">
-<link media="all" type="text/css" href="ui/css/jquery-ui.css" rel="stylesheet">
-<link media="all" type="text/css" href="ui/css/ui.dynatree.css" rel="stylesheet">
-<link media="all" type="text/css" href="ui/css/jquery.jscrollpane.css" rel="stylesheet">
-<link media="all" type="text/css" href="ui/css/jquery.contextMenu.css" rel="stylesheet">
-<style>
-body {font-size:10px;margin:0px;}
-label{margin-right:10px;}
-#infos {background:#C1E2DB;display:none;position:absolute;left:0;bottom:0;padding:5px;z-index:9999;}
-div.menu {position:relative;height:30px;}
-ul {list-style:none;margin:0;padding:0;}
-ul.plus {display:none;position:absolute;margin-left:50%;top:0;left:-75px;width:152px;padding:2px;z-index:1;border-bottom-right-radius:4px;
-	border-bottom-left-radius:4px;border:none;
-	-webkit-box-shadow: 0 6px 6px -6px black;
-	-moz-box-shadow: 0 6px 6px -6px black;
-	box-shadow: 0 6px 12px -6px black;
-}
-ul.plus li {cursor:pointer;border:1px solid #aaa;padding:5px 0 5px 0;border-radius:4px;width:150px;margin-bottom:2px;text-align:center;font-weight:bold;position:relative;}
-ul.champs li {text-align:right; margin-bottom:10px}
-ul.champs li .tooltip {margin-right:40px;}
-.tooltip {display:none;}
-.ui-dialog .ui-dialog-content {overflow:visible;}
-.ui-dialog {
-	overflow:visible;
-}
-.titre{font-size:14px;padding:5px;}
-.tabs{float:left;padding:2px;margin:0 0 5px 5px;}
-.ui-state-default.actif {border-color:#aaa;}
-.ui-draggable-dragging {background:#FFF;opacity:0.5;border-radius:4px;border:1px solid #aaa;}
-.cadre{border:1px solid #aaa;padding:2px 15px 10px 15px;border-radius: 4px;}
-a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
-.barre {font-size:10px;position:absolute;right:0px;top:3px;}
-.pagination a.first {border-right:none;}
-.pagination a.int {border-right:none;border-left:none;}
-.pagination a.last {border-left:none;}
-.pagination a.on span {text-decoration:underline;}
-.casquette h3, .etablissement h3 {font-size:14px;color:#888;margin-bottom:5px;}
-.maj {font-size:10px;color:#aaa;}
-.label {font-size:12px;color:#888;}
-.valeur {font-size:14px;color:#000;}
-.pagination .ui-button-text-only .ui-button-text {
-    padding: 3px;
-}
-#edition {position:absolute;background:#fff;z-index:0;}
-
-#ed_contacts{position:absolute;}
-#ed_contacts-head{position:absolute;}
-#ed_contacts-head .titre {position:absolute;width:199px;height:22px;color:#333; font-size:22px;font-family:sans-serif;}
-#ed_structures{position:absolute;}
-#ed_structures-head{position:absolute;}
-#ed_structures-head .titre {position:absolute;width:199px;height:22px;color:#333; font-size:22px;font-family:sans-serif;}
-#ed_categories{position:absolute;}
-#ed_categories-head{position:absolute;}
-#ed_categories-head .titre {position:absolute;width:199px;height:22px;color:#333; font-size:22px;font-family:sans-serif;}
-#ed_structures .contactsEtab li a {cursor:pointer;}
-#edition .contextMenu, .ui-dialog{
-	border:none;
-	-webkit-box-shadow: 2px 4px 10px -4px black;
-	-moz-box-shadow: 2px 4px 10px -4px black;
-	box-shadow: 2px 4px 10px -4px black;
-}
-#edition .pagination {position:absolute;width:280px;}
-#edition .filtre {position:absolute;width:280px;}
-#edition .filtre input {
-	width:199px;
-	height:22px;
-	border:1px solid #ccc;
-	border-radius:4px;
-	position:relative;
-	top:2px;
-	margin-right:5px;
-	padding-left:5px;
-}
-#edition button.ajmain {
-	position:absolute;
-}
-#edition .etabcas {cursor:pointer;}
-#edition div.perso input {width:140px;}
-
-#selection {position:absolute;background:#fff;z-index:1;}
-
-#sel_casquettes{position:absolute;}
-#sel_casquettes .casquette {width:200px;height:250px;float:left;margin:0 5px 5px 0;overflow:hidden;}
-#sel_casquettes .casquette div.nomstr {padding:5px;}
-#sel_casquettes .casquette div.nometab {margin:5px;}
-#sel_casquettes .etabcas{margin-bottom:5px;}
-#sel_casquettes .cas {padding:5px;}
-#sel_categories{position:absolute;}
-#sel_structures{position:absolute;}
-#sel_filtres{position:absolute;}
-#sel_filtres>div {float:left;height:30px;}
-#sel_filtres input[type='text'] {width:150px;}
-
-#structures .filtre {width:280px;margin-bottom:4px;}
-#selection .filtre input {
-	width:199px;
-	height:22px;
-	border:1px solid #ccc;
-	border-radius:4px;
-	position:relative;
-	top:2px;
-	margin-right:5px;
-	padding-left:5px;
-}
-#selection .maj {font-size:10px;color:#aaa;}
-#selection .blanc {color:#fff;}
-#selection .etab-sel {background:#aaa;border: 1px solid #bbb;}
-#selection .etab-sel a { color:#fff;}
-#sel_humains .cadre {float:left;padding:2px;}
-#sel_humains .cadre1 {float:left;padding:2px;width:196px;}
-#sel_humains .recherche {float:left;width:200px;padding:2px;}
-#sel_humains .op {float:left;margin:2px;}
-#sel_humains {position:absolute;top:40px;}
-#sel_structures .filtre {margin-bottom:4px;}
-#menu {position:absolute;z-index:10;height:25px;width:100%;
-	-webkit-box-shadow: 2px 4px 10px -4px black;
-	-moz-box-shadow: 2px 4px 10px -4px black;
-	box-shadow: 2px 4px 10px -4px black;
-}
-#menu .boite-menu {padding-top:5px;}
-#menu a {text-decoration:none; color:#333; font-size:14px;margin-left:20px; font-family:sans-serif;}
-
-#email {position:absolute;background:#fff;z-index:0;}
-#mail_entetes {position:absolute;}
-#mail_entetes .mail-entete {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
-#mail_entetes_head {position:absolute;}
-#mail_email {position:absolute;}
-#mail_email .enr-email.off {opacity:0.5;}
-#email .titre{color:#333; font-size:22px;font-family:sans-serif;}
-#mail_email .titre {font-size:22px;}
-#mail_editeur {margin:10px 0 10px 0;}
-
-#newsletter {position:absolute;background:#fff;z-index:0;}
-#emailing {position:absolute;background:#fff;z-index:0;}
-#emailing_envois {position:absolute;}
-#emailing_envois_head {position:absolute;}
-#emailing_envois .emailing-envoi {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
-#emailing_envoi {position:absolute;}
-#emailing .titre{color:#333; font-size:22px;font-family:sans-serif;}
-#emailing_envoi .meta {margin-top:10px;font-family:sans-serif;font-size:14px;}
-#emailing_envoi .titre {font-size:22px;}
-
-#publipostage {position:absolute;background:#fff;z-index:0;}
-#publipostage_support {position:absolute;}
-#publipostage_supports {position:absolute;}
-#publipostage_supports .publipostage-support {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
-#publipostage_supports_head {position:absolute;}
-#publipostage .titre{color:#333; font-size:22px;font-family:sans-serif;}
-#publipostage_support .titre {font-size:22px;}
-.case_a {background:#eee;position:absolute;border:1px solid #ddd;}
-.plan {position:relative;}
-
-#mask {position:absolute;z-index:8;width:100%; height:100%; background:#FFF;}
-#mask .loader{position:absolute;width:66px; height:66px; background:url('ui/css/images/ajax-loader.gif');left:50%;top:50%;margin-left:-33px;margin-top:-33px;}
-select {width:270px;}
-</style>
-
-<!-- fonctionnalité d'upload -->
-
-<!-- Bootstrap CSS Toolkit styles -->
-<link rel="stylesheet" href="ui/includes/upload/css/bootstrap.min.css">
-<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
-<link rel="stylesheet" href="ui/includes/upload/css/bootstrap-responsive.min.css">
-<!-- Bootstrap CSS fixes for IE6 -->
-<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-<!-- Bootstrap Image Gallery styles -->
-<link rel="stylesheet" href="ui/includes/upload/css/bootstrap-image-gallery.min.css">
-<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet" href="ui/includes/upload/css/jquery.fileupload-ui.css">
+<link rel="stylesheet" media="all" type="text/css" href="ui/includes/min/?f=ui/css/jquery-ui.css,ui/css/ui.dynatree.css,ui/css/jquery.jscrollpane.css,ui/css/jquery.contextMenu.css,ui/includes/upload/css/bootstrap.min.css,ui/includes/upload/css/bootstrap-responsive.min.css,ui/includes/upload/css/bootstrap-image-gallery.min.css,ui/includes/upload/css/jquery.fileupload-ui.css,ui/css/iumm.css">
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="ui/includes/upload/js/html5.js"></script><![endif]-->
-<!-- The template to display files available for upload -->
+<!-- Bootstrap CSS fixes for IE6 -->
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Démarrer l'upload</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>Annuler</span>
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td></td>
+            <td class="name"><span>{%=file.name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+            <td class="preview">{% if (file.thumbnail_url) { %}
+                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+            {% } %}</td>
+            <td class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td colspan="2"></td>
+        {% } %}
+        <td class="delete">
+            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-trash icon-white"></i>
+                <span>Supprimer</span>
+            </button>
+            <input type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js,ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
+<!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
+
+<!-- fin fonctionnalité d'upload -->
 </head>
 <body>
 <div id="mask">
@@ -450,114 +350,43 @@ select {width:270px;}
 	<?=Html::support(Publipostage::dernier())?>
 	</div>
 </div>
-<div id="menu"><div class='boite-menu'><a href="#edition">edition</a> <a href="#selection">selection</a> <a href="#email">email</a> <a href="#emailing">e-mailing</a>  <a href="#publipostage">publipostage</a> <a href="doc.php?t=export_csv" target="_blank">csv</a></div></div>
 
-<script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-            <td>
-                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-            </td>
-            <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Démarrer l'upload</span>
-                </button>
-            {% } %}</td>
-        {% } else { %}
-            <td colspan="2"></td>
-        {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>Annuler</span>
-            </button>
-        {% } %}</td>
-    </tr>
-{% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        {% if (file.error) { %}
-            <td></td>
-            <td class="name"><span>{%=file.name%}</span></td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else { %}
-            <td class="preview">{% if (file.thumbnail_url) { %}
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-            {% } %}</td>
-            <td class="name">
-                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-            </td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            <td colspan="2"></td>
-        {% } %}
-        <td class="delete">
-            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-trash icon-white"></i>
-                <span>Supprimer</span>
-            </button>
-            <input type="checkbox" name="delete" value="1">
-        </td>
-    </tr>
-{% } %}
-</script>
+<?php if($_SESSION['user']['droits']>=4){ ?>
+<div id="admin">
+	<ul id="admin_menu_utilisateur" class="contextMenu">
+	    <li class="edit">
+		<a href="#edit">Modifier</a>
+	    </li>
+	    <li class="delete">
+		<a href="#delete">Supprimer</a>
+	    </li>
+	</ul>
+	<div id="admin_utilisateurs_head">
+		<div class='titre'>Utilisateurs</div>
+		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel utilisateur">
+			<span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+			<span class="ui-button-text">Nouvel Utilisateur</span>
+		</button>
+		<div class="filtre"><?=Html::filtre_utilisateur()?></div>
+		<span class="pagination ui-buttonset"><?=$html_utilisateurs['pagination']?></span>
+	</div>
+	<div id="admin_utilisateurs">
+	<?=$html_utilisateurs['html']?>
+	</div>
+</div>
+<?php } ?>
+<div id="menu">
+<div class='boite-menu'>
+<a href="#edition">edition</a> 
+<a href="#selection">selection</a> 
+<a href="#email">email</a> 
+<a href="#emailing">e-mailing</a> 
+<a href="#publipostage">publipostage</a> 
+<?php if($_SESSION['user']['droits']>=4){ ?>
+<a href="#admin">gestion des utilisateurs</a> 
+<?php } ?>
 
-<!-- fin fonctionnalité d'upload -->
-
-<script src="ui/js/jquery.min.js"></script>
-<script src="ui/js/jquery-ui.min.js"></script>
-<script src="ui/js/jquery.dataset.js" type="text/javascript"></script>
-<script src="ui/js/jquery.mousewheel.js" type="text/javascript"></script>
-<script src="ui/js/jquery.jscrollpane.js" type="text/javascript"></script>
-<script src="ui/js/jquery.dynatree.js" type="text/javascript"></script>
-<script src="ui/js/jquery.contextMenu.js" type="text/javascript"></script>
-<script src="ui/js/jquery.ba-hashchange.js" type="text/javascript"></script>
-<script type="text/javascript" src="ui/includes/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="ui/includes/ckeditor/adapters/jquery.js"></script>
-<script src="ui/js/edition.js" type="text/javascript"></script>
-<script src="ui/js/selection.js" type="text/javascript"></script>
-<script src="ui/js/email.js" type="text/javascript"></script>
-<script src="ui/js/emailing.js" type="text/javascript"></script>
-<script src="ui/js/publipostage.js" type="text/javascript"></script>
-<script src="ui/js/iumm.js" type="text/javascript"></script>
-
-<!-- fonctionnalité d'upload -->
-
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="ui/includes/upload/js/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="ui/includes/upload/js/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="ui/includes/upload/js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-<script src="ui/includes/upload/js/bootstrap.min.js"></script>
-<script src="ui/includes/upload/js/bootstrap-image-gallery.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="ui/includes/upload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="ui/includes/upload/js/jquery.fileupload.js"></script>
-<!-- The File Upload image processing plugin -->
-<script src="ui/includes/upload/js/jquery.fileupload-ip.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="ui/includes/upload/js/jquery.fileupload-ui.js"></script>
-<!-- The localization script -->
-<script src="ui/includes/upload/js/locale.js"></script>
-<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
-<!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
-
-<!-- fin fonctionnalité d'upload -->
-
-
+<a href="doc.php?t=export_csv" target="_blank">csv</a>  <a href="?deconnecte">(déconnecter <?=$_SESSION['user']['nom']?>)</a></div>
 
 </body>
 </html>

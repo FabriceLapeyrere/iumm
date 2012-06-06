@@ -60,6 +60,7 @@
 .ui-widget-content a { color: #222222; }
 .ui-widget-header { border: 1px solid #aaaaaa; background: #75c00c url(images/ui-bg_highlight-soft_50_4d95f5_1x100.png) 50% 50% repeat-x; color: #fff; font-weight: bold; }
 #ed_structures .ui-widget-header, #sel_structures .ui-widget-header, .css-structure .ui-widget-header, .css-structure.ui-widget-header { border: 1px solid #aaaaaa; background: #75c00c url(images/ui-bg_highlight-soft_50_75c00c_1x100.png) 50% 50% repeat-x; color: #fff; font-weight: bold; }
+.css-infos .ui-widget-header, .css-infos .ui-widget-header { border: 1px solid #aaaaaa; background: #aaa; color: #fff; font-weight: bold; }
 .ui-widget-header a { color: #fff; }
 
 /* Interaction states

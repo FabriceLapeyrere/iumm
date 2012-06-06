@@ -114,7 +114,11 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
     </tr>
 {% } %}
 </script>
+<?php if($_SESSION['user']['droits']>=4){ ?>
 <script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js,ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
+<?php } else { ?>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/iumm.js,ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
+<?php } ?>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
 <!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
 

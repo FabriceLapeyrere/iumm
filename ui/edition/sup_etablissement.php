@@ -9,7 +9,7 @@
 	$e=new etablissement($id_etablissement);
 	$id_structure=$e->id_structure;
 	$tab_cas=$e->casquettes();
-	$str=new Contact($id_structure);
+	$str=new Structure($id_structure);
 	$nb=count($str->etablissements);
 	$js="";
 	if ($nb==1){

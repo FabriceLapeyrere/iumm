@@ -32,7 +32,7 @@
 		$u=new Utilisateur($id);
 		$u->mod_nom($nom);
 		$u->mod_login($login);
-		if ($mdp!="####") $u->mod_mdp($mdp);
+		if ($mdp!="#####") $u->mod_mdp($mdp);
 		$u->mod_droits($droits);
 		$retour=Html::utilisateurs($_SESSION['admin']['binf'],$_SESSION['admin']['motifs']);
 		$html=json_escape($retour['html']);

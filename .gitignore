@@ -5,4 +5,5 @@ fichiers/emails/*
 fichiers/envois/*
 tmp/*
 modele/corbeille/*
+ui/includes/upload/thumbnails/*
 

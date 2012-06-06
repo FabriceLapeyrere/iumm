@@ -4,12 +4,30 @@
  * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
  */
 	$reponse=array();
-	$succes=0;
+	$succes=1;
+	if ($_SESSION['user']['droits']<3){
+		$js="
+		$('<div>Vos droits sont insuffisants.</div>').dialog({
+			resizable: false,
+			title:'Impossible d\'ajouter une casquette.',
+			modal: true,
+			dialogClass: 'css-infos',
+			close:function(){ 
+				$(this).remove();
+			},
+			buttons: {
+				Ok: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		";
+	}
+	else {
+	
 	$id_contact=$_POST['id_contact'];
 	$c=new Contact($id_contact);
 	$id_casquette=$c->aj_casquette('Perso', $_SESSION['user']['id']);
-	$succes=0;
-	if ($id_casquette>0) $succes=1;
 	$js="
 	$.post('ajax.php',{
 			action:'edition/contact',
@@ -76,6 +94,7 @@
 		'json'
 	);
 	";
+	}
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";

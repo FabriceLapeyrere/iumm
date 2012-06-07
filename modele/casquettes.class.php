@@ -251,17 +251,17 @@ class Casquettes {
 		$html_email="";
 		if($email==1 && $Nemail==0)
 			$sql[]="
-			t1.rowid IN (
-				select id_casquette from donnees_casquette where type='email' and valeur!='' and id_casquette||','||nom||','||date IN (
-					select id_casquette||','||nom||','||MAX(date) from donnees_casquette group by id_casquette, nom
+			(
+				t1.rowid IN (
+				select rowid from cache_casquette where email!=''
 				)
 			)
 			";
 		if($email==1 && $Nemail==1)
 			$sql[]="
-			t1.rowid NOT IN (
-				select id_casquette from donnees_casquette where type='email' and valeur!='' and id_casquette||','||nom||','||date IN (
-					select id_casquette||','||nom||','||MAX(date) from donnees_casquette group by id_casquette, nom
+			(
+				t1.rowid IN (
+				select rowid from cache_casquette where email=''
 				)
 			)
 			";
@@ -271,26 +271,18 @@ class Casquettes {
 			$sql[]="
 			(
 				t1.rowid IN (
-					select id_casquette from donnees_casquette where type='adresse' and valeur!='' and valeur!='{\"adresse\":\"\",\"cp\":\"\",\"ville\":\"\",\"pays\":\"\"}' and id_casquette||','||nom||','||date IN (
-						select id_casquette||','||nom||','||MAX(date) from donnees_casquette group by id_casquette, nom
-					)
-				) OR t1.rowid IN (
-					select id_casquette from ass_casquette_etablissement as t1 inner join donnees_etablissement as t2 on t1.id_etablissement=t2.id_etablissement where t2.type='adresse' and t2.valeur!='' and t2.valeur!='{\"adresse\":\"\",\"cp\":\"\",\"ville\":\"\",\"pays\":\"\"}' and t2.id_etablissement||','||t2.nom||','||t2.date IN (
-						select id_etablissement||','||nom||','||MAX(date) from donnees_etablissement group by id_etablissement, nom
-					) and t1.date||','||t1.id_casquette IN (select max(date)||','||id_casquette from ass_casquette_etablissement group by id_casquette) group by id_casquette	
+				select rowid from cache_casquette where adresse!=''
 				)
 			)
 			";
 		if($adresse==1 && $Nadresse==1)
 			$sql[]="
-			t1.rowid NOT IN (
-				select id_casquette from donnees_casquette where type='adresse' and valeur!='' and valeur!='{\"adresse\":\"\",\"cp\":\"\",\"ville\":\"\",\"pays\":\"\"}' and id_casquette||','||nom||','||date IN (
-					select id_casquette||','||nom||','||MAX(date) from donnees_casquette group by id_casquette, nom
+			(
+				t1.rowid IN (
+				select rowid from cache_casquette where adresse=''
 				)
 			)
 			";
-		
-		
 		return implode($sql,' AND ');
 	}
 	function sql_combinaison($c){

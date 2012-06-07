@@ -34,7 +34,7 @@ function cp($string)
 		$matches=array();
 		$pattern = '/^\d{4,5}/';
 		preg_match($pattern, str_replace(" ","",$string), $matches);
-		$cp=$matches[0];
+		if (isset($matches[0])) $cp=$matches[0];
 	}
 	return $cp;
 }

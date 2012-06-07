@@ -139,7 +139,9 @@ GROUP BY id_casquette,id_categorie)";
 				$adresse=rtrim($adresse);				
 			}
 		}
-		$adresse_complete.="\n".$adresse;
+		if ($adresse!="" && $adresse_complete=="") $adresse_complete=$adresse;
+		elseif ($adresse!="" && $adresse_complete!="") $adresse_complete.="\n".$adresse;
+		else $adresse_complete="";
 		return $adresse_complete;
 	}
 	function fonction() {

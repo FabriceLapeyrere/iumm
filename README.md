@@ -5,6 +5,8 @@ Logiciel de gestion de contacts
 
 http://iumm.surlefil.org/demo
 
+id : admin / mdp : admin
+
 ##Prérequis
 ###Serveur
 * Un serveur web (testé avec apache2)

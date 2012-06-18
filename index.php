@@ -312,8 +312,34 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <?=Html::entetes_email()?>
 </div>
 </div>
+
+
 <div id="newsletter">
+	<ul id="news_menu_email" class="contextMenu">
+		<li class="edit">
+		<a href="#rename">Renommer</a>
+		</li>
+		<li class="delete">
+		<a href="#delete">Supprimer</a>
+		</li>
+	</ul>
+	<div id="news_newsletter">
+	</div>
+	<div id="news_entetes_head">
+		<div class='titre'>Newsletters</div>
+		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel e-mail">
+			<span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+			<span class="ui-button-text">Nouvelle newsletter</span>
+		</button>
+		<div class="filtre"><?=Html::filtre_news()?></div>
+		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['email']['binf'],News::nb_news())?></span>
+	</div>
+	<div id="mail_entetes">
+	<?=Html::entetes_news()?>
+	</div>
 </div>
+
+
 <div id="emailing">
 	<div id="emailing_envois_head">
 		<div class='titre'>Envois</div>

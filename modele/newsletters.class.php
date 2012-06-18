@@ -7,9 +7,9 @@
  * la classe contacts permet de lire et d'écrire dans la base les données
  */
 
-class Emails {
-	function Emails() {}
-	function nb_emails($motifs="") {
+class Newss {
+	function Newss() {}
+	function nb_Newss($motifs="") {
 		$tab_cond_motifs=array();
 		if ($motifs!="") {
 			$tab_motifs=explode(' ',$motifs);
@@ -27,7 +27,7 @@ class Emails {
 		#on récupere le nombre d'emails:
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select count(*) from emails where sujet!='####'$cond_motifs";
+		$sql="select count(*) from news where sujet!='####'$cond_motifs";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$nb=$tab['count(*)'];
@@ -51,7 +51,7 @@ class Emails {
 		}
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select * from emails where sujet!='####'$cond_motifs order by date desc limit $binf,20";
+		$sql="select * from news where sujet!='####'$cond_motifs order by date desc limit $binf,20";
 		#echo $sql;
 		$res = $base->query($sql);
 		$liste=array();
@@ -61,22 +61,22 @@ class Emails {
 		$base->close();
 		return $liste;
 	}
-	function aj_email($sujet) {
+	function aj_news($sujet) {
 		$sujet=SQLite3::escapeString($sujet);
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="insert into emails (id_utilisateur,sujet) values (1,'$sujet')";
+		$sql="insert into news (id_utilisateur,sujet) values (1,'$sujet')";
 		$base->query($sql);
-		$id_email=$base->lastInsertRowID();
+		$id_news=$base->lastInsertRowID();
 		$base->close();
-		mkdir("fichiers/emails/$id_email");
-		return $id_email;
+		mkdir("fichiers/news/$id_news");
+		return $id_news;
 	}
-	function dernier() {
+	function derniere() {
 		$id=0;
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select rowid from emails where sujet!='####' order by date desc limit 0,1";
+		$sql="select rowid from news where sujet!='####' order by date desc limit 0,1";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$id=$tab['rowid'];

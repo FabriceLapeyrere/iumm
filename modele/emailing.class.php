@@ -244,5 +244,29 @@ class Emailing {
 		$base->close();
 		return $id;
 	}
+	function expediteurs() {
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select rowid, nom, email from expediteurs order by date desc";
+		$res = $base->query($sql);
+		$expediteurs=array();
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$expediteurs[$tab['rowid']]=array('nom'=>$tab['nom'],'email'=>$tab['email']);
+		}
+		$base->close();
+		return $expediteurs;
+	}
+	function expediteur($id) {
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select rowid, nom, email from expediteurs where rowid=$id";
+		$res = $base->query($sql);
+		$expediteurs=array();
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$expediteurs[$tab['rowid']]=array('nom'=>$tab['nom'],'email'=>$tab['email']);
+		}
+		$base->close();
+		return $expediteurs[$id];
+	}
 }
 ?>

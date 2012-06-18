@@ -5,7 +5,12 @@ Logiciel de gestion de contacts
 
 http://iumm.surlefil.org/demo
 
-id : admin / mdp : admin
+Identifiants :
+
+- lecture seule : demo1 / demo
+- lecture écriture : demo2 / demo
+- lecture ecriture + mailing (désactivé pour la demo) : demo3 / demo
+- acces administrateur : admin / admin
 
 ##Prérequis
 ###Serveur

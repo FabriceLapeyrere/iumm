@@ -7,7 +7,7 @@
 	$succes=1;
 	$html='';
 	$nom='';
-	if ($_SESSION['user']['droits']<3){
+	if ($_SESSION['user']['droits']<2){
 		$js="
 		$('<div>Vos droits sont insuffisants.</div>').dialog({
 			resizable: false,

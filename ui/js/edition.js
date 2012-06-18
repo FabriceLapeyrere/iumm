@@ -22,7 +22,7 @@ $(function() {
 	ed_scatapi = ed_scat.data('jsp');
 	$('#ed_categories-head').on('click', 'button.ajmain', function(){
 		if($('#ncat').length == 0) {
-			$('<div id="ncat"></div>').dialog({
+			$('<div id="ncat" class="local_edition"></div>').dialog({
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
@@ -44,7 +44,7 @@ $(function() {
 	});
 	$('#ed_contacts-head').on('click', 'button.ajmain', function(){
 		if($('#ncont').length == 0) {
-			$('<div id="ncont"></div>').dialog({
+			$('<div id="ncont" class="local_edition"></div>').dialog({
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
@@ -66,7 +66,7 @@ $(function() {
 	});
 	$('#ed_structures-head').on('click', 'button.ajmain', function(){
 		if($('#nstr').length == 0) {
-			$('<div id="nstr"></div>').dialog({
+			$('<div id="nstr" class="local_edition"></div>').dialog({
 				resizable: false,
 				dialogClass: 'css-structure',
 				close:function(){ 
@@ -222,7 +222,7 @@ $(function() {
 		var panel=$(this).parent().parent().parent();
 		var id=panel.dataset('id');
 		if($('#rncont'+ id).length == 0) {
-			$('<div id="rncont'+ id + '"></div>').dialog({
+			$('<div id="rncont'+ id + '" class="local_edition"></div>').dialog({
 				position:[panel.offset().left+20,panel.offset().top+10],
 				resizable: false,
 				close:function(){ 
@@ -249,7 +249,7 @@ $(function() {
 	$('#ed_contacts').on('click', '.etabcas', function(){
 		var id=$(this).dataset('id');
 		if($('#metab'+ id).length == 0) {
-			$('<div id="metab'+ id + '"></div>').dialog({
+			$('<div id="metab'+ id + '" class="local_edition"></div>').dialog({
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
@@ -443,7 +443,7 @@ $(function() {
 		var panel=$(this).parent().parent().parent();
 		var id=panel.dataset('id');
 		if($('#rnstr'+ id).length == 0) {
-			$('<div id="rnstr'+ id + '"></div>').dialog({
+			$('<div id="rnstr'+ id + '" class="local_edition"></div>').dialog({
 				position:[panel.offset().left+20,panel.offset().top+10],
 				dialogClass: 'css-structure',
 				resizable: false,
@@ -485,7 +485,7 @@ $(function() {
 	$('#ed_structures').on('click','.contactsEtab li a', function(){
 		var e=this;	
 		if($('#mcas'+ $(e).dataset('id')).length == 0) {
-			 $('<div id="mcas'+ $(e).dataset('id') + '"></div>').dialog({
+			 $('<div id="mcas'+ $(e).dataset('id') + '" class="local_edition"></div>').dialog({
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
@@ -587,7 +587,7 @@ $(function() {
 					if(action=='rename') {
 						var id=node.data.key;
 						if($('#rncat'+ id).length == 0) {
-							 $('<div id="rncat'+ id + '"></div>').dialog({
+							 $('<div id="rncat'+ id + '" class="local_edition"></div>').dialog({
 								position:pos,
 								resizable: false,
 								close:function(){ 
@@ -861,7 +861,7 @@ $(function() {
 					var ipanel=$(el).parent().children('li').index($(el));
 					var id=$(el).dataset('id');
 					if($('#mcas'+ $(el).dataset('id')).length == 0) {
-						 $('<div id="mcas'+ $(el).dataset('id') + '"></div>').dialog({
+						 $('<div id="mcas'+ $(el).dataset('id') + '" class="local_edition"></div>').dialog({
 							position:[panel.offset().left+panel.width()-310-20*ipanel,panel.offset().top+10+30*ipanel],
 							resizable: false,
 							close:function(){ 
@@ -890,7 +890,7 @@ $(function() {
 					var panel=$(el).parent().parent();
 					var id=$(el).dataset('id');
 					if($('#rncas'+ $(el).dataset('id')).length == 0) {
-						 $('<div id="rncas'+ $(el).dataset('id') + '"></div>').dialog({
+						 $('<div id="rncas'+ $(el).dataset('id') + '" class="local_edition"></div>').dialog({
 							position:[panel.offset().left+20,panel.offset().top+10],
 							resizable: false,
 							close:function(){ 
@@ -1010,7 +1010,7 @@ $(function() {
 					var ipanel=$(el).parent().children('li').index($(el));
 					var id=$(el).dataset('id');
 					if($('#metab'+ $(el).dataset('id')).length == 0) {
-						$('<div id="metab'+ $(el).dataset('id') + '"></div>').dialog({
+						$('<div id="metab'+ $(el).dataset('id') + '" class="local_edition"></div>').dialog({
 							position:[panel.offset().left+panel.width()-310-20*ipanel,panel.offset().top+10+30*ipanel],
 							dialogClass: 'css-structure',
 							resizable: false,
@@ -1042,7 +1042,7 @@ $(function() {
 					var panel=$(el).parent().parent();
 					var id=$(el).dataset('id');
 					if($('#rnetab'+ $(el).dataset('id')).length == 0) {
-						$('<div id="rnetab'+ $(el).dataset('id') + '"></div>').dialog({
+						$('<div id="rnetab'+ $(el).dataset('id') + '" class="local_edition"></div>').dialog({
 							position:[panel.offset().left+20,panel.offset().top+10],
 							dialogClass: 'css-structure',
 							resizable: false,

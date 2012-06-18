@@ -5,24 +5,44 @@
  */
 	$reponse=array();
 	$succes=1;
-	$id=$_POST['id']['valeur'];
-	$sujet=$_POST['sujet']['valeur'];
-	
-	$e=new Email($id);
-	$e->mod_sujet($sujet);
-	$js="
-		$.post('ajax.php',{action:'email/entetes', format:'html'},function(data){
-				if(data.succes==1){
-					$('#mail_entetes .jspPane').html(data.html);
-					$('#mail_entetes_head .pagination').html(data.pagination);
-					eval(data.js);
-					mail_seapi.reinitialise();
+	if ($_SESSION['user']['droits']<2){
+		$js="
+		$('<div>Vos droits sont insuffisants.</div>').dialog({
+			resizable: false,
+			title:'Impossible de renommer l\'e-mail.',
+			modal: true,
+			dialogClass: 'css-infos',
+			close:function(){ 
+				$(this).remove();
+			},
+			buttons: {
+				Ok: function() {
+					$(this).dialog('close');
 				}
-			},'json'
-		);
-		if ($('#mail_email .enr-email').dataset('id')==$id) $('#mail_email .titre').html('".addslashes($sujet)."');
-		$('#rnemail$id').remove();
-	";
+			}
+		});
+		";
+	}
+	else {
+		$id=$_POST['id']['valeur'];
+		$sujet=$_POST['sujet']['valeur'];
+	
+		$e=new Email($id);
+		$e->mod_sujet($sujet);
+		$js="
+			$.post('ajax.php',{action:'email/entetes', format:'html'},function(data){
+					if(data.succes==1){
+						$('#mail_entetes .jspPane').html(data.html);
+						$('#mail_entetes_head .pagination').html(data.pagination);
+						eval(data.js);
+						mail_seapi.reinitialise();
+					}
+				},'json'
+			);
+			if ($('#mail_email .enr-email').dataset('id')==$id) $('#mail_email .titre').html('".addslashes($sujet)."');
+			$('#rnemail$id').remove();
+		";
+	}
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['js']=$js;

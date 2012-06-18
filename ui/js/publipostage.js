@@ -92,7 +92,7 @@ $(function() {
 			if(action=='rename') {
 				var id=el.dataset('id');
 				if($('#rnsup'+ id).length == 0) {
-					 $('<div id="rnsup'+ id + '"></div>').dialog({
+					 $('<div id="rnsup'+ id + '" class="local_publipostage"></div>').dialog({
 						resizable: false,
 						close:function(){ 
 							$(this).remove();

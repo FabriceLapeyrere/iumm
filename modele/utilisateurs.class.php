@@ -69,7 +69,6 @@ class Utilisateurs {
 	}
 	function ok($login,$mdp) {
 		$login=SQLite3::escapeString($login);
-		$mdp=SQLite3::escapeString($mdp);
 		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select * from utilisateurs where login='$login' and mdp='$mdp'";

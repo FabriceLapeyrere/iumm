@@ -581,7 +581,7 @@ $(function() {
 				if(action=='edit') {
 					var id=$(el).parent().parent().dataset('id');
 					if($('#mcas'+ id).length == 0) {
-						 $('<div id="mcas'+ id + '"></div>').dialog({
+						 $('<div id="mcas'+ id + '" class="local_selection"></div>').dialog({
 							resizable: false,
 							close:function(){ 
 								$(this).remove();
@@ -608,7 +608,7 @@ $(function() {
 				if(action=='renameco') {
 					var id=$(el).children('input').dataset('idcont');
 					if($('#rncont'+ id).length == 0) {
-						 $('<div id="rncont'+ id + '"></div>').dialog({
+						 $('<div id="rncont'+ id + '" class="local_selection"></div>').dialog({
 							resizable: false,
 							close:function(){ 
 								$(this).remove();
@@ -635,7 +635,7 @@ $(function() {
 				if(action=='renamecas') {
 					var id=$(el).parent().parent().dataset('id');
 					if($('#rncas'+ id).length == 0) {
-						 $('<div id="rncas'+ id + '"></div>').dialog({
+						 $('<div id="rncas'+ id + '" class="local_selection"></div>').dialog({
 							resizable: false,
 							close:function(){ 
 								$(this).remove();
@@ -668,7 +668,7 @@ $(function() {
 				if(action=='edit') {
 					var id=$(el).children('input').dataset('idetab');
 					if($('#metab'+ id).length == 0) {
-						$('<div id="metab'+ id + '"></div>').dialog({
+						$('<div id="metab'+ id + '" class="local_selection"></div>').dialog({
 							dialogClass: 'css-structure',
 							resizable: false,
 							close:function(){ 
@@ -698,7 +698,7 @@ $(function() {
 				if(action=='renamest') {
 					var id=$(el).children('input').dataset('idstr');
 					if($('#rnstr'+id).length == 0) {
-						$('<div id="rnstr'+ id + '"></div>').dialog({
+						$('<div id="rnstr'+ id + '" class="local_selection"></div>').dialog({
 							dialogClass: 'css-structure',
 							resizable: false,
 							close:function(){ 
@@ -726,7 +726,7 @@ $(function() {
 				}if(action=='renameet') {
 					var id=$(el).children('input').dataset('idetab');
 					if($('#rnetab'+id).length == 0) {
-						$('<div id="rnetab'+ id + '"></div>').dialog({
+						$('<div id="rnetab'+ id + '" class="local_selection"></div>').dialog({
 							dialogClass: 'css-structure',
 							resizable: false,
 							close:function(){ 

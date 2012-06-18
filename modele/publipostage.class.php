@@ -56,7 +56,9 @@ class Publipostage {
 		$base->busyTimeout (10000);
 		$sql="insert into supports (id_utilisateur, nom) values (1,'$nom')";
 		$res = $base->query($sql);
+		$id_support=$base->lastInsertRowID();
 		$base->close();
+		return $id_support;
 	}
 	function ren_support($id,$nom) {
 		$nom=SQLite3::escapeString($nom);

@@ -12,7 +12,7 @@
 	$form->ajoute_entree('login', 'texte_court', '', '', array(1), 'Login');
 	$form->ajoute_entree('mdp', 'mdp', '', '', array(1), 'Mot de passe');
 	$form->ajoute_entree('mdp2', 'mdp', '', '', array(1), 'Confirmation du mot de passe');
-	$form->ajoute_entree('droits', 'select', '1,Lecture seule::2,+ mailing::3,+ écriture::4,+ admin', '', array(1), "Droits");
+	$form->ajoute_entree('droits', 'select', '1,Lecture seule::2,+ écriture::3,+ mailing::4,+ admin', '', array(1), "Droits");
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'admin/aj_utilisateur');

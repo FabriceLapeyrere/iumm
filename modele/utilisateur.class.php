@@ -52,7 +52,7 @@ class Utilisateur {
 	}
 	function mod_mdp($mdp) {
 		$id=$this->id;
-		$mdp=SQLite3::escapeString(crypt($mdp,"keller"));
+		$mdp=SQLite3::escapeString($mdp);
 		$base = new SQLite3('db/utilisateurs.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update utilisateurs set mdp='$mdp' where rowid=$id";

@@ -11,16 +11,16 @@
 	$u=new Utilisateur($id);
 	switch($u->droits()){
 		case 1:
-			$select='1,*Lecture seule::2,+ mailing::3,+ écriture::4,+ admin';
+			$select='1,*Lecture seule::2,+ écriture::3,+ mailing::4,+ admin';
 			break;
 		case 2:
-			$select='1,Lecture seule::2,*+ mailing::3,+ écriture::4,+ admin';
+			$select='1,Lecture seule::2,*+ écriture::3,+ mailing::4,+ admin';
 			break;
 		case 3:
-			$select='1,Lecture seule::2,+ mailing::3,*+ écriture::4,+ admin';
+			$select='1,Lecture seule::2,+ écriture::3,*+ mailing::4,+ admin';
 			break;
 		case 4:
-			$select='1,Lecture seule::2,+ mailing::3,+ écriture::4,*+ admin';
+			$select='1,Lecture seule::2,+ écriture::3,+ mailing::4,*+ admin';
 			break;
 	}
 	

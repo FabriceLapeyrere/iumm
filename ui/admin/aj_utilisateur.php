@@ -44,12 +44,14 @@
 		});
 		";
 	} else {
+		$mdp=crypt($mdp,"keller");
 		Utilisateurs::aj_utilisateur($nom,$login,$mdp,$droits);
 		$retour=Html::utilisateurs($_SESSION['admin']['binf'],$_SESSION['admin']['motifs']);
 		$html=json_escape($retour['html']);
 		$js="
-		$('#nemail').remove();
+		$('#nutilisateur').remove();
 		$('#admin_utilisateurs .jspPane').html('$html');
+		admin_utilisateurs();
 		";
 	}
 	if($succes) {

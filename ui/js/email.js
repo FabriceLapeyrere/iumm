@@ -115,7 +115,7 @@ $(function() {
 	});
 	$('#mail_entetes_head').on('click', 'button.ajmain', function(){
 		if($('#nemail').length == 0) {
-			$('<div id="nemail"></div>').dialog({
+			$('<div id="nemail" class="local_email"></div>').dialog({
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
@@ -140,7 +140,7 @@ $(function() {
 					if(action=='rename') {
 						var id=el.dataset('id');
 						if($('#rnemail'+ id).length == 0) {
-							 $('<div id="rnemail'+ id + '"></div>').dialog({
+							 $('<div id="rnemail'+ id + '" class="local_email"></div>').dialog({
 								resizable: false,
 								close:function(){ 
 									$(this).remove();

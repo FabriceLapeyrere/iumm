@@ -37,12 +37,12 @@
 			if ($donnee['valeur']!=""){
 				if ($donnee['type']=='adresse') {
 					$adresse=json_decode($donnee['valeur']);
-					$tab["5_struture_adresse_adresse"]=$adresse->adresse;
-					$tab["5_struture_adresse_cp"]=$adresse->cp;
-					$tab["5_struture_adresse_ville"]=$adresse->ville;
-					$tab["5_struture_adresse_pays"]=$adresse->pays;
+					$tab["5_structure_adresse_adresse"]=$adresse->adresse;
+					$tab["5_structure_adresse_cp"]=$adresse->cp;
+					$tab["5_structure_adresse_ville"]=$adresse->ville;
+					$tab["5_structure_adresse_pays"]=$adresse->pays;
 				}
-				else $tab["5_struture_".$nom]=$donnee['valeur'];
+				else $tab["5_structure_".$nom]=$donnee['valeur'];
 			}
 		}
 		$tab['6_listes']="";

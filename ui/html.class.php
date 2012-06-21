@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
- * @author     Fabrice Lapeyrere <fabrice@surlefil.org>
+ * @license	GPL 3 (http://www.gnu.org/licenses/gpl.html)
+ * @author	 Fabrice Lapeyrere <fabrice@surlefil.org>
  */
 
 /**
@@ -12,12 +12,12 @@ class html
 	{
 	var $entrees=array();
 
-        function __construct()
-        {
-        }
+	function __construct()
+		{
+		}
 
-        function contact($id_contact)
-        {
+	function contact($id_contact)
+		{
 		$html="";
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -66,8 +66,8 @@ class html
 		return $html;
 		
 	}
-        function contacts($binf=0,$motifs='')
-        {
+	function contacts($binf=0,$motifs='')
+		{
 		$html="";
 		$retour=array();
 		$nb=0;
@@ -84,8 +84,8 @@ class html
 		$retour['pagination']=Html::pagination($_SESSION['contacts']['binf'],$listes['nb']);
 		return $retour;		
 	}
-        function pagination_contacts($binf=0,$motif='')
-        {
+	function pagination_contacts($binf=0,$motif='')
+		{
 		$c= new contacts($motif);
 		$pagination="";
 		#nombre de pages pour les raccourcis
@@ -164,8 +164,8 @@ class html
 		return $pagination;
 		
 	}
-        function filtre_contacts($motif="")
-        {
+	function filtre_contacts($motif="")
+		{
 		$motif=addslashes($motif);
 		$html="
 		<input type='text' name='motif' value='$motif'>
@@ -177,8 +177,8 @@ class html
 		return $html;
 		
 	}
-        function filtre_email($motifs="")
-        {
+	function filtre_email($motifs="")
+		{
 		$motif=addslashes($motifs);
 		$html="
 		<input type='text' name='motif' value='$motifs'>
@@ -190,8 +190,8 @@ class html
 		return $html;
 		
 	}
-        function filtre_utilisateur($motifs="")
-        {
+	function filtre_news($motifs="")
+		{
 		$motif=addslashes($motifs);
 		$html="
 		<input type='text' name='motif' value='$motifs'>
@@ -203,8 +203,21 @@ class html
 		return $html;
 		
 	}
-        function pagination_structures($binf=0,$motif='')
-        {
+	function filtre_utilisateur($motifs="")
+		{
+		$motif=addslashes($motifs);
+		$html="
+		<input type='text' name='motif' value='$motifs'>
+		<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title='rechercher'>
+			<span class='ui-button-icon-primary ui-icon ui-icon-search'></span>
+			<span class='ui-button-text'>rechercher</span>
+		</button>
+		";
+		return $html;
+		
+	}
+	function pagination_structures($binf=0,$motif='')
+		{
 		$c= new structures($motif);
 		$pagination="";
 		#nombre de pages pour les raccourcis
@@ -283,8 +296,8 @@ class html
 		return $pagination;
 		
 	}
-     	function pagination($binf=0,$nb)
-        {
+	 	function pagination($binf=0,$nb)
+		{
 		$pagination="";
 		#nombre de pages pour les raccourcis
 		$p=2;
@@ -351,8 +364,8 @@ class html
 		return $pagination;
 		
 	}
-        function filtre_structures($motif="")
-        {
+	function filtre_structures($motif="")
+		{
 		$motif=addslashes($motif);
 		$html="
 		<input type='text' name='motif' value='$motif'>
@@ -364,22 +377,8 @@ class html
 		return $html;
 		
 	}
-        function filtre_envoi($motif="")
-        {
-		$motif=addslashes($motif);
-		$html="
-		<input type='text' name='motif' value='$motif'>
-		<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title='rechercher'>
-			<span class='ui-button-icon-primary ui-icon ui-icon-search'></span>
-			<span class='ui-button-text'>rechercher</span>
-		</button>
-		";
-		return $html;
-		
-	}
-
-        function filtre_support($motif="")
-        {
+	function filtre_envoi($motif="")
+		{
 		$motif=addslashes($motif);
 		$html="
 		<input type='text' name='motif' value='$motif'>
@@ -392,8 +391,22 @@ class html
 		
 	}
 
-        function structure($id)
-        {
+	function filtre_support($motif="")
+		{
+		$motif=addslashes($motif);
+		$html="
+		<input type='text' name='motif' value='$motif'>
+		<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title='rechercher'>
+			<span class='ui-button-icon-primary ui-icon ui-icon-search'></span>
+			<span class='ui-button-text'>rechercher</span>
+		</button>
+		";
+		return $html;
+		
+	}
+
+	function structure($id)
+		{
 		$html="";
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -436,8 +449,8 @@ class html
 		return $html;
 		
 	}
-        function structure_selection($id)
-        {
+	function structure_selection($id)
+		{
 		$html="";
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -466,8 +479,8 @@ class html
 		return $html;
 		
 	}
-        function structures($binf=0,$motifs='')
-        {
+	function structures($binf=0,$motifs='')
+		{
 		$html="";
 		$retour=array();
 		$nb=0;
@@ -484,8 +497,8 @@ class html
 		$retour['pagination']=Html::pagination($_SESSION['structures']['binf'],$listes['nb']);
 		return $retour;		
 	}
-        function structures_selection($binf=0,$motifs='')
-        {
+	function structures_selection($binf=0,$motifs='')
+		{
 		$html="";
 		$listes=Structures::liste_rapide($motifs,$binf);
 		$liste=$listes['liste'];
@@ -503,8 +516,8 @@ class html
 		
 	}
 
-        function casquettes_selection()
-        {
+	function casquettes_selection()
+		{
 		$html="";
 		$liste=Casquettes::liste();
 		if(count($liste)==0){
@@ -517,7 +530,7 @@ class html
 		return $html;
 	}
 	function casquette_selection($id_casquette)
-        {
+		{
 		$c= new Casquette($id_casquette);
 		$id_etablissement=$c->id_etablissement;
 		$id_structure=$c->id_structure;
@@ -537,7 +550,7 @@ class html
 		return $html;
 	}
 	function casquette($id_casquette)
-        {
+		{
 		$html="";
 		if (Cache::obsolete('casquette',$id_casquette)) {
 			$c= new Casquette($id_casquette);
@@ -626,8 +639,8 @@ class html
 		return $html;
 	}
 	
-        function cas_categories($id_casquette)
-        {
+	function cas_categories($id_casquette)
+		{
 		$cat="";
 		$c=new Casquette($id_casquette);
 		foreach($c->categories as $id_categorie=>$categorie) {
@@ -636,8 +649,8 @@ class html
 		return $cat;	
 	}
 	
-        function etablissement($id_etablissement,$contacts=true)
-        {
+	function etablissement($id_etablissement,$contacts=true)
+		{
 		$html="";
 		if (Cache::obsolete('etablissement',$id_etablissement)) {
 			$e= new Etablissement($id_etablissement);
@@ -727,7 +740,7 @@ class html
 		
 	}
 	function categories($idparent)
-        {
+		{
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql_n="select count(*) from categories where idparent=$idparent";
@@ -752,14 +765,14 @@ class html
 		return $html;
 	}
 	function titre_categorie($id)
-        {
+		{
 		$c=new Categorie($id);
 		$html="<span>".$c->nom." <span class='nbincat'>(".$c->nbincat().", ".$c->total().")</span></span>";
 		return $html;
 	}
 
 	function nbincat($id_categorie)
-        {
+		{
 		$html="";
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -771,27 +784,27 @@ class html
 		return $html;
 	}
 	function bouton_suppr($id,$class,$titre,$bottom='5px',$icon='close')
-        {
+		{
 	$html="<span style='font-size:8px;position:relative;bottom:$bottom;'><button data-id='$id' class='$class ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' style='border:none;background:none;' role='button' aria-disabled='false' title='$titre'><span class='ui-button-icon-primary ui-icon ui-icon-$icon'></span><span class='ui-button-text'>$titre</span></button></span>";
 	return $html;
 	}
 
 	function bouton_et($titre='et',$op=1)
-        {
+		{
 	$class="";
 	if ($op==1) $class=" ui-state-active";
 	$html="<button class='et ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only$class' role='button' aria-disabled='false' title='$titre'><span class='ui-button-icon-primary ui-icon ui-et'></span><span class='ui-button-text'>$titre</span></button>";
 	return $html;
 	}
 	function bouton_ou($titre='ou',$op=0)
-        {
+		{
 	$class="";
 	if ($op==0) $class=" ui-state-active";
 	$html="<button class='ou ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only$class' role='button' aria-disabled='false' title='$titre'><span class='ui-button-icon-primary ui-icon ui-ou'></span><span class='ui-button-text'>$titre</span></button>";
 	return $html;
 	}
 	function bouton_non($titre='non',$N=0)
-        {
+		{
 	$class="";
 	if ($N==1) $class=" ui-state-active";
 	$html="<button class='non ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only$class' role='button' aria-disabled='false' title='$titre'><span class='ui-button-icon-primary ui-icon ui-non'></span><span class='ui-button-text'>$titre</span></button>";
@@ -892,8 +905,8 @@ class html
 		$html=$html_cass.$html_cats.$html_etabs.$html_motifs.$html_mots.$html_depts.$html_email.$html_adresse;
 		return $html;
 	}
-        function entetes_email()
-        {
+	function entetes_email()
+		{
 		$binf=$_SESSION['email']['binf'];
 		$motifs=$_SESSION['email']['motifs'];
 		$entetes=Emails::liste($binf,$motifs);
@@ -907,8 +920,23 @@ class html
 		}
 		return $html;
 	}
-        function envois()
-        {
+	function entetes_news()
+		{
+		$binf=$_SESSION['news']['binf'];
+		$motifs=$_SESSION['news']['motifs'];
+		$entetes=Newsletters::liste($binf,$motifs);
+		$html="";
+		if(count($entetes)==0){
+			$html.="Aucun résultat";
+		} else {
+			foreach($entetes as $id=>$entete){
+				$html.="<div class='news-entete ui-widget-header ui-corner-all' data-id='$id'>".$entete['sujet']." <span class='maj'>(".$entete['date'].")</span></div>";
+			}
+		}
+		return $html;
+	}
+	function envois()
+		{
 		$binf=$_SESSION['emailing']['binf'];
 		$motifs=$_SESSION['emailing']['motifs'];
 		$envois=Emailing::envois($binf,$motifs);
@@ -922,8 +950,8 @@ class html
 		}
 		return $html;
 	}
-        function envoi($id)
-        {
+	function envoi($id)
+		{
 		$html="";
 		if ($id==0) {
 			$html.="Aucun envoi.";
@@ -968,8 +996,8 @@ class html
 		}
 		return $html;
 	}
-        function supports()
-        {
+	function supports()
+		{
 		$binf=$_SESSION['publipostage']['binf'];
 		$motifs=$_SESSION['publipostage']['motifs'];
 		$supports=Publipostage::supports($binf,$motifs);
@@ -983,8 +1011,8 @@ class html
 		}
 		return $html;
 	}
-        function utilisateurs($binf,$motifs)
-        {
+	function utilisateurs($binf,$motifs)
+		{
 		$utilisateurs=Utilisateurs::liste_rapide($motifs,$binf);
 		$html="";
 		foreach($utilisateurs['liste'] as $id=>$utilisateur){
@@ -995,8 +1023,8 @@ class html
 		$retour['pagination']=Html::pagination($binf,$utilisateurs['nb']);
 		return $retour;
 	}
-        function support($id)
-        {
+	function support($id)
+		{
 		$html="";
 		if ($id==0) {
 			$html.="Aucun support.";
@@ -1031,8 +1059,8 @@ class html
 		}
 		return $html;
 	}
-        function messages_boite_envoi($id)
-        {
+	function messages_boite_envoi($id)
+		{
 		$binf=$_SESSION['emailing']['binfm'];
 		$messages=Emailing::messages_boite_envoi_et_erreur($id,$binf);
 		$html="";
@@ -1057,8 +1085,8 @@ class html
 		}
 		return $html;
 	}
-        function log_envoi($id)
-        {
+	function log_envoi($id)
+		{
 		$log=Emailing::lit_log_envoi($id);
 		$html="";
 		if ($log!="") {
@@ -1078,33 +1106,33 @@ class html
 	<form id='fileupload' action='ui/includes/upload/server/php/' method='POST' enctype='multipart/form-data'>
    	<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 	<div class='row fileupload-buttonbar'>
-	    <div class='span7'>
+		<div class='span7'>
 		<!-- The fileinput-button span is used to style the file input field as button -->
 		<span class='btn btn-success fileinput-button'>
-		    <i class='icon-plus icon-white'></i>
-		    <span>Ajouter des fichiers</span>
-		    <input type='file' name='files[]' multiple>
+			<i class='icon-plus icon-white'></i>
+			<span>Ajouter des fichiers</span>
+			<input type='file' name='files[]' multiple>
 		</span>
 		<button type='submit' class='btn btn-primary start'>
-		    <i class='icon-upload icon-white'></i>
-		    <span>Démarrer l'upload</span>
+			<i class='icon-upload icon-white'></i>
+			<span>Démarrer l'upload</span>
 		</button>
 		<button type='reset' class='btn btn-warning cancel'>
-		    <i class='icon-ban-circle icon-white'></i>
-		    <span>Annuler l'upload</span>
+			<i class='icon-ban-circle icon-white'></i>
+			<span>Annuler l'upload</span>
 		</button>
 		<button type='button' class='btn btn-danger delete'>
-		    <i class='icon-trash icon-white'></i>
-		    <span>Supprimer</span>
+			<i class='icon-trash icon-white'></i>
+			<span>Supprimer</span>
 		</button>
 		<input type='checkbox' class='toggle'>
-	    </div>
-	    <div class='span5'>
+		</div>
+		<div class='span5'>
 		<!-- The global progress bar -->
 		<div class='progress progress-success progress-striped active fade'>
-		    <div class='bar' style='width:0%;'></div>
+			<div class='bar' style='width:0%;'></div>
 		</div>
-	    </div>
+		</div>
 	</div>
 	<!-- The loading indicator is shown during image processing -->
 	<div class='fileupload-loading'></div>
@@ -1114,33 +1142,55 @@ class html
 	</form>
 	<!-- modal-gallery is the modal dialog used for the image gallery -->
 	<div id='modal-gallery' class='modal modal-gallery hide fade'>
-	    <div class='modal-header'>
+		<div class='modal-header'>
 		<a class='close' data-dismiss='modal'>&times;</a>
 		<h3 class='modal-title'></h3>
-	    </div>
-	    <div class='modal-body'><div class='modal-image'></div></div>
-	    <div class='modal-footer'>
+		</div>
+		<div class='modal-body'><div class='modal-image'></div></div>
+		<div class='modal-footer'>
 		<a class='btn modal-download' target='_blank'>
-		    <i class='icon-download'></i>
-		    <span>Download</span>
+			<i class='icon-download'></i>
+			<span>Download</span>
 		</a>
 		<a class='btn btn-success modal-play modal-slideshow' data-slideshow='5000'>
-		    <i class='icon-play icon-white'></i>
-		    <span>Slideshow</span>
+			<i class='icon-play icon-white'></i>
+			<span>Slideshow</span>
 		</a>
 		<a class='btn btn-info modal-prev'>
-		    <i class='icon-arrow-left icon-white'></i>
-		    <span>Previous</span>
+			<i class='icon-arrow-left icon-white'></i>
+			<span>Previous</span>
 		</a>
 		<a class='btn btn-primary modal-next'>
-		    <span>Next</span>
-		    <i class='icon-arrow-right icon-white'></i>
+			<span>Next</span>
+			<i class='icon-arrow-right icon-white'></i>
 		</a>
-	    </div>
+		</div>
 	</div>
 </div>";
 	return $html;
 	}
-
+	function modeles_news(){
+		$html="";
+		$modeles=Newsletters::modeles();
+		$html="";
+		$html.="<ul id='modeles' class='sf-menu'>";
+		$html.="<li>\n";
+		$html.="<a href='#'>modèles</a>\n";
+		$html.="<ul class='Menu'>\n";		
+		foreach ($modeles as $theme=>$blocs) {
+			$html.="<li>\n";
+			$html.="<a href='#'>$theme</a>\n";
+			$html.="<ul class='Menu'>\n";
+			foreach ($blocs as $nom=>$id_bloc) {
+				$html.="<li data-id='$id_bloc'><a href=\"#\">$nom</a></li>\n";
+			}
+			$html.="</ul>\n";
+			$html.="</li>\n";
+		}
+		$html.="</ul>\n";
+		$html.="</li>\n";
+		$html.="</ul>\n";
+		return $html;
+	}
 }
 ?>

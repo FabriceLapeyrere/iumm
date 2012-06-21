@@ -1,5 +1,6 @@
 body {font-size:10px;margin:0px;}
 label{margin-right:10px;}
+textarea{width:270px;height:180px;}
 #infos {background:#C1E2DB;display:none;position:absolute;left:0;bottom:0;padding:5px;z-index:9999;}
 div.menu {position:relative;height:30px;}
 ul {list-style:none;margin:0;padding:0;}
@@ -125,6 +126,22 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #mail_editeur {margin:10px 0 10px 0;}
 
 #newsletter {position:absolute;background:#fff;z-index:0;}
+
+#news {position:absolute;background:#fff;z-index:0;}
+#news_entetes {position:absolute;}
+#news_entetes .news-entete {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#news_entetes_head {position:absolute;}
+#news_newsletter, #news_modeles {position:absolute;}
+#news_newsletter .enr-email.off {opacity:0.5;}
+#news .titre{color:#333; font-size:22px;font-family:sans-serif;}
+#news_newsletter .titre {font-size:22px;}
+#news_content {width:100%;}
+#news_content .bloc {width:100%;position:relative;}
+#news_content .bloc:hover {background:#f0f0f0;}
+#news .dessusBloc {border-top:1px solid #FF8000;}
+#news .menuBloc {position:absolute;top:-10px;left:5px;display:none;}
+#news .bloc:hover .menuBloc {display:block;}
+
 #emailing {position:absolute;background:#fff;z-index:0;}
 #emailing_envois {position:absolute;}
 #emailing_envois_head {position:absolute;}
@@ -153,4 +170,6 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #mask .loader{position:absolute;width:66px; height:66px; background:url('images/ajax-loader.gif');left:50%;top:50%;margin-left:-33px;margin-top:-33px;}
 select {width:270px;}
 ul.plus div.perso select {width:100px;}
+ul.sf-menu {font-size:14px;font-family:sans-serif;}
+ul.sf-menu a, ul.sf-menu a:visited {color:#000;}
 

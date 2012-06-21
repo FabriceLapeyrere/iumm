@@ -781,6 +781,7 @@ $(function() {
 			}
 		});*/
 		$('#ed_contacts .tab').draggable({
+			delay: 500,
 			revert: true,
 			cursor: 'pointer',
 			appendTo: 'body',
@@ -966,6 +967,7 @@ $(function() {
 			}
 		});*/
 		$('#ed_structures .tab').draggable({
+			delay: 500,
 			revert: true,
 			cursor: 'pointer',
 			appendTo: 'body',

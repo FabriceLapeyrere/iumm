@@ -3,8 +3,8 @@
  * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
  */
 $(function() {
-	news_sn = $('#news_news').jScrollPane({
-		mouseWheelSpeed:15
+	news_sn = $('#news_newsletter').jScrollPane({
+		mouseWheelSpeed:15,
 	});
 	news_snapi = news_sn.data('jsp');
 	news_se = $('#news_entetes').jScrollPane({
@@ -41,8 +41,9 @@ $(function() {
 		},
 		function(data){
 			if (data.succes==1) {
-				$('#news_news .jspPane').html(data.html);
+				$('#news_newsletter .jspPane').html(data.html);
 				eval(data.js);
+				news_snapi.reinitialise();
 			}
 		},
 		'json');
@@ -70,48 +71,57 @@ $(function() {
 			'json'
 		);
 	});*/
-	$('#news_news').on('click', '.enr-news.on', function(){
-		var id=$(this).dataset('id');
-		$.post('ajax.php',{action:'news/mod_news', id_news:id, html:$( 'textarea.editor' ).val(), pj:'', format:'html'},
-			function(data){
-				if (data.succes==1) {
-					eval(data.js);
-				}
-			},
-			'json'
-		);
-	});
-	$('#news_news').on('click', '.env-news', function(){
-		var id=$(this).dataset('id');
-		$.post('ajax.php',{action:'news/mod_news', id_news:id, html:$( 'textarea.editor' ).val(), pj:'', format:'html'},
-			function(data){
-				if (data.succes==1) {
-					eval(data.js);
-				}
-			},
-			'json'
-		);
-		if($('#enews'+id).length == 0) {
-			$('<div id="enews'+id+'" class="local_news"></div>').dialog({
+	$('#news_newsletter').on('click', 'button.modbloc', function(){
+		var id_bloc=$(this).dataset('id');
+		var id_news=$(this).dataset('idnews');
+		if($('#mbloc'+id_news+'_'+id_bloc).length == 0) {
+			$('<div id="mbloc'+id_news+'_'+id_bloc+'" class="local_edition"></div>').dialog({
 				resizable: false,
 				close:function(){ 
 					$(this).remove();
-					delete window['formenews' + id];
+					delete window['formmbloc'+id_news+'_'+id_bloc];
 				}
 			});	
-			$.post('ajax.php',{action:'newsing/enews', id_news:id, format:'html'},
+			$.post('ajax.php',{action:'news/mbloc', id_news:id_news, id_bloc:id_bloc},
 				function(data){
 					if (data.succes==1) {
-						$('#enews'+id).dialog('option',{title:data.titre});
-						$('#enews'+id).html(data.html);
+						$('#mbloc'+id_news+'_'+id_bloc).dialog('option',{title:data.titre});
+						$('#mbloc'+id_news+'_'+id_bloc).html(data.html);
 						eval(data.js);
 					}
 				},
 				'json'
 			);
 		}
-		else $('#enews'+id).dialog('moveToTop');
-		
+		else $('#mbloc'+id_news+'_'+id_bloc).dialog('moveToTop');
+	});
+	$('#news_newsletter').on('click', 'button.supbloc', function(){
+		var id=$(this).dataset('id');
+		var id_news=$(this).dataset('idnews');
+		$('<div>Suppression du bloc ?</div>').dialog({
+			resizable: false,
+			title:'Etes vous sûr de vouloir supprimer ?',
+			modal: true,
+			close:function(){ 
+				$(this).remove();
+			},
+			buttons: {
+				Supprimer: function() {
+					$(this).dialog('close');
+					$.post('ajax.php',{action:'news/sup_bloc', id_news:id_news, id_bloc:id},
+						function(data){
+							if (data.succes==1) {
+								eval(data.js);
+							}
+						},
+						'json'
+					);
+				},
+				Annuler: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
 	});
 	$('#news_entetes_head').on('click', 'button.ajmain', function(){
 		if($('#nnews').length == 0) {
@@ -135,7 +145,70 @@ $(function() {
 		}
 		else $('#nnews').dialog('moveToTop');
 	});
-	$('#news .news-entete').contextMenu({menu: "news_menu_news"},
+	$('ul#modeles>li>ul>li>ul>li').contextMenu({menu: "news_menu_modele"},
+		function(action, el, pos) {
+			if(action=='edit') {
+				var id=el.dataset('id');
+				if($('#mmodele'+ id).length == 0) {
+					 $('<div id="mmodele'+ id + '" class="local_news"></div>').dialog({
+						resizable: false,
+						close:function(){ 
+							$(this).remove();
+							delete window['formmmmodele'+ id];
+						},
+					});	
+					$.post('ajax.php',{
+						action:'news/mmodele',
+						id_modele:id
+						},
+						function(data){
+							if (data.succes==1) {
+								$('#mmodele'+ id).dialog('option',{title:data.titre});
+								$('#mmodele'+ id).html(data.html);
+								eval(data.js);
+							}
+						},
+						'json'
+					);
+				}
+				else {
+					$('#mmodele'+ id).dialog( 'moveToTop' );
+				}
+			}
+			if(action=='delete') {
+				var id=el.dataset('id');
+				$('<div>Suppression de <b>'+el.html() +'</b> ?</div>').dialog({
+					resizable: false,
+					title:'Etes vous sûr de vouloir supprimer ?',
+					modal: true,
+					close:function(){ 
+						$(this).remove();
+					},
+					buttons: {
+						Supprimer: function() {
+							$(this).dialog('close');
+							$.post('ajax.php',{
+								action:'news/sup_modele',
+								id_modele:id
+								},
+								function(data){
+									if (data.succes==1) {
+										eval(data.js);
+									}
+								},
+								'json'
+							);
+						},
+						Annuler: function() {
+							$(this).dialog('close');
+						}
+					}
+				});
+			}
+		}
+	);
+	news_entetes=function(){
+		$('#news .news-entete').contextMenu({menu: "news_menu_news"},
 				function(action, el, pos) {
 					if(action=='rename') {
 						var id=el.dataset('id');
@@ -197,6 +270,7 @@ $(function() {
 					}
 				}
 			);
+	}
 	news_ajuste=function(){
 		var W=window.innerWidth;
 		var H=window.innerHeight
@@ -220,11 +294,18 @@ $(function() {
 			'height': (H-170)+'px'
 		
 		});
-		$("#news_news").css({
+		$("#news_modeles").css({
 			'top': '50px',
 			'left':'10px',
 			'width':parseInt(2*W/3.-25.)+'px',
-			'height': (H-50)+'px'
+			'height': '50px'
+		
+		});
+		$("#news_newsletter").css({
+			'top': '100px',
+			'left':'10px',
+			'width':parseInt(2*W/3.-25.)+'px',
+			'height': (H-100)+'px'
 		
 		});
 		
@@ -234,14 +315,21 @@ $(function() {
 	$.post('ajax.php',{action:'news/mnews', format:'html'},
 			function(data){
 				if (data.succes==1) {
-					$('#news_news .jspPane').html(data.html);
+					$('#news_newsletter .jspPane').html(data.html);
 					eval(data.js);
 					news_ajuste();
 				}
 			},
 			'json'
 		);
+	$('ul.sf-menu').supersubs({minWidth:12, maxWidth:27, extraWidth:1}).superfish();
+	$('ul.sf-menu>li>ul>li>ul>li').draggable({
+		delay: 500,
+		helper:'clone',
+		start:function(){$('#modeles ul').hide();}
+	});
 	$(window).resize(news_ajuste);
+	news_entetes();
 	news_ajuste();
 
 });

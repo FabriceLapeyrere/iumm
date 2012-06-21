@@ -50,7 +50,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <head>
 <title>contacts</title>
 <meta http-equiv="Content-Type" Content="text/html; charset=UTF-8">
-<link rel="stylesheet" media="all" type="text/css" href="ui/includes/min/?f=ui/css/jquery-ui.css,ui/css/ui.dynatree.css,ui/css/jquery.jscrollpane.css,ui/css/jquery.contextMenu.css,ui/includes/upload/css/bootstrap.min.css,ui/includes/upload/css/bootstrap-responsive.min.css,ui/includes/upload/css/bootstrap-image-gallery.min.css,ui/includes/upload/css/jquery.fileupload-ui.css,ui/css/iumm.css">
+<link rel="stylesheet" media="all" type="text/css" href="ui/includes/min/?f=ui/css/jquery-ui.css,ui/css/ui.dynatree.css,ui/css/jquery.jscrollpane.css,ui/css/jquery.contextMenu.css,ui/includes/upload/css/bootstrap.min.css,ui/includes/upload/css/bootstrap-responsive.min.css,ui/includes/upload/css/bootstrap-image-gallery.min.css,ui/includes/upload/css/jquery.fileupload-ui.css,ui/css/iumm.css,ui/css/superfish.css">
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="ui/includes/upload/js/html5.js"></script><![endif]-->
 <!-- Bootstrap CSS fixes for IE6 -->
@@ -115,10 +115,10 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 {% } %}
 </script>
 <?php if($_SESSION['user']['droits']>=4){ ?>
-<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js"></script>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/news.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js,ui/js/supersubs.js,ui/js/superfish.js"></script>
 <script src="ui/includes/min/?f=ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
 <?php } else { ?>
-<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/iumm.js"></script>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/news.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/iumm.js,ui/js/supersubs.js,ui/js/superfish.js"></script>
 <script src="ui/includes/min/?f=ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
 <?php } ?>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
@@ -314,8 +314,8 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 </div>
 
 
-<div id="newsletter">
-	<ul id="news_menu_email" class="contextMenu">
+<div id="news">
+	<ul id="news_menu_news" class="contextMenu">
 		<li class="edit">
 		<a href="#rename">Renommer</a>
 		</li>
@@ -323,6 +323,17 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 		<a href="#delete">Supprimer</a>
 		</li>
 	</ul>
+	<ul id="news_menu_modele" class="contextMenu">
+		<li class="edit">
+		<a href="#edit">Modifier</a>
+		</li>
+		<li class="delete">
+		<a href="#delete">Supprimer</a>
+		</li>
+	</ul>
+	<div id="news_modeles">
+	<?=Html::modeles_news()?>
+	</div>
 	<div id="news_newsletter">
 	</div>
 	<div id="news_entetes_head">
@@ -332,9 +343,9 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 			<span class="ui-button-text">Nouvelle newsletter</span>
 		</button>
 		<div class="filtre"><?=Html::filtre_news()?></div>
-		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['email']['binf'],News::nb_news())?></span>
+		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['news']['binf'],Newsletters::nb_news())?></span>
 	</div>
-	<div id="mail_entetes">
+	<div id="news_entetes">
 	<?=Html::entetes_news()?>
 	</div>
 </div>
@@ -412,6 +423,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <a href="#edition">edition</a> 
 <a href="#selection">selection</a> 
 <a href="#email">email</a> 
+<a href="#news">newsletter</a> 
 <a href="#emailing">e-mailing</a> 
 <a href="#publipostage">publipostage</a> 
 <?php if($_SESSION['user']['droits']>=4){ ?>

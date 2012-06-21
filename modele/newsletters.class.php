@@ -7,9 +7,9 @@
  * la classe contacts permet de lire et d'écrire dans la base les données
  */
 
-class Newss {
-	function Newss() {}
-	function nb_Newss($motifs="") {
+class Newsletters {
+	function Newsletters() {}
+	function nb_news($motifs="") {
 		$tab_cond_motifs=array();
 		if ($motifs!="") {
 			$tab_motifs=explode(' ',$motifs);
@@ -84,8 +84,8 @@ class Newss {
 		$base->close();
 		return $id;
 	}
-	function aj_envoi($id_email,$id_expediteur,$liste_casquettes){
-		$e=new Email($id_email);	
+	function aj_envoi($id_news,$id_expediteur,$liste_casquettes){
+		$e=new News($id_news);	
 		$html='';
 		$sujet=SQLite3::escapeString($e->sujet);
 		$expediteur=Emails::expediteur($id_expediteur);
@@ -106,8 +106,53 @@ class Newss {
 			$i++;
 		}
 		$base->close();
-		smartCopy("fichiers/emails/$id_email","fichiers/envois/$id_envoi");
+		smartCopy("fichiers/news/$id_email","fichiers/envois/$id_envoi");
 		return $id_envoi;
+	}
+	function modeles(){
+		$modeles=array('Divers'=>array());
+		$sql="SELECT * FROM news_modele ORDER BY nom";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			preg_match('/(.*)_(.*)/', stripslashes($tab['nom']), $matches);
+			if(isset($matches[1])) $modeles[$matches[1]][$matches[2]]=$tab['rowid'];
+			else $modeles['Divers'][stripslashes($tab['nom'])]=$tab['rowid'];
+		}
+		$base->close();
+		return $modeles;
+	}
+	function mod_modele($id,$nom,$modele){
+		$nom=SQLite3::escapeString($nom);
+		$modele=SQLite3::escapeString($modele);
+		$sql="update news_modele set nom='$nom', modele='$modele' where rowid=$id";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$base->query($sql);
+		$base->close();
+	}
+	function modele($id){
+		$sql="SELECT * FROM news_modele where rowid=$id";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$modele=$tab['modele'];
+		}
+		$base->close();
+		return $modele;
+	}
+	function nom_modele($id){
+		$sql="SELECT * FROM news_modele where rowid=$id";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$modele=$tab['nom'];
+		}
+		$base->close();
+		return $modele;
 	}
 		
 }

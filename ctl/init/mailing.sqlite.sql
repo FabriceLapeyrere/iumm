@@ -1,7 +1,7 @@
 
 CREATE TABLE emails (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, sujet, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE news (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, sujet, date DEFAULT (CURRENT_TIMESTAMP) );
-CREATE TABLE donnees_news (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_email INT, news, date DEFAULT (CURRENT_TIMESTAMP) );
+CREATE TABLE donnees_news (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_news INT, news, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE news_modele (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, modele, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE donnees_email (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_email INT, html, pj, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE expediteurs (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, email, date DEFAULT (CURRENT_TIMESTAMP) );

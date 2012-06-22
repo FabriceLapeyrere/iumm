@@ -136,11 +136,15 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #news .titre{color:#333; font-size:22px;font-family:sans-serif;}
 #news_newsletter .titre {font-size:22px;}
 #news_content {width:100%;}
-#news_content .bloc {width:100%;position:relative;}
-#news_content .bloc:hover {background:#f0f0f0;}
+#news_content .bloc {width:100%;position:relative;background:#ccc;}
+#news_content .bloc.actif {background:#eee;}
+#news_content .bloc.last, #news_content .bloc.actif.last {background:none;}
 #news .dessusBloc {border-top:1px solid #FF8000;}
-#news .menuBloc {position:absolute;top:-10px;left:5px;display:none;}
-#news .bloc:hover .menuBloc {display:block;}
+#news .menuBloc {position:absolute;z-index:10;top:0;left:5px;padding:5px;background:#fff;display:none;
+	-webkit-box-shadow: 0 6px 6px -6px black;
+	-moz-box-shadow: 0 6px 6px -6px black;
+	box-shadow: 0 6px 12px -6px black;
+}
 
 #emailing {position:absolute;background:#fff;z-index:0;}
 #emailing_envois {position:absolute;}

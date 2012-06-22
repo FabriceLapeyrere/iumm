@@ -331,5 +331,5 @@ $(function() {
 	$(window).resize(news_ajuste);
 	news_entetes();
 	news_ajuste();
-
+	menuLock=0;
 });

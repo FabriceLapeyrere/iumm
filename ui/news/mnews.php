@@ -20,7 +20,7 @@
 			$pattern = '#\::([a-zA-Z0-9_]*)\&(.*)::#';
 			preg_match_all($pattern, $modele, $matches, PREG_OFFSET_CAPTURE, 3);
 			foreach($matches[0] as $key=>$value){
-				$valeur='';
+				$valeur='(vide)';
 				$nom=filter($matches[2][$key][0]);
 				if (isset($bloc->params->$nom)) $valeur=$bloc->params->$nom;
 				$modele=str_replace("::".$matches[1][$key][0]."&".$matches[2][$key][0]."::",$valeur,$modele);
@@ -41,11 +41,34 @@
 			$i++;			
 		}
 	}
-	$html.="<div class='bloc'>\n";
+	$html.="<div class='bloc last'>\n";
 	$html.="<div style='height:100px;'></div>\n";
 	$html.="</div>\n";
 	$html.="</div>\n";
 	$js="
+	$('.bloc').hover(
+		function(event){
+			if (menuLock==0){
+				$('.bloc').each(function(i,e){ $(e).removeClass('actif'); });
+				$(this).addClass('actif');
+				$(this).children('.menuBloc').show();
+			}
+		},
+		function(event){
+			if (menuLock==0){
+				$(this).removeClass('actif');
+				$(this).children('.menuBloc').hide();
+			}
+		}
+	);
+	$('.menuBloc').hover(
+		function(event){
+			menuLock=1;
+		},
+		function(event){
+			menuLock=0;
+		}
+	);
 	$('#news_content .bloc').droppable({
 			tolerance: 'pointer',
 			accept: 'ul.sf-menu>li>ul>li>ul>li',

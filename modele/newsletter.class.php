@@ -56,8 +56,9 @@ class Newsletter {
 	}
 	function aj_bloc($id, $index, $id_utilisateur=1) {
 		$news=$this->news();
+		$id_bloc=time();
 		$nblocs=array();
-		$bc=array('id_modele'=>$id,'params'=>array());
+		$bc=array('id_modele'=>$id,'id_bloc'=>$id_bloc,'params'=>array());
 		if ($news!=""){
 			$blocs=json_decode($news);
 			$i=0;

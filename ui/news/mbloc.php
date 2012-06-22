@@ -12,8 +12,14 @@
 	$n=new Newsletter($id_news);
 	$news=$n->news();
 	$blocs=json_decode($news);
-	$bloc=$blocs[$id_bloc];
+	$i=0;
+	foreach($blocs as $b){
+		if ($b->id_bloc==$id_bloc) $index=$i;
+		$i++;
+	}
+	$bloc=$blocs[$index];
 	$modele=Newsletters::modele($bloc->id_modele);
+	$nom_modele=Newsletters::nom_modele($bloc->id_modele);
 	$form=new formulaires;
 	$form->prefixe="mbloc$id_news"."_$id_bloc";
 	$form->ajoute_entree('id_news', 'hidden', $id_news, '', array(1,2));
@@ -26,7 +32,7 @@
 		$nom=filter($matches[2][$key][0]);
 		$valeur='';
 		if (isset($bloc->params->$nom)) $valeur=$bloc->params->$nom;
-		$form->ajoute_entree($nom, 'texte_court', $valeur, '', array(1,2),$label);
+		$form->ajoute_entree($nom, $type, $valeur, '', array(1,2),$label);
 		$html.='type : '.$matches[1][$key][0].' '.'nom : '.$matches[2][$key][0].'<br />';
 	}
 	$form->ajoute_interrupteur('update', 'bouton', 'Mettre à jour', 'bouton', 1, 'news/update_bloc');
@@ -73,6 +79,7 @@
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
+		$reponse['titre']=$n->sujet." - ".$nom_modele;
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

@@ -20,7 +20,7 @@ include "ui/js.class.php";
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 if (isset($_GET['action'])) $action=$_GET['action'];
-include "ui/$action.php";
+if (file_exists("ui/$action.php")) include "ui/$action.php";
 $reponse['temps']=microtime(true)-$t;
 echo json_encode($reponse);
 

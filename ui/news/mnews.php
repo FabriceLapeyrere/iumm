@@ -15,6 +15,7 @@
 		$blocs=json_decode($n->news());
 		$i=0;
 		foreach($blocs as $bloc){
+			$id_bloc=$bloc->id_bloc;
 			$modele=Newsletters::modele($bloc->id_modele);
 			$nom_modele=Newsletters::nom_modele($bloc->id_modele);
 			$pattern = '#\::([a-zA-Z0-9_]*)\&(.*)::#';
@@ -27,11 +28,11 @@
 			}
 			$html.="<div class='bloc' id='blocs_$i'><div class='menuBloc'>
 		<div>$nom_modele</div>
-		<button class='modbloc ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$i' data-idnews='$id_news' role='button' aria-disabled='false' title='modifier le bloc'>
+		<button class='modbloc ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_bloc' data-idnews='$id_news' role='button' aria-disabled='false' title='modifier le bloc'>
 			<span class='ui-button-icon-primary ui-icon ui-icon-pencil'></span>
 			<span class='ui-button-text'>modifier le bloc</span>
 		</button>
-		<button class='supbloc ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$i' data-idnews='$id_news' role='button' aria-disabled='false' title='supprimer le bloc'>
+		<button class='supbloc ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_bloc' data-idnews='$id_news' role='button' aria-disabled='false' title='supprimer le bloc'>
 			<span class='ui-button-icon-primary ui-icon ui-icon-minusthick'></span>
 			<span class='ui-button-text'>supprimer le bloc</span>
 		</button>

@@ -2,6 +2,7 @@
 db/*
 ui/cache/db/*
 fichiers/emails/*
+fichiers/news/*
 fichiers/envois/*
 tmp/*
 modele/corbeille/*

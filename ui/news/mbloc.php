@@ -24,16 +24,25 @@
 	$form->prefixe="mbloc$id_news"."_$id_bloc";
 	$form->ajoute_entree('id_news', 'hidden', $id_news, '', array(1,2));
 	$form->ajoute_entree('id_bloc', 'hidden', $id_bloc, '', array(1,2));
-	$pattern = '#\::([a-zA-Z0-9_]*)\&(.*)::#';
+	$pattern = "/::([^::]*)::/";
 	preg_match_all($pattern, $modele, $matches, PREG_OFFSET_CAPTURE, 3);
 	foreach($matches[0] as $key=>$value){
-		$type=$matches[1][$key][0];
-		$label=$matches[2][$key][0];
-		$nom=filter($matches[2][$key][0]);
+		$code=$matches[0][$key][0];
+		$tab=explode('&',$matches[1][$key][0]);
+		$type=$tab[0];
+		$label=$tab[1];
+		$nom=filter($label);
+		$params_modele=array();
+		for($i=2;$i<count($tab);$i++){
+			$params_modele[]=$tab[$i];
+		}
+		$params_serveur=array();
+		$params_serveur['id_news']=$id_news;
 		$valeur='';
 		if (isset($bloc->params->$nom)) $valeur=$bloc->params->$nom;
-		$form->ajoute_entree($nom, $type, $valeur, '', array(1,2),$label);
-		$html.='type : '.$matches[1][$key][0].' '.'nom : '.$matches[2][$key][0].'<br />';
+		$valeur_mbloc=$valeur;
+		if(file_exists("ui/news/elements/elt_$type.php")) include "ui/news/elements/elt_$type.php";
+		$form->ajoute_entree($nom, $type, $valeur_mbloc, '', array(1,2),$label,array('modele'=>$params_modele,'serveur'=>$params_serveur));
 	}
 	$form->ajoute_interrupteur('update', 'bouton', 'Mettre à jour', 'bouton', 1, 'news/update_bloc');
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 2, 'news/mod_bloc');
@@ -51,31 +60,6 @@
 		$js.=$value['js'];
 	}
 	$html.="</ul>";
-	$js.="
-	$('#news_content .bloc').droppable({
-			accept: 'ul.sf-menu>li>ul>li>ul>li',
-			hoverClass: 'dessusBloc',
-			drop: function( event, ui ) {
-				var index = $(this).index();
-				$.post('ajax.php',{action:'news/aj_bloc', id_news:$id_news, index:index, nom:ui.draggable.html()},function(data){
-				if(data.succes==1){
-					eval(data.js);
-				}
-			},'json'
-		);
-			}
-		});
-		$('#news_content').sortable({
-			update: function(event, ui) {
-				$.post('ajax.php','action=news/ord_blocs&id_news=$id_news&'+$('#news_content').sortable('serialize'),function(data){
-						if(data.succes==1){
-							eval(data.js);
-						}
-					},
-				'json');
-			}
-		});
-	";
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";

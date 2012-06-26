@@ -584,17 +584,17 @@ class js
 		$js="";
 		return $js;		
 	}
-	public function upload()
+	public function upload_email()
         {
 		$js="
 $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload();
-    $('#fileupload').bind('fileuploadadd', function (e, data) {console.log('add');setTimeout(mail_smapi.reinitialise,1000);});
+    $('#mail_fileupload').fileupload();
+    $('#mail_fileupload').bind('fileuploadadd', function (e, data) {console.log('add');setTimeout(mail_smapi.reinitialise,1000);});
     // Enable iframe cross-domain access via redirect option:
-    $('#fileupload').fileupload(
+    $('#mail_fileupload').fileupload(
         'option',
         'redirect',
         window.location.href.replace(
@@ -603,39 +603,50 @@ $(function () {
         )
     );
 
-    if (window.location.hostname === 'blueimp.github.com') {
-        // Demo settings:
-        $('#fileupload').fileupload('option', {
-            url: '//jquery-file-upload.appspot.com/',
-            maxFileSize: 5000000,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            resizeMaxWidth: 1920,
-            resizeMaxHeight: 1200
+    // Load existing files:
+    $('#mail_fileupload').each(function () {
+        var that = this;
+        $.getJSON(this.action, function (result) {
+            if (result && result.length) {
+                $(that).fileupload('option', 'done')
+                    .call(that, null, {result: result});
+            }
         });
-        // Upload server status check for browsers with CORS support:
-        if ($.support.cors) {
-            $.ajax({
-                url: '//jquery-file-upload.appspot.com/',
-                type: 'HEAD'
-            }).fail(function () {
-                $('<span class=\"alert alert-error\"/>')
-                    .text('Upload server currently unavailable - ' +
-                            new Date())
-                    .appendTo('#fileupload');
-            });
-        }
-    } else {
-        // Load existing files:
-        $('#fileupload').each(function () {
-            var that = this;
-            $.getJSON(this.action, function (result) {
-                if (result && result.length) {
-                    $(that).fileupload('option', 'done')
-                        .call(that, null, {result: result});
-                }
-            });
+    });
+
+});
+";
+		return $js;		
+	}
+	public function upload_news()
+        {
+		$js="
+$(function () {
+    'use strict';
+
+    // Initialize the jQuery File Upload widget:
+    $('#news_fileupload').fileupload();
+    $('#news_fileupload').bind('fileuploadadd', function (e, data) {console.log('add');setTimeout(news_snapi.reinitialise,1000);});
+    // Enable iframe cross-domain access via redirect option:
+    $('#news_fileupload').fileupload(
+        'option',
+        'redirect',
+        window.location.href.replace(
+            /\/[^\/]*$/,
+            '/cors/result.html?%s'
+        )
+    );
+
+    // Load existing files:
+    $('#news_fileupload').each(function () {
+        var that = this;
+        $.getJSON(this.action, function (result) {
+            if (result && result.length) {
+                $(that).fileupload('option', 'done')
+                    .call(that, null, {result: result});
+            }
         });
-    }
+    });
 
 });
 ";

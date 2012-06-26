@@ -136,11 +136,13 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #news .titre{color:#333; font-size:22px;font-family:sans-serif;}
 #news_newsletter .titre {font-size:22px;}
 #news_content {width:100%;}
-#news_content .bloc {width:100%;position:relative;background:#ccc;}
+#news_content .bloc:nth-child(even) {width:100%;position:relative;background:#ccc;}
+#news_content .bloc:nth-child(odd) {width:100%;position:relative;background:#c0c0c0;}
 #news_content .bloc.actif {background:#eee;}
+.ui-sortable-helper.bloc {width:100%;position:relative;background:#ff8000;}
 #news_content .bloc.last, #news_content .bloc.actif.last {background:none;}
 #news .dessusBloc {border-top:1px solid #FF8000;}
-#news .menuBloc {position:absolute;z-index:10;top:5px;left:5px;padding:5px;background:#fff;display:none;
+#news .menuBloc , .ui-sortable-helper.bloc .menuBloc {position:absolute;z-index:10;top:5px;left:5px;padding:5px;background:#fff;display:none;
 	-webkit-box-shadow: 0 6px 6px -6px black;
 	-moz-box-shadow: 0 6px 6px -6px black;
 	box-shadow: 0 6px 12px -6px black;

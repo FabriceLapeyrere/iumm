@@ -39,7 +39,7 @@ class formulaires {
 	 * @param $formulaires array les id des formulaires parents
 	 * @return bool true si l'ajout c'est bien passé, false sinon.
 	 */
-    function ajoute_entree($nom, $type, $valeur, $classes, $formulaires,$label="") {
+    function ajoute_entree($nom, $type, $valeur, $classes, $formulaires,$label="",$params=array()) {
         if (file_exists("ui/formulaires/$type.php")) {
 			$prefixe=$this->prefixe;
 			$this->entrees[$nom]['label']=$label;

@@ -30,7 +30,7 @@
 		<div id='mail_editeur'>
 		<textarea class='editor'>".$e->html."</textarea>
 		</div>
-		".Html::upload("emails/$id_email/")."
+		".Html::upload_email()."
 	
 		";
 		$js.="
@@ -67,7 +67,7 @@
 			setTimeout(supImage,500);
 			majImg();
 		});
-		".js::upload()."
+		".js::upload_email()."
 		";
 	}
 	

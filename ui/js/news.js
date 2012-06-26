@@ -332,4 +332,16 @@ $(function() {
 	news_entetes();
 	news_ajuste();
 	menuLock=0;
+	news_scroll=0;
+	news_monte=function(pas){
+		if (pas==0) news_scroll=1;
+		news_snapi.scrollByY(-50);
+		if(news_scroll==1) setTimeout('news_monte(1);',500);
+	}
+	news_descend=function(pas){
+		news_snapi.scrollByY(50);
+		if (pas==0) news_scroll=-1;
+		if(news_scroll==-1) setTimeout('news_descend(1);',500);
+	}
+	news_stop=function(){news_scroll=0;}
 });

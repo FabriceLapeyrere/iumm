@@ -2,6 +2,7 @@
 	$this->entrees[$nom]['html']="<label for=\"$prefixe"."_entree_$nom\">$label</label><br /><select id=\"$prefixe"."_entree_$nom\" name=\"$nom\" class=\"$classes\">";
 	$id_news=$params['serveur']['id_news'];
 	$chemin="fichiers/news/$id_news/";
+	$this->entrees[$nom]['html'].="<option value=\"fichiers/iumm/vide.png\">(vide)</option>";
 	if(file_exists($chemin)){
 		if ($handle = opendir($chemin)) {
 			while (false !== ($fichier = readdir($handle))) {
@@ -10,7 +11,7 @@
 						$this->entrees[$nom]['html'].="<option value=\"$chemin"."$fichier\">$fichier</option>";
 					}
 					else {
-						$this->entrees[$nom]['html'].="<option selected value=\"$chemin"."$fichier\">".str_replace('*','',$fichier)."</option>";
+						$this->entrees[$nom]['html'].="<option selected value=\"$chemin"."$fichier\">$fichier</option>";
 					}
 				}
 			}

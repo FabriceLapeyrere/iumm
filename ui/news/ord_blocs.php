@@ -32,7 +32,7 @@
 				if (data.succes==1) {
 					$('#news_newsletter .jspPane').html(data.html);
 					eval(data.js);
-					news_snapi.reinitialise();
+					setTimeout(news_snapi.reinitialise,1000);
 				}
 			},
 			'json'

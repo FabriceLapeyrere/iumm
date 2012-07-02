@@ -91,10 +91,8 @@ class Newsletter {
 		$news=$this->news();
 		$nblocs=array();
 		$oldblocs=json_decode($news);
-		$i=0;
 		foreach($oldblocs as $bloc){
-			if($i!=$id_bloc) $nblocs[]=$bloc;
-			$i++;
+			if($bloc->id_bloc!=$id_bloc) $nblocs[]=$bloc;
 		}
 		$news=json_encode($nblocs);
 		$this->aj_donnee($news, $id_utilisateur);	

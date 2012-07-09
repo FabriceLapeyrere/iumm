@@ -13,7 +13,7 @@ class Categories {
 		#on récupere le nombre de contacts:
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select count(*) from categories$cond";
+		$sql="select count(*) from categories";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$this->nbcontacts=$tab['count(*)'];

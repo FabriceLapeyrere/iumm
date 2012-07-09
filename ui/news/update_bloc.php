@@ -37,13 +37,15 @@
 		$bloc=$blocs[$index];
 		$id_modele=$bloc->id_modele;
 		$modele=Newsletters::modele($id_modele);
-		$pattern = '#\::([a-zA-Z0-9_]*)\&(.*)::#';
+		$pattern = "/::([^::]*)::/";
 		preg_match_all($pattern, $modele, $matches, PREG_OFFSET_CAPTURE, 3);
 		foreach($matches[0] as $key=>$value){
-			$type=$matches[1][$key][0];
-			$label=$matches[2][$key][0];
-			$nom=filter($matches[2][$key][0]);
-			if(isset($_POST[$nom])){
+				$code=$matches[0][$key][0];
+				$tab=explode('&',$matches[1][$key][0]);
+				$type=$tab[0];
+				$label=$tab[1];
+				$nom=filter($label);
+				if(isset($_POST[$nom])){
 				if (is_array($bloc->params)) $bloc->params=json_decode('{}');
 				$bloc->params->$nom=$_POST[$nom]['valeur'];
 			}

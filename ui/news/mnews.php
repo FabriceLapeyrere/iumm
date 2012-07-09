@@ -32,6 +32,7 @@
 					$nom=filter($label);
 					$valeur='';
 					if (isset($bloc->params->$nom)) $valeur=$bloc->params->$nom;
+					$valeur_mbloc=$valeur;
 					$valeur_mnews=$valeur;
 					if(file_exists("ui/news/elements/elt_$type.php")) include "ui/news/elements/elt_$type.php";
 					$modele=str_replace($code,$valeur_mnews,$modele);

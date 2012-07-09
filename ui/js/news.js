@@ -363,9 +363,10 @@ $(function() {
 			var images=newsImages();
 			for (index in images) {	
 				var r=new RegExp('src="'+images[index][0]);
+				var s=new RegExp('min/'+images[index][0].replace(/\\/g,'/').replace( /.*\//, '' ).replace( /\.[^.]*$/, '' ));
 				var html=$('#news_content').html();
 				console.log($('button[data-url*="'+images[index][0].replace(/\\/g,'/').replace(/.*\//,'' )+'"]').css('display'));
-				if (r.test(html)) {
+				if (r.test(html) || s.test(html)) {
 						$('button[data-url*="'+images[index][0].replace(/\\/g,'/').replace(/.*\//,'' )+'"]').css('display','none').next().remove();
 				} else {
 						$('button[data-url*="'+images[index][0].replace(/\\/g,'/').replace( /.*\//, '' )+'"]').css('display','inline-block')

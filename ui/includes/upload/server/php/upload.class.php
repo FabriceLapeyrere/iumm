@@ -70,8 +70,11 @@ class UploadHandler
     }
     
     protected function set_file_delete_url($file) {
+		$path_parts = pathinfo($_SERVER['SCRIPT_NAME']);
+		$script=$path_parts['filename'].".".$path_parts['extension'];
+		
         $file->delete_url = $this->options['script_url']
-            .'?file='.rawurlencode($file->name);
+            ."$script?file=".rawurlencode($file->name);
         $file->delete_type = $this->options['delete_type'];
         if ($file->delete_type !== 'DELETE') {
             $file->delete_url .= '&_method=DELETE';
@@ -396,9 +399,24 @@ class UploadHandler
                     unlink($file);
                 }
             }
+			
+			$path_parts = pathinfo($file_path);
+			$chemin=$path_parts['dirname']."/min/";
+			if(file_exists($chemin)){
+				if ($handle = opendir($chemin)) {
+					while (false !== ($fichier = readdir($handle))) {
+						if (is_file($chemin.$fichier)){
+							if (strpos($fichier,$path_parts['filename']) !== false) {
+								unlink($chemin.$fichier);
+							}
+						}
+					}
+				}
+			}	
+	
         }
         header('Content-type: application/json');
-        echo json_encode($success);
+        echo $file_path;
     }
 
 }

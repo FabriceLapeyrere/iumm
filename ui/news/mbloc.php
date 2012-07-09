@@ -33,16 +33,14 @@
 		$label=$tab[1];
 		$nom=filter($label);
 		$params_modele=array();
-		for($i=2;$i<count($tab);$i++){
-			$params_modele[]=$tab[$i];
-		}
 		$params_serveur=array();
 		$params_serveur['id_news']=$id_news;
 		$valeur='';
 		if (isset($bloc->params->$nom)) $valeur=$bloc->params->$nom;
 		$valeur_mbloc=$valeur;
+		$valeur_mnews=$valeur;
 		if(file_exists("ui/news/elements/elt_$type.php")) include "ui/news/elements/elt_$type.php";
-		$form->ajoute_entree($nom, $type, $valeur_mbloc, '', array(1,2),$label,array('modele'=>$params_modele,'serveur'=>$params_serveur));
+		$form->ajoute_entree($nom, $type, $valeur_mbloc, '', array(1,2),$label,array('serveur'=>$params_serveur));
 	}
 	$form->ajoute_interrupteur('update', 'bouton', 'Mettre à jour', 'bouton', 1, 'news/update_bloc');
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 2, 'news/mod_bloc');

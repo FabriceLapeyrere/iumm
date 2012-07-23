@@ -40,6 +40,20 @@
 				},'json'
 			);
 			$('#rnnews$id').remove();
+			$.post('ajax.php',{
+					action:'news/mnews',
+					id_news:$id,
+					format:'html'
+				},
+				function(data){
+					if (data.succes==1) {
+						$('#news_newsletter .jspPane').html(data.html);
+						eval(data.js);
+						news_snapi.reinitialise();
+					}
+				},
+				'json'
+			);
 		";
 	}
 	if($succes) {

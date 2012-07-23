@@ -239,6 +239,25 @@ $(function() {
 	}
 	contextmenu_modeles();
 	news_entetes=function(){
+		$('#news .news-entete').droppable({
+			hoverClass: 'actif',
+			accept: '#news .bloc',
+			tolerance: 'pointer',
+			drop: function( event, ui ) {		
+				$.post('ajax.php',{
+					action:'news/copie_bloc',
+					id_n_orig:$('#news_content').dataset('id'),
+					id_bloc:$(ui.draggable).dataset('id'),
+					id_news:$(this).dataset('id')
+				},
+				function(data){
+					if (data.succes==1) {
+						eval(data.js);
+					}
+				},
+				'json')
+			}
+		});
 		$('#news .news-entete').contextMenu({menu: "news_menu_news"},
 				function(action, el, pos) {
 					if(action=='rename') {

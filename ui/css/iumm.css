@@ -130,6 +130,7 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #news {position:absolute;background:#fff;z-index:0;}
 #news_entetes {position:absolute;}
 #news_entetes .news-entete {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#news_entetes .news-entete.actif {border-color:#FF8000; }
 #news_entetes_head {position:absolute;}
 #news_newsletter, #news_modeles {position:absolute;}
 #news_newsletter .enr-email.off {opacity:0.5;}

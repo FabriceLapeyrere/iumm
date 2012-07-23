@@ -9,7 +9,7 @@
 		$js="
 		$('<div>Vos droits sont insuffisants.</div>').dialog({
 			resizable: false,
-			title:'Impossible d\'ajouter une newsletter.',
+			title:'Impossible d\'ajouter un bloc.',
 			modal: true,
 			dialogClass: 'css-infos',
 			close:function(){ 
@@ -24,29 +24,42 @@
 		";
 	}
 	else {
+		$id_orig=$_POST['id_n_orig'];
+		$id_bloc=$_POST['id_bloc'];
 		$id_news=$_POST['id_news'];
-		$n=new Newsletter($id_news);
-		$sujet=$n->sujet;
-		$news=$n->news();
-		$id_copie=Newsletters::aj_news("copie de $sujet");
-		$copie=new Newsletter($id_copie);
-		$copie->aj_donnee($news);
-		smartCopy("fichiers/news/$id_news","fichiers/news/$id_copie");
-		$_SESSION['news']['motifs']="";
-		$_SESSION['news']['binf']=0;
-		$js="
-		$.post('ajax.php',{action:'news/entetes', format:'html'},function(data){
-				if(data.succes==1){
-					$('#news_entetes .jspPane').html(data.html);
-					$('#news_entetes_head .pagination').html(data.pagination);
-					eval(data.js);
-					news_seapi.reinitialise();
+		$n=new Newsletter($id_orig);
+		$news_orig=$n->news();
+		$blocs_orig=json_decode($news_orig);
+		$i=0;
+		foreach($blocs_orig as $b){
+			if ($b->id_bloc==$id_bloc) $bloc=$b;
+		}
+		$bloc->id_bloc=time();
+		$nn=new Newsletter($id_news);
+		$news=$nn->news();
+		$blocs=json_decode($news);
+		$blocs[]=$bloc;
+		$news=json_encode($blocs);
+		$nn->aj_donnee($news);
+		$chemin="fichiers/news/$id_orig/";
+		if(file_exists($chemin)){
+			if ($handle = opendir($chemin)) {
+				while (false !== ($fichier = readdir($handle))) {
+					if (is_file($chemin.$fichier)){
+						foreach($b->params as $cle=>$valeur){
+							if($valeur==$chemin.$fichier){
+								copy($chemin.$fichier,"fichiers/news/$id_news/$fichier");
+								$b->params->$cle="fichiers/news/$id_news/$fichier";
+							}
+						}
+					}
 				}
-			},'json'
-		);
+			}
+		}	
+		$js="
 		$.post('ajax.php',{
 				action:'news/mnews',
-				id_news:$id_copie,
+				id_news:$id_news,
 				format:'html'
 			},
 			function(data){

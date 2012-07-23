@@ -37,7 +37,7 @@
 					if(file_exists("ui/news/elements/elt_$type.php")) include "ui/news/elements/elt_$type.php";
 					$modele=str_replace($code,$valeur_mnews,$modele);
 				}
-				$html.="<div class='bloc' id='blocs_$i'><div class='menuBloc'>
+				$html.="<div class='bloc' id='blocs_$i' data-id='$id_bloc'><div class='menuBloc'>
 			<div>$nom_modele</div>
 			<button class='modbloc ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_bloc' data-idnews='$id_news' role='button' aria-disabled='false' title='modifier le bloc'>
 				<span class='ui-button-icon-primary ui-icon ui-icon-pencil'></span>

@@ -101,14 +101,14 @@ class Newsletter {
 		$u=new Utilisateur($id_utilisateur);
 		$nom="newsletter-".$this->id."-".filter(trim($this->sujet)).".html";
 		$html="<!DOCTYPE html><html><head><title>".trim($this->sujet)."</title><meta content='text/html; charset=UTF-8' http-equiv='Content-Type'></head><body><h1>".trim($this->sujet)." (supprimé le ".date('d/m/Y H:i:s')." par ".$u->nom().")</h1><hr />";
-		$html.="<pre>".$news."</pre>";
+		$html.="<pre>".$this->news()."</pre>";
 		$html.="</body></html>";
 		file_put_contents("modele/corbeille/$nom",$html);
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update news set sujet='####' where rowid=".$this->id;
 		$base->query($sql);
-		$sql="delete from donnees_news where id_email=".$this->id;
+		$sql="delete from donnees_news where id_news=".$this->id;
 		$base->query($sql);
 		$base->close();		
 	}	

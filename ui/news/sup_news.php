@@ -30,8 +30,8 @@
 		$id_derniere=0;
 		$id_derniere=Newsletters::derniere();
 		$js="
-		if ($('#mail_email .enr-email').dataset('id')==$id_news)
-			$.post('ajax.php',{action:'news/mnews', id_mail:$id_news, format:'html'},function(data){
+		if ($('#news_content').dataset('id')==$id_news)
+			$.post('ajax.php',{action:'news/mnews', id_news:$id_derniere, format:'html'},function(data){
 					if(data.succes==1){
 						$('#news_newsletter .jspPane').html(data.html);
 						eval(data.js);

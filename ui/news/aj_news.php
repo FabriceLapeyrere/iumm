@@ -40,14 +40,15 @@
 			},'json'
 		);
 		$.post('ajax.php',{
-				action:'news/news',
+				action:'news/mnews',
 				id_news:$id_news,
 				format:'html'
 			},
 			function(data){
 				if (data.succes==1) {
-					$('#mail_email .jspPane').html(data.html);
+					$('#news_newsletter .jspPane').html(data.html);
 					eval(data.js);
+					news_snapi.reinitialise();
 				}
 			},
 			'json'

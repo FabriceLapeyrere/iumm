@@ -1252,7 +1252,7 @@ class html
 			$html.="<a href='#'>$theme</a>\n";
 			$html.="<ul class='Menu'>\n";
 			foreach ($blocs as $nom=>$id_bloc) {
-				$html.="<li data-id='$id_bloc'><a href=\"#\">$nom</a></li>\n";
+				$html.="<li data-id='$id_bloc'><a href='#'>$nom</a></li>\n";
 			}
 			$html.="</ul>\n";
 			$html.="</li>\n";
@@ -1260,6 +1260,10 @@ class html
 		$html.="</ul>\n";
 		$html.="</li>\n";
 		$html.="</ul>\n";
+		$html.="<button class='ajmain modele ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title='Nouveau modele'>
+			<span class='ui-button-icon-primary ui-icon ui-icon-plusthick'></span>
+			<span class='ui-button-text'>Nouveau modèle</span>
+		</button>";
 		return $html;
 	}
 }

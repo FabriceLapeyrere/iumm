@@ -319,6 +319,9 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 		<li class="edit">
 		<a href="#rename">Renommer</a>
 		</li>
+		<li class="copy">
+		<a href="#duplicate">Dupliquer</a>
+		</li>
 		<li class="delete">
 		<a href="#delete">Supprimer</a>
 		</li>

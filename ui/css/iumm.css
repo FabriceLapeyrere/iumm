@@ -152,6 +152,7 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 	font-style:italic;
 }
 #news .menuBloc div {padding-bottom:2px;}
+#news .ajmain.modele {margin:5px;}
 .colorSelector {width:40px;height:18px;background:#e6e6e6;border-radius:4px;border:1px solid #ccc;float:left;}
 .colorSelector div {width:32px;height:10px;margin:4px;}
 .blocCouleur{float:left;margin:5px;}

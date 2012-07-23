@@ -11,9 +11,9 @@
 		$html="Aucune newsletter.";
 	} else {
 		$_SESSION['news_rep']="news/$id_news/";
-		$html="";
-		$html.="<div id='news_content' data-id='$id_news'>\n";
 		$n=new Newsletter($id_news);
+		$html="<h3>".$n->sujet."</h3>";
+		$html.="<div id='news_content' data-id='$id_news'>\n";
 		$news=$n->news();
 		if ($news!=""){
 			$blocs=json_decode($n->news());

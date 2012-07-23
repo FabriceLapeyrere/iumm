@@ -123,6 +123,17 @@ class Newsletters {
 		$base->close();
 		return $modeles;
 	}
+	function aj_modele($nom,$modele){
+		$nom=SQLite3::escapeString($nom);
+		$modele=SQLite3::escapeString($modele);
+		$sql="insert into news_modele (nom, modele) values ('$nom', '$modele')";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$base->query($sql);
+		$id_modele=$base->lastInsertRowID();
+		$base->close();
+		return $id_modele;
+	}
 	function mod_modele($id,$nom,$modele){
 		$nom=SQLite3::escapeString($nom);
 		$modele=SQLite3::escapeString($modele);

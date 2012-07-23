@@ -9,7 +9,7 @@
 		$js="
 		$('<div>Vos droits sont insuffisants.</div>').dialog({
 			resizable: false,
-			title:'Impossible de supprimer un bloc.',
+			title:'Impossible d\'ajouter une newsletter.',
 			modal: true,
 			dialogClass: 'css-infos',
 			close:function(){ 
@@ -24,39 +24,29 @@
 		";
 	}
 	else {
-		$id_news=$_POST['id_news']['valeur'];
-		$id_bloc=$_POST['id_bloc']['valeur'];
+		$id_news=$_POST['id_news'];
 		$n=new Newsletter($id_news);
+		$sujet=$n->sujet;
 		$news=$n->news();
-		$blocs=json_decode($news);
-		$i=0;
-		foreach($blocs as $b){
-			if ($b->id_bloc==$id_bloc) $index=$i;
-			$i++;
-		}
-		$bloc=$blocs[$index];
-		$id_modele=$bloc->id_modele;
-		$modele=Newsletters::modele($id_modele);
-		$pattern = "/::([^::]*)::/";
-		preg_match_all($pattern, $modele, $matches, PREG_OFFSET_CAPTURE, 3);
-		foreach($matches[0] as $key=>$value){
-				$code=$matches[0][$key][0];
-				$tab=explode('&',$matches[1][$key][0]);
-				$type=$tab[0];
-				$label=$tab[1];
-				$nom=filter($label);
-				if(isset($_POST[$nom])){
-				if (is_array($bloc->params)) $bloc->params=json_decode('{}');
-				$bloc->params->$nom=$_POST[$nom]['valeur'];
-			}
-		}
-		$blocs[$index]=$bloc;
-		$news=json_encode($blocs);
-		$n->aj_donnee($news);
+		$id_copie=Newsletters::aj_news("copie de $sujet");
+		$copie=new Newsletter($id_copie);
+		$copie->aj_donnee($news);
+		smartCopy("fichiers/news/$id_news","fichiers/news/$id_copie");
+		$_SESSION['news']['motifs']="";
+		$_SESSION['news']['binf']=0;
 		$js="
+		$.post('ajax.php',{action:'news/entetes', format:'html'},function(data){
+				if(data.succes==1){
+					$('#news_entetes .jspPane').html(data.html);
+					$('#news_entetes_head .pagination').html(data.pagination);
+					eval(data.js);
+					news_seapi.reinitialise();
+				}
+			},'json'
+		);
 		$.post('ajax.php',{
 				action:'news/mnews',
-				id_news:$id_news,
+				id_news:$id_copie,
 				format:'html'
 			},
 			function(data){

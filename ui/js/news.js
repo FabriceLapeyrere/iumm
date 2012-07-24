@@ -376,16 +376,40 @@ $(function() {
 		news_seapi.reinitialise();
 		news_snapi.reinitialise();
 	}
-	$.post('ajax.php',{action:'news/mnews', format:'html'},
-			function(data){
-				if (data.succes==1) {
-					$('#news_newsletter .jspPane').html(data.html);
-					eval(data.js);
-					news_ajuste();
+	$('#news_newsletter').on('click', '.env-news', function(){
+		var id=$(this).dataset('id');
+		if($('#enews'+id).length == 0) {
+			$('<div id="enews'+id+'" class="local_news"></div>').dialog({
+				resizable: false,
+				close:function(){ 
+					$(this).remove();
+					delete window['formenews' + id];
 				}
-			},
-			'json'
-		);
+			});	
+			$.post('ajax.php',{action:'mailing/enews', id_news:id, format:'html'},
+				function(data){
+					if (data.succes==1) {
+						$('#enews'+id).dialog('option',{title:data.titre});
+						$('#enews'+id).html(data.html);
+						eval(data.js);
+					}
+				},
+				'json'
+			);
+		}
+		else $('#enews'+id).dialog('moveToTop');
+		
+	});
+	$.post('ajax.php',{action:'news/mnews', format:'html'},
+		function(data){
+			if (data.succes==1) {
+				$('#news_newsletter .jspPane').html(data.html);
+				eval(data.js);
+				news_ajuste();
+			}
+		},
+		'json'
+	);
 	$(window).resize(news_ajuste);
 	news_entetes();
 	news_ajuste();

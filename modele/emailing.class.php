@@ -52,7 +52,10 @@ class Emailing {
 		if(file_exists($chemin)){
 			if ($handle = opendir($chemin)) {
 				while (false !== ($fichier = readdir($handle))) {
-					if(!strstr($envoi['html'],$fichier) && $fichier!='.'  && $fichier!='..' ) {
+					$path_parts = pathinfo($fichier);
+					$image=$path_parts['filename'];
+					if(!strstr($envoi['html'],$fichier) && !strstr($envoi['html'],"min/$image"."_") && $fichier!='.'  && $fichier!='..' && is_file($chemin.$fichier) ) {
+						error_log("pj : $chemin$fichier\n", 3, "tmp/fab.log");
 						$pjs[]=$chemin.$fichier;
 					}
 				}

@@ -8,10 +8,10 @@
 			while (false !== ($fichier = readdir($handle))) {
 				if (is_file($chemin.$fichier)){
 					if ($valeur!=$chemin.$fichier) {
-						$this->entrees[$nom]['html'].="<option style=\"background:url('ui/includes/upload/server/php/thumbnails/"."$fichier') no-repeat right top;height:50px;\" value=\"$chemin"."$fichier\">$fichier</option>";
+						$this->entrees[$nom]['html'].="<option style=\"background:url('$chemin"."thumbnails/"."$fichier') no-repeat right top;height:50px;\" value=\"$chemin"."$fichier\">$fichier</option>";
 					}
 					else {
-						$this->entrees[$nom]['html'].="<option style=\"background:url('ui/includes/upload/server/php/thumbnails/"."$fichier') no-repeat right top;height:50px;\" selected value=\"$chemin"."$fichier\">$fichier</option>";
+						$this->entrees[$nom]['html'].="<option style=\"background:url('$chemin"."thumbnails/"."$fichier') no-repeat right top;height:50px;\" selected value=\"$chemin"."$fichier\">$fichier</option>";
 					}
 				}
 			}

@@ -965,6 +965,15 @@ class html
 			$expediteur=json_decode($json);
 			$html="";
 			$html.="<div class='titre' data-id='$id'>".$envoi['sujet']."</div><div class='meta'>Envoi commencé le ".$envoi['date']."<br/>Expéditeur&nbsp;: ".$expediteur->nom." &lt;".$expediteur->email."&gt;<br/>";
+			$pjs=Emailing::envoi_pjs($id);
+			if (count($pjs)>0){
+				$html.="Pièces jointes :<br/><ul>";
+				foreach($pjs as $pj){
+					$html.="<li><a target='_blank' href='$pj'>".basename($pj)."</a></li>";
+				}
+				$html.="</ul>";
+			}
+			$html.="<hr/>";
 			if ($nb==0 && $nb_erreurs>0) $html.="<span style='color:green;'>envoi terminé.</span> <span style='color:red;'>Il y a eu des erreurs.</span><br />
 		<span style='font-size:10px;'>
 				<button class='recommencer ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title=\"Rééssayer pour les messages en erreur.\">

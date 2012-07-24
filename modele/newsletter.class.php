@@ -111,6 +111,37 @@ class Newsletter {
 		$sql="delete from donnees_news where id_news=".$this->id;
 		$base->query($sql);
 		$base->close();		
-	}	
+	}
+	function html(){
+		$news=$this->news();
+		$html="";
+		if ($news!=""){
+			$blocs=json_decode($news);
+			$i=0;
+			foreach($blocs as $bloc){
+				$id_bloc=$bloc->id_bloc;
+				$modele=Newsletters::modele($bloc->id_modele);
+				$nom_modele=Newsletters::nom_modele($bloc->id_modele);
+				$pattern = "/::([^::]*)::/";
+				preg_match_all($pattern, $modele, $matches, PREG_OFFSET_CAPTURE, 3);
+				foreach($matches[0] as $key=>$value){
+					$code=$matches[0][$key][0];
+					$tab=explode('&',$matches[1][$key][0]);
+					$type=$tab[0];
+					$label=$tab[1];
+					$nom=filter($label);
+					$valeur='';
+					if (isset($bloc->params->$nom)) $valeur=$bloc->params->$nom;
+					$valeur_mbloc=$valeur;
+					$valeur_mnews=$valeur;
+					if(file_exists("ui/news/elements/elt_$type.php")) include "ui/news/elements/elt_$type.php";
+					$modele=str_replace($code,$valeur_mnews,$modele);
+				}
+				$html.="$modele\n";
+				$i++;			
+			}
+		}
+		return $html;
+	}
 }
 ?>

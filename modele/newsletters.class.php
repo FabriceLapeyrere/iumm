@@ -85,31 +85,6 @@ class Newsletters {
 		$base->close();
 		return $id;
 	}
-	function aj_envoi($id_news,$id_expediteur,$liste_casquettes){
-		$e=new News($id_news);	
-		$html='';
-		$sujet=SQLite3::escapeString($e->sujet);
-		$expediteur=Emails::expediteur($id_expediteur);
-		$from=SQLite3::escapeString(json_encode($expediteur));
-		$nb_email=count($liste_casquettes);
-		$base = new SQLite3('db/mailing.sqlite');
-		$base->busyTimeout (10000);
-		$sql="insert into envois (html, sujet, expediteur, nb, log, statut, pid) VALUES ('$html', '$sujet', '$from', $nb_email, '', 1, 0);";
-		$base->query($sql);
-		$id_envoi=$base->lastInsertRowID();
-		$html=SQLite3::escapeString(str_replace("fichiers/emails/$id_email","fichiers/envois/$id_envoi",$e->html));
-		$sql="update envois set html='$html' where rowid=$id_envoi";
-		$base->query($sql);
-		$i=1;
-		foreach ($liste_casquettes as $id=>$casquette) {
-			$sql="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '')";
-			$base->query($sql);
-			$i++;
-		}
-		$base->close();
-		smartCopy("fichiers/news/$id_email","fichiers/envois/$id_envoi");
-		return $id_envoi;
-	}
 	function modeles(){
 		$modeles=array('Divers'=>array());
 		$sql="SELECT * FROM news_modele ORDER BY nom";
@@ -184,6 +159,31 @@ class Newsletters {
 		$base->close();
 		return $modele;
 	}
-		
+	function aj_envoi($id_news,$id_expediteur,$liste_casquettes){
+		$n=new Newsletter($id_news);	
+		$html='';
+		$sujet=SQLite3::escapeString($n->sujet);
+		$expediteur=Emailing::expediteur($id_expediteur);
+		$from=SQLite3::escapeString(json_encode($expediteur));
+		$nb_email=count($liste_casquettes);
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$sql="insert into envois (html, sujet, expediteur, nb, log, statut, pid) VALUES ('$html', '$sujet', '$from', $nb_email, '', 1, 0);";
+		$base->query($sql);
+		$id_envoi=$base->lastInsertRowID();
+		$html=SQLite3::escapeString(str_replace("fichiers/news/$id_news","fichiers/envois/$id_envoi",$n->html()));
+		$sql="update envois set html='$html' where rowid=$id_envoi";
+		$base->query($sql);
+		$i=1;
+		foreach ($liste_casquettes as $id=>$casquette) {
+			$sql="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '')";
+			$base->query($sql);
+			$i++;
+		}
+		$base->close();
+		smartCopy("fichiers/news/$id_news","fichiers/envois/$id_envoi");
+		return $id_envoi;
+	}
+	
 }
 ?>

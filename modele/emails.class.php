@@ -89,7 +89,7 @@ class Emails {
 		$e=new Email($id_email);	
 		$html='';
 		$sujet=SQLite3::escapeString($e->sujet);
-		$expediteur=Emails::expediteur($id_expediteur);
+		$expediteur=Emailing::expediteur($id_expediteur);
 		$from=SQLite3::escapeString(json_encode($expediteur));
 		$nb_email=count($liste_casquettes);
 		$base = new SQLite3('db/mailing.sqlite');

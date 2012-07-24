@@ -23,15 +23,15 @@
 	}
 	if ( ! isset($_POST['no_reset_binf'])) $_SESSION['binfc']=0;
 	$html="";
-	$bouton_decombiner="";
-	$bouton_scombinaison="";
-	if (count($_SESSION['combinaison'])>0){
-		$html=affiche_combinaison($_SESSION['combinaison'])."<div class='op'>".html::bouton_et('intersection',$_SESSION['op'])."<br />".html::bouton_ou('réunion',$_SESSION['op'])."</div>";
-		$bouton_decombiner="
+	$bouton_decombiner="
 	<button class='decombiner ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-all' role='button' aria-disabled='false' title='supprimer'>
 		<span class='ui-button-icon-primary ui-icon ui-icon-minusthick'></span>
 		<span class='ui-button-text'>combiner</span>
 	</button>";
+	$bouton_scombinaison="";
+	if (count($_SESSION['combinaison'])>0){
+		$html=affiche_combinaison($_SESSION['combinaison'])."<div class='op'>".html::bouton_et('intersection',$_SESSION['op'])."<br />".html::bouton_ou('réunion',$_SESSION['op'])."</div>";
+		
 		$bouton_scombinaison="<input id='sel_scombinaison' type='checkbox' />Uniquement ce filtre.";
 	}
 	$recherche=html::recherche($_SESSION['selection']);

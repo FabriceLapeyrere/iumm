@@ -16,7 +16,12 @@ require('upload.class.php');
 session_start();
 $rep=$_SESSION['news_rep'];
 
-$upload_handler = new UploadHandler(array('upload_dir'=>"../../../../../fichiers/$rep",'upload_url'=>"fichiers/$rep"));
+$upload_handler = new UploadHandler(array('upload_dir'=>"../../../../../fichiers/$rep",'upload_url'=>"fichiers/$rep",'image_versions' => array('upload_url'=>"fichiers/$rep",'thumbnail' => array(
+                    'upload_dir' => "../../../../../fichiers/$rep"."thumbnails/",
+                    'upload_url' => "fichiers/$rep"."thumbnails/",
+                    'max_width' => 80,
+                    'max_height' => 80
+                ))));
 
 
 header('Pragma: no-cache');

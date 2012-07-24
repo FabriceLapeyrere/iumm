@@ -38,9 +38,6 @@
 		$nn=new Newsletter($id_news);
 		$news=$nn->news();
 		$blocs=json_decode($news);
-		$blocs[]=$bloc;
-		$news=json_encode($blocs);
-		$nn->aj_donnee($news);
 		$chemin="fichiers/news/$id_orig/";
 		if(file_exists($chemin)){
 			if ($handle = opendir($chemin)) {
@@ -49,6 +46,7 @@
 						foreach($b->params as $cle=>$valeur){
 							if($valeur==$chemin.$fichier){
 								copy($chemin.$fichier,"fichiers/news/$id_news/$fichier");
+								copy($chemin.'thumbnails/'.$fichier,"fichiers/news/$id_news/thumbnails/$fichier");
 								$b->params->$cle="fichiers/news/$id_news/$fichier";
 							}
 						}
@@ -56,6 +54,9 @@
 				}
 			}
 		}	
+		$blocs[]=$bloc;
+		$news=json_encode($blocs);
+		$nn->aj_donnee($news);
 		$js="
 		$.post('ajax.php',{
 				action:'news/mnews',

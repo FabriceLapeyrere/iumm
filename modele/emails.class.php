@@ -70,6 +70,7 @@ class Emails {
 		$id_email=$base->lastInsertRowID();
 		$base->close();
 		mkdir("fichiers/emails/$id_email");
+		mkdir("fichiers/emails/$id_email/thumbnails");
 		return $id_email;
 	}
 	function dernier() {

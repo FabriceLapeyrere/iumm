@@ -70,6 +70,7 @@ class Newsletters {
 		$id_news=$base->lastInsertRowID();
 		$base->close();
 		mkdir("fichiers/news/$id_news");
+		mkdir("fichiers/news/$id_news/thumbnails");
 		return $id_news;
 	}
 	function derniere() {
@@ -138,6 +139,24 @@ class Newsletters {
 		$nom=SQLite3::escapeString($nom);
 		$modele=SQLite3::escapeString($modele);
 		$sql="update news_modele set nom='$nom', modele='$modele' where rowid=$id";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$base->query($sql);
+		$base->close();
+	}
+	function modele_utile($id){
+		$sql="select count(*) from donnees_news where news like '%\"id_modele\":\"$id\"%'";
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$n=$tab['count(*)'];
+		}
+		$base->close();
+		return $n;
+	}
+	function sup_modele($id){
+		$sql="delete from news_modele where rowid=$id";
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
 		$base->query($sql);

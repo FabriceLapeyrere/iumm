@@ -110,7 +110,7 @@ class UploadHandler
     protected function create_scaled_image($file_name, $options) {
 		$file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
-        list($img_width, $img_height) = @getimagesize($file_path);
+      	list($img_width, $img_height) = @getimagesize($file_path);
         if (!$img_width || !$img_height) {
             return false;
         }
@@ -296,8 +296,9 @@ class UploadHandler
             		$this->orient_image($file_path);
             	}
                 $file->url = $this->options['upload_url'].rawurlencode($file->name);
-                foreach($this->options['image_versions'] as $version => $options) {
-                    if ($this->create_scaled_image($file->name, $options)) {
+                error_log($this->options['upload_url']."\n", 3, "../../../../../tmp/fab.log");			
+        		foreach($this->options['image_versions'] as $version => $options) {
+					if ($this->create_scaled_image($file->name, $options)) {
                         if ($this->options['upload_dir'] !== $options['upload_dir']) {
                             $file->{$version.'_url'} = $options['upload_url']
                                 .rawurlencode($file->name);
@@ -384,7 +385,7 @@ class UploadHandler
         } else {
             header('Content-type: text/plain');
         }
-        echo $json;
+		echo $json;
     }
     
     public function delete() {

@@ -30,6 +30,8 @@
 		Newsletters::mod_modele($id,$nom,html_entity_decode($modele));
 		$js="
 		$('#mmodele$id').dialog('close');
+		$('#news_modeles').html('".json_escape(Html::modeles_news())."');
+		contextmenu_modeles();
 		$.post('ajax.php',{
 				action:'news/mnews',
 				id_news:$('#news_content').dataset('id'),

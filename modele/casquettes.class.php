@@ -290,7 +290,7 @@ class Casquettes {
 		if (!key_exists('c1',$c)){
 			$N="";
 			if ($c['N']==1) $N=" NOT";
-			$sql=Casquettes::sql_selection($c['selection']);
+			$sql=" $N ".Casquettes::sql_selection($c['selection']);
 		}
 		else {	
 			if ($c['op']==1) $op=" AND";

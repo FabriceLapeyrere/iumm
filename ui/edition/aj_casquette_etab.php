@@ -29,6 +29,8 @@
 		$e=new Etablissement($id_etablissement);
 		$c=new Contact($id_contact);
 		$id_casquette=$c->aj_casquette($e->nom_structure, $_SESSION['user']['id']);
+		Cache::set_obsolete('casquette',$id_casquette);
+		Cache::set_obsolete('etablissement',$id_etablissement);
 		$cas= new Casquette($id_casquette);
 		$cas->ass_etablissement($id_etablissement, $_SESSION['user']['id']);
 		$js="

@@ -9,6 +9,7 @@
 	$select_cats=$_SESSION['selection']['categories'];
 
 	function jsoncat($idparent){
+		error_log(microtime()."\n",3,'tmp/fab.log');
 		global $select_cats;
 		$tab=array();
 		$parent=new Categorie($idparent);

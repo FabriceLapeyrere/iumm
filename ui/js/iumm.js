@@ -3,6 +3,8 @@
  * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
  */
 $(function() {
+	sel_cat_reload=0;
+	ed_cat_reload=0;
 	$(window).hashchange( function(){
 		var hash = location.hash;
 		switch(hash)
@@ -22,7 +24,10 @@ $(function() {
 			});
 			$('#menu a').css('color','#000');
 			$('a[href=#edition]').css('color','#ff8000');
-			break;
+			if (ed_cat_reload==1) {
+				$('#ed_tree').dynatree('getTree').reload();
+				sel_cat_reload=0;
+			}break;
 		case '#selection':
 			$("#edition").css('z-index',0);
 			$("#selection").css('z-index',1);
@@ -38,6 +43,10 @@ $(function() {
 			});
 			$('#menu a').css('color','#000');
 			$('a[href=#selection]').css('color','#ff8000');
+			if (sel_cat_reload==1) {
+				$('#sel_tree').dynatree('getTree').reload();
+				ed_cat_reload=0;
+			}
 			break;
 		case '#email':
 			$("#edition").css('z-index',0);

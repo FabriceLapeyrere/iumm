@@ -29,7 +29,7 @@
 		$rowid=$c->aj_categorie($nom, $_SESSION['user']['id']);
 		$js="
 		$('#ncat').remove();
-		$('#sel_tree').dynatree('getTree').reload();
+		sel_cat_reload=1;
 		var node=$('#ed_tree').dynatree('getTree').getNodeByKey('0');
 		node.addChild({title:'<span>".addslashes($nom)." <span class=\'nbincat \'>(0, 0)</span></span>',icon:false, addClass:'categorie', key:'$rowid'});
 		node.sortChildren();

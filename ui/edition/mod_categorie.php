@@ -32,7 +32,7 @@
 		$c=new Categorie($id);
 		$c->mod_parent($id_parent, $_SESSION['user']['id']);
 		$js="
-		$('#sel_tree').dynatree('getTree').reload();
+		sel_cat_reload=1;
 		";
 		while ($c->id!=0){
 			$js.="

@@ -43,8 +43,8 @@
 		},
 		'json'
 	);
-	$('#ed_tree').dynatree('getTree').reload();
-		";
+	ed_cat_reload=1;
+	";
 		while ($c->id_parent!=0){
 			$c=new Categorie($c->id_parent);
 			$js.="

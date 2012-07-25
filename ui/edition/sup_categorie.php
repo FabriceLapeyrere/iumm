@@ -32,8 +32,8 @@
 			$id_parent=$c->id_parent;
 			$c->suppr($_SESSION['user']['id']);
 			$js="
-				$('#sel_tree').dynatree('getTree').reload();
-				$('#ed_tree').dynatree('getTree').getNodeByKey('$id').remove();
+			sel_cat_reload=1;
+			$('#ed_tree').dynatree('getTree').getNodeByKey('$id').remove();
 			$.post('ajax.php',{
 					action:'selection/selection_humains',
 					format:'html'

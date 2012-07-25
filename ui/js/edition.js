@@ -523,12 +523,10 @@ $(function() {
 				/** This function MUST be defined to enable dragging for the tree.
 				 *  Return false to cancel dragging of node.
 				 */
-				console.log('drag start');
 				return true;
 			},
 			onDragStop: function(node) {
 				// This function is optional.
-				console.log('drag stop');
 			},
 			autoExpandMS: 1000,
 			preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
@@ -540,7 +538,6 @@ $(function() {
 				 *  Return ['before', 'after'] to restrict available hitModes.
 				 *  Any other return value will calc the hitMode from the cursor position.
 				 */
-				console.log('drag enter');
 				return true;
 			},
 			onDragOver: function(node, sourceNode, hitMode) {
@@ -557,7 +554,6 @@ $(function() {
 				/** This function MUST be defined to enable dropping of items on
 				 * the tree.
 				 */
-				console.log('drop',node.data.key, sourceNode.data.key);
 				$.post('ajax.php',{
 					action:'edition/mod_categorie',
 					id:sourceNode.data.key,
@@ -581,7 +577,6 @@ $(function() {
 			onDragLeave: function(node, sourceNode) {
 				/** Always called if onDragEnter was called.
 				 */
-				console.log('drag leave');
 			}
 		},
 		onCreate: function(node, span){
@@ -1042,7 +1037,6 @@ $(function() {
 						$('#metab'+ $(el).dataset('id')).dialog( 'moveToTop' );
 					}
 				}
-				console.log(action);
 				if(action=='rename') {
 					var panel=$(el).parent().parent();
 					var id=$(el).dataset('id');

@@ -43,6 +43,9 @@
 			<span class='ui-button-text'>combiner</span>
 		</button><br />$bouton_decombiner
 	</div>";
+	elseif ($recherche=="" && count($_SESSION['combinaison'])==0) {
+		$html.="<div class='recherche'><div class='cadre cadre1'>Aucun filtre.</div><div style='clear:both;'></div></div>";
+	}
 	else {
 		$html.="<div class='recherche'><div class='cadre cadre1'>Aucun filtre.</div><div style='clear:both;'></div>$bouton_scombinaison</div><div class='op'>
 	$bouton_decombiner</div>";

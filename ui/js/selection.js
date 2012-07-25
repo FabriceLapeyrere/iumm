@@ -111,6 +111,16 @@ $(function() {
 		},
 		'json');
 	});
+	$('#sel_structures').on('click', '.pagination a', function(){
+		$.post('ajax.php',{action:'selection/structures', format:'html', binf:$(this).dataset('binf')},function(data){
+				if(data.succes==1){
+					$('#sel_structures .liste').html(data.html);
+					$('#sel_structures .pagination').html(data.pagination);
+					eval(data.js);
+				}
+			},'json'
+		);
+	});
 	$('#sel_humains').on('click','.combiner', function(){
 		$.post('ajax.php',{
 			action:'selection/combine_recherche'
@@ -507,10 +517,13 @@ $(function() {
 			'width': W+'px',
 			'height': window.innerHeight+'px'
 		});
+		$("#sel_humains").css({
+			'width':Wcas+'px'
+		});
 		$("#sel_filtres").css({
 			'top':(hsel-$('#sel_filtres').height())+'px',
 			'left':'5px',
-			'width':(W-5)+'px'
+			'width':Wcas+'px'
 		});
 		$("#sel_casquettes").css({
 			'top':hsel + 'px',
@@ -526,19 +539,18 @@ $(function() {
 		sel_ajuste_cat();
 	}
 	sel_ajuste_cat=function(){
-		var hsel=$('#sel_humains').height()+20+$('#sel_filtres').height();
 		var W=window.innerWidth;
-		var H=window.innerHeight-hsel;
+		var H=window.innerHeight;
 		var Hcat=Math.min($('#sel_tree').height(),parseInt((H-10.)/3.));
 		var Hstr=H-Hcat-15;
 		$("#sel_categories").css({
-			'top': hsel +'px',
+			'top': 40 +'px',
 			'left':parseInt(5. + 2.*W/3.)+'px',
 			'width':parseInt(W/3.-25.)+'px',
 			'height': Hcat +'px'
 		});
 		$("#sel_structures").css({
-			'top':hsel +5+Hcat+ 'px',
+			'top':45+Hcat+ 'px',
 			'left':parseInt(5. + 2.*W/3.)+'px',
 			'width':parseInt(W/3.-25.)+'px',
 			'height': Hstr +'px'

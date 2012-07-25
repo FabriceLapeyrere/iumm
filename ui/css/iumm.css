@@ -165,6 +165,7 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #emailing .titre{color:#333; font-size:22px;font-family:sans-serif;}
 #emailing_envoi .meta {margin-top:10px;font-family:sans-serif;font-size:14px;}
 #emailing_envoi .titre {font-size:22px;}
+#emailing_envoi a.pj {color:#ff8000;}
 
 #publipostage {position:absolute;background:#fff;z-index:0;}
 #publipostage_support {position:absolute;}

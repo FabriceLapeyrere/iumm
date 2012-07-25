@@ -7,4 +7,4 @@ fichiers/envois/*
 tmp/*
 modele/corbeille/*
 ui/includes/upload/server/php/thumbnails/*
-
+ctl/exec/cli/import_v0.php

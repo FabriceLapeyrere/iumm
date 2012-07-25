@@ -967,11 +967,10 @@ class html
 			$html.="<div class='titre' data-id='$id'>".$envoi['sujet']."</div><div class='meta'>Envoi commencé le ".$envoi['date']."<br/>Expéditeur&nbsp;: ".$expediteur->nom." &lt;".$expediteur->email."&gt;<br/>";
 			$pjs=Emailing::envoi_pjs($id);
 			if (count($pjs)>0){
-				$html.="Pièces jointes :<br/><ul>";
+				$html.="Pièces jointes : ";
 				foreach($pjs as $pj){
-					$html.="<li><a target='_blank' href='$pj'>".basename($pj)."</a></li>";
+					$html.="<span style='margin:2px;' class='dynatree-node' data-id='$id_categorie'><a class='dynatree-title pj' target='_blank' href='$pj'>".basename($pj)."</a></span> ";
 				}
-				$html.="</ul>";
 			}
 			$html.="<hr/>";
 			if ($nb==0 && $nb_erreurs>0) $html.="<span style='color:green;'>envoi terminé.</span> <span style='color:red;'>Il y a eu des erreurs.</span><br />

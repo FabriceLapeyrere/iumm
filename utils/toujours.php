@@ -224,6 +224,8 @@ function json_escape($string){
 }
 
 function async($action,$params=array()){
+	if (PHP_SAPI !== 'cli')
+	{
 	#c'est une ruse pour indexer de manière asynchrone
 	#(pour ne pas perdre de temps) merci à 'arr1 at hotmail dot co dot uk'
 	# http://www.php.net/manual/en/features.connection-handling.php#71172
@@ -249,5 +251,6 @@ function async($action,$params=array()){
 
 	//close connection
 	curl_close($ch);
+	}
 }
 ?>

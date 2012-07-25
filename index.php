@@ -262,8 +262,8 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 			<div><input type="checkbox" id="sel_sadresse" <?=$html_sadresse?>/> Sans adresse postale.</div>
 			<div><input type="checkbox" id="sel_Ncats" <?=$html_Ncats?>/> Pas dans les listes. </div>
 			<div><input type="checkbox" id="sel_Netabs" <?=$html_Netabs?>/> Pas dans les structures. </div>
-			<div><input type="checkbox" id="sel_cas" <?=$html_cas?>/> Parmi les contacts sélectionnés. </div>
-			<div><input type="checkbox" id="sel_scas" <?=$html_scas?>/> Exclure les contacts sélectionnés. </div>
+			<div><input type="checkbox" id="sel_cas" <?=$html_cas?>/> Parmi les contacts cochés. </div>
+			<div><input type="checkbox" id="sel_scas" <?=$html_scas?>/> Exclure les contacts cochés. </div>
 			<div><input type="checkbox" id="sel_N" <?=$html_N?>/> Inverser la selection.</div>
 	<div style='clear:both;'></div>
 	<div>

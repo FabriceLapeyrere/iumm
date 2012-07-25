@@ -101,11 +101,13 @@ class Emails {
 		$sql="update envois set html='$html' where rowid=$id_envoi";
 		$base->query($sql);
 		$i=1;
+		$sql="BEGIN;";
 		foreach ($liste_casquettes as $id=>$casquette) {
-			$sql="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '')";
-			$base->query($sql);
+			$sql.="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '');";
 			$i++;
 		}
+		$sql.="COMMIT;";
+		$base->query($sql);
 		$base->close();
 		smartCopy("fichiers/emails/$id_email","fichiers/envois/$id_envoi");
 		return $id_envoi;

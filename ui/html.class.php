@@ -1084,10 +1084,12 @@ class html
 			<ul>";
 			foreach($messages as $id_message=>$message){
 				$c=new Casquette($message['id_casquette']);
+				if ($c->nom_contact!="$$$$") $nom=$c->prenom_contact." ".$c->nom_contact;
+				else $nom=$c->nom_structure;
 				if($message['erreurs']=="")
-					$html.="<li class='message'>à envoyer à <span class='dest'>".$c->prenom_contact." ".$c->nom_contact." : ".implode($c->emails(),', ')."</span><button title='supprimer' aria-disabled='false' role='button' style='border: medium none; background: none repeat scroll 0% 0% transparent;' class='suppr ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_message'><span class='ui-button-icon-primary ui-icon ui-icon-close'></span><span class='ui-button-text'>supprimer</span></button></li>";
+					$html.="<li class='message'>à envoyer à <span class='dest'>$nom : ".implode($c->emails(),', ')."</span><button title='supprimer' aria-disabled='false' role='button' style='border: medium none; background: none repeat scroll 0% 0% transparent;' class='suppr ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_message'><span class='ui-button-icon-primary ui-icon ui-icon-close'></span><span class='ui-button-text'>supprimer</span></button></li>";
 				else
-					$html.="<li class='message'>ERREUR - ".$message['erreurs']." - <span class='dest'>".$c->prenom_contact." ".$c->nom_contact." : ".implode($c->emails(),', ')."</span><button title='supprimer' aria-disabled='false' role='button' style='border: medium none; background: none repeat scroll 0% 0% transparent;' class='suppr ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_message'><span class='ui-button-icon-primary ui-icon ui-icon-close'></span><span class='ui-button-text'>supprimer</span></button></li>";
+					$html.="<li class='message'>ERREUR - ".$message['erreurs']." - <span class='dest'>$nom : ".implode($c->emails(),', ')."</span><button title='supprimer' aria-disabled='false' role='button' style='border: medium none; background: none repeat scroll 0% 0% transparent;' class='suppr ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' data-id='$id_message'><span class='ui-button-icon-primary ui-icon ui-icon-close'></span><span class='ui-button-text'>supprimer</span></button></li>";
 			}
 			$html.="</ul>";
 		}

@@ -512,6 +512,9 @@ $(function() {
 	});
 
 	$("#ed_tree").dynatree({
+		onPostInit : function(){
+			ed_scatapi.reinitialise();
+		},
 		initAjax:{url:'ajax.php',data:{action:'edition/categories', format:'json'}},
 		generateIds:true,
 		idPrefix: "ed_dynatree-id-",

@@ -542,7 +542,7 @@ $(function() {
 		var W=window.innerWidth;
 		var H=window.innerHeight;
 		var Hcat=Math.min($('#sel_tree').height(),parseInt((H-10.)/3.));
-		var Hstr=H-Hcat-15;
+		var Hstr=H-Hcat-45;
 		$("#sel_categories").css({
 			'top': 40 +'px',
 			'left':parseInt(5. + 2.*W/3.)+'px',

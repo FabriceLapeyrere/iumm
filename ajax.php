@@ -5,6 +5,7 @@
  * @author     Fabrice Lapeyrere <fabrice@surlefil.org>
  */
 $t=microtime(true);
+include "ctl/dbs.php";
 include "ui/session.php";
 
 include "utils/toujours.php";

@@ -1,6 +1,7 @@
 body {font-size:10px;margin:0px;}
 label{margin-right:10px;}
 textarea{width:270px;height:180px;}
+textarea[name="adresse"]{width:220px;height:50px;}
 #infos {background:#C1E2DB;display:none;position:absolute;left:0;bottom:0;padding:5px;z-index:9999;}
 div.menu {position:relative;height:30px;}
 ul {list-style:none;margin:0;padding:0;}

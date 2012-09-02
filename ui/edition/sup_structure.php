@@ -26,7 +26,7 @@
 	else {
 		$id_structure=$_POST['id_structure'];
 		$s=new Structure($id_structure);
-		$etablissements=$s->etablissements;
+		$etablissements=$s->etablissements();
 		$js="";
 		$js.="
 		if ($('#ed_structure-$id_structure').length!=0){
@@ -46,17 +46,18 @@
 			'json'
 		);
 		";
-		foreach($etablissements as $id_etablissement=>$etablissement){
+		foreach($etablissements as $id_etablissement){
 			$etab=new Etablissement($id_etablissement);
 			$js.="
 			if ($('#metab$id_etablissement').length!=0) $('#metab$id_etablissement').dialog('close');
 			if ($('#rnetab$id_etablissement').length!=0) $('#rnetab$id_etablissement').dialog('close');
 			";
 			$tab_cas=$etab->casquettes();
-			foreach($tab_cas as $id_casquette=>$casquette){
+			foreach($tab_cas as $id_casquette){
 				#on rend le cache obsolete
 				Cache::set_obsolete('casquette',$id_casquette);
-		
+				Cache::set_obsolete('casquette_sel',$id_casquette);
+				
 				$js.="
 				if ($('#ed_casquette-$id_casquette').length!=0)
 				$.post('ajax.php',{action:'edition/casquette', id_casquette:$id_casquette,format:'html'},function(data){

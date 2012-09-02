@@ -29,7 +29,8 @@
 	
 		$s=new Structure($id);
 		$s->mod_nom($nom, $_SESSION['user']['id']);
-		$etablissements=$s->etablissements;
+		Cache::set_obsolete('structure',$id);
+		$etablissements=$s->etablissements();
 		$js="
 			$('#ed_structure-$id span.titre').html('".addslashes($nom)."');
 			$('#rnstr$id').remove();
@@ -45,7 +46,7 @@
 				'json'
 			);
 		";
-		foreach($etablissements as $id_etablissement=>$etablissement){
+		foreach($etablissements as $id_etablissement){
 			$js.="
 				$.post('ajax.php',{action:'edition/metablissement', id_etablissement:$id_etablissement},function(data){
 					$('.etabContact$id_etablissement span.titre').html(data.titre);
@@ -53,17 +54,24 @@
 				},'json');
 			
 			";
-			$e=new Etablissement($id);
+			#on rend le cache obsolete
+			Cache::set_obsolete('etablissement',$id_etablissement);
+			$e=new Etablissement($id_etablissement);
+			$id_propre=$e->casquette_propre();
+			#on rend le cache obsolete
+			Cache::set_obsolete('casquette',$id_propre);
+			Cache::set_obsolete('casquette_sel',$id_propre);
 			$casquettes=$e->casquettes();
 			$js_cas="";
-			foreach($casquettes as $id_cas=>$nom_cas){
+			foreach($casquettes as $id_cas){
 				$cas=new Casquette($id_cas);
 				$cas->mod_nom($nom);
 				#on rend le cache obsolete
 				Cache::set_obsolete('casquette',$id_cas);
-		
+				Cache::set_obsolete('casquette_sel',$id_cas);
+				
 				$js_cas.="
-				$('li[data-tab=\"#ed_casquette-$id\"] a').html('".addslashes($nom)."');
+				$('li[data-tab=\"#ed_casquette-$id_cas\"] a').html('".addslashes($nom)."');
 				$.post('ajax.php',{
 						action:'edition/casquette',
 						id_casquette:$id_cas,

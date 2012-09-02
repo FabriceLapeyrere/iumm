@@ -26,7 +26,7 @@ $(function() {
 			$('a[href=#edition]').css('color','#ff8000');
 			if (ed_cat_reload==1) {
 				$('#ed_tree').dynatree('getTree').reload();
-				sel_cat_reload=0;
+				ed_cat_reload=0;
 			}break;
 		case '#selection':
 			$("#edition").css('z-index',0);
@@ -45,7 +45,7 @@ $(function() {
 			$('a[href=#selection]').css('color','#ff8000');
 			if (sel_cat_reload==1) {
 				$('#sel_tree').dynatree('getTree').reload();
-				ed_cat_reload=0;
+				sel_cat_reload=0;
 			}
 			break;
 		case '#email':

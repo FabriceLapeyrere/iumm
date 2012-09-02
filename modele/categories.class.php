@@ -10,7 +10,7 @@
 class Categories {
 	var $nbcategories=0;
 	function Categories() {
-		#on récupere le nombre de contacts:
+		#on récupere le nombre de categories:
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select count(*) from categories$cond";
@@ -18,6 +18,18 @@ class Categories {
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$this->nbcontacts=$tab['count(*)'];
 		}
+	}
+	function toutes() {
+		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select rowid from categories where nom!='####'";
+		$liste=array();
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$liste[]=$tab['rowid'];
+		}
+		$base->close();
+		return $liste;
 	}
 	function aj_categorie($nom, $id_utilisateur=1) {
 		$nom=SQLite3::escapeString($nom);

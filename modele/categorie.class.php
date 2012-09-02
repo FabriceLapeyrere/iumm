@@ -11,21 +11,35 @@
 							
 class Categorie {
 	var $id=0;
-	var $nom='';
-	var $id_parent=0;	
 	function Categorie($id) {
 		$this->id=$id;
-	
+	}
+	function nom() {
+		$id=$this->id;
+		#on récupere le nom et l'id_parent:
+		$nom="";
+		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select nom, idparent from categories where rowid=$id";
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$nom=$tab['nom'];
+		}
+		$base->close();		
+		return $nom;
+	}
+	function id_parent() {
+		$id=$this->id;
 		#on récupere le nom et l'id_parent:
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select nom, idparent from categories where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$this->nom=$tab['nom'];
-			$this->id_parent=$tab['idparent'];
+			$id_parent=$tab['idparent'];
 		}
-		$base->close();		
+		$base->close();
+		return $id_parent;
 	}
 	function mod_nom($nom, $id_utilisateur=1){
 		$nom=SQLite3::escapeString($nom);
@@ -59,10 +73,7 @@ class Categorie {
 		$base->busyTimeout (10000);
 		$sql="SELECT t3.rowid, t3.nom FROM casquettes as t3
 INNER join ass_casquette_categorie AS t4 ON t3.rowid=t4.id_casquette
-WHERE t3.nom!='####' and t4.id_categorie=".$this->id." AND t4.statut=1 AND t4.id_casquette||','||t4.id_categorie||','||1||','||t4.date IN (
-SELECT id_casquette||','||id_categorie||','||statut||','||max ( date )
-FROM 'ass_casquette_categorie'
-GROUP BY id_casquette,id_categorie)";	
+WHERE t3.nom!='####' and t4.id_categorie=".$this->id;	
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$rowid=$tab['rowid'];

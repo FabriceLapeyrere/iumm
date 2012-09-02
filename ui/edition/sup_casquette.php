@@ -26,10 +26,10 @@
 	else {
 		$id_casquette=$_POST['id_casquette'];
 		$c=new Casquette($id_casquette);
-		$id_etablissement=$c->id_etablissement;
-		$id_contact=$c->id_contact;
+		$id_etablissement=$c->id_etablissement();
+		$id_contact=$c->id_contact();
 		$cont=new Contact($id_contact);
-		$nb=count($cont->casquettes);
+		$nb=count($cont->casquettes());
 		$js="";
 		if ($nb==1){
 			$js.="
@@ -50,25 +50,21 @@
 		}
 		else {
 			$c->suppr($_SESSION['user']['id']);
-	
 			#on rend le cache obsolete
 			Cache::set_obsolete('etablissement',$id_etablissement);
+			Cache::set_obsolete('contact',$id_contact);
 
 			$js="";
 			$js.="
-				if ($('#ed_contact-$id_contact').length!=0)$.post('ajax.php',{action:'edition/contact',id_contact:$id_contact,format:'html'},function(data){
-					if(data.succes==1){
-						$('#ed_contact-$id_contact').html(data.html)
-						eval(data.js);
-						ed_scapi.reinitialise();
-					}
-				},'json');
+				$('#ed_contact-$id_contact').html('".json_escape(Html::Contact($id_contact))."');
+				".Js::contact($id_contact)."
+				ed_scapi.reinitialise();
 				if ($('#mcas$id_casquette').length!=0) $('#mcas$id_casquette').dialog('close');
 				if ($('#rncas$id_casquette').length!=0) $('#rncas$id_casquette').dialog('close');
-				if ($('#ed_etablissement-".$c->id_etablissement."').length!=0)
-				$.post('ajax.php',{action:'edition/etablissement', id_etablissement:".$c->id_etablissement.",format:'html'},function(data){
+				if ($('#ed_etablissement-$id_etablissement').length!=0)
+				$.post('ajax.php',{action:'edition/etablissement', id_etablissement:$id_etablissement,format:'html'},function(data){
 					if(data.succes==1){
-						$('#ed_etablissement-".$c->id_etablissement."').html(data.html);
+						$('#ed_etablissement-$id_etablissement').html(data.html);
 						eval(data.js);
 						ed_ssapi.reinitialise();
 					}
@@ -86,7 +82,7 @@
 					'json'
 				);
 			";	
-			foreach($c->categories as $id_categorie=>$categorie){
+			foreach($c->categories() as $id_categorie){
 				$cat=new Categorie($id_categorie);
 				$js.="
 				$.post('ajax.php',{
@@ -104,8 +100,8 @@
 					'json'
 				);
 				";
-				while ($cat->id_parent!=0){
-					$cat=new Categorie($cat->id_parent);
+				while ($cat->id_parent()!=0){
+					$cat=new Categorie($cat->id_parent());
 					$js.="
 					$.post('ajax.php',{
 							action:'edition/nbincat',

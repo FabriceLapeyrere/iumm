@@ -56,18 +56,18 @@ if(Emailing::statut_envoi($id_envoi)==1) {
 	
 		$c=new Casquette($tab['id_casquette']);		
 		foreach($c->emails() as $id=>$email){
-			$mail->AddAddress($email,$c->prenom_contact." ".$c->nom_contact);
+			$mail->AddAddress($email,$c->prenom_contact()." ".$c->nom_contact());
 		}
 	
 		if (!$mail->Send())
 		{
-			$log=date('d/m/Y H:i:s')." - ERREUR - ".$mail->ErrorInfo." - $i/$nb ".$c->prenom_contact." ".$c->nom_contact." : ".implode($c->emails(),', ')." \n";
+			$log=date('d/m/Y H:i:s')." - ERREUR - ".$mail->ErrorInfo." - $i/$nb ".$c->prenom_contact()." ".$c->nom_contact()." : ".implode($c->emails(),', ')." \n";
 			Emailing::message_erreur($tab['rowid'],$mail->ErrorInfo);
 			error_log($log, 3, "tmp/envoi.log");
 		}
 		else
 		{
-			$log=date('d/m/Y H:i:s')." - $i/$nb ".$c->prenom_contact." ".$c->nom_contact." : ".implode($c->emails(),', ')." \n";
+			$log=date('d/m/Y H:i:s')." - $i/$nb ".$c->prenom_contact()." ".$c->nom_contact()." : ".implode($c->emails(),', ')." \n";
 			Emailing::log_envoi($id_envoi, $log);
 			Emailing::sup_message($tab['rowid']);
 			error_log($log, 3, "tmp/envoi.log");

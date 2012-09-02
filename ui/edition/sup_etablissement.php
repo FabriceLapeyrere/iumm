@@ -26,10 +26,10 @@
 	else {
 		$id_etablissement=$_POST['id_etablissement'];
 		$e=new etablissement($id_etablissement);
-		$id_structure=$e->id_structure;
+		$id_structure=$e->id_structure();
 		$tab_cas=$e->casquettes();
 		$str=new Structure($id_structure);
-		$nb=count($str->etablissements);
+		$nb=count($str->etablissements());
 		$js="";
 		if ($nb==1){
 			$js.="
@@ -73,10 +73,11 @@
 				'json'
 			);
 			";
-			foreach($tab_cas as $id_cas=>$nom_cas){
+			foreach($tab_cas as $id_cas){
 				#on rend le cache obsolete
 				Cache::set_obsolete('casquette',$id_cas);
-		
+				Cache::set_obsolete('casquette_sel',$id_cas);
+				
 				$js.="
 				$.post('ajax.php',{
 						action:'edition/casquette',

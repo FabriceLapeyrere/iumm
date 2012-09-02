@@ -15,6 +15,13 @@ $(function() {
 		mouseWheelSpeed:15
 	});
 	sel_scatapi = sel_scat.data('jsp');
+	$('#sel_casquettes').on('mouseenter', '.casquette', function(){
+		$('#etat').html($(this).dataset('id')).show();
+	});
+	$('#sel_casquettes').on('mouseleave', '.casquette', function(){
+		$('#etat').html($(this).dataset('id')).hide();
+	});
+
 	$('#sel_casquettes').on({
 			mouseenter: function(){
 				var interieur=$(this).find('.titre').height()+$(this).find('.cas').height()
@@ -94,6 +101,7 @@ $(function() {
 	$('#sel_casquettes').on('click', '.dynatree-node', function(){
 		var id=$(this).dataset('id');
 		$('#sel_tree').dynatree('getTree').getNodeByKey(id).activate();
+		sel_scatapi.scrollToElement($('#sel_dynatree-id-'+id),false,true);
 	});
 	$('#sel_structures').on('click','.filtre button', function(){
 		var motifs=$(this).prev().val();
@@ -457,51 +465,32 @@ $(function() {
 		},
 		onRender: function(dtnode, nodeSpan){
 			if (isOneSelectedRec(dtnode) && !dtnode.isSelected()) $('#sel_dynatree-id-'+dtnode.data.key+'>span').addClass('dynatree-partsel');
-			if (dtnode.data.key==0) {dtnode.expand(true);}
-			if (dtnode.data.key>0) {
-				$(nodeSpan).droppable({
-					accept: ".casquette .titre",
-					tolerance:'pointer',
-					drop: function( event, ui ) {
-						$( this ).effect('highlight');
-						$.post('ajax.php',{
-							action:'selection/ass_casquette_categorie',
-							id_categorie:$(this).parent().attr('id').replace('sel_dynatree-id-',''),
-							id_casquette:$(ui.draggable).parent().dataset('id')
-							},
-							function(data){
-								if (data.succes==1) {
-									eval(data.js);
-								}
-							},
-							'json');
-					}
-				});
-				/*$(nodeSpan).children('a').draggable({
-					revert: true,
-					cursor: 'pointer',
-					appendTo: 'body',
-					zIndex: 999,
-					cursorAt: { top: -10, left:0 },
-					helper: function(){return $(this).clone();}
-				});
-				$.post('ajax.php',{
-					action:'edition/nbincat',
-					id_categorie:$(nodeSpan).parent().attr('id').replace('dynatree-id-',''),
-					format:'html'
-					},
-					function(data){
-						if (data.succes==1) {
-							$(nodeSpan).find('.nbincat').first().html('('+data.html+')');
-							sel_ajuste_cat();
-						}
-					},
-					'json'
-				);*/
-				setTimeout(sel_ajuste_cat,100);
-			}
+			if (dtnode.data.key==0) {dtnode.expand(true);setTimeout(sel_ajuste_cat,1000);}
 		}
 	});
+	$("#sel_tree").on('mouseenter','span.dynatree-node',function(){
+			$(this).droppable({
+				accept: "#sel_casquettes .casquette>.titre",
+				tolerance:'pointer',
+				drop: function( event, ui ) {
+					$( this ).effect('highlight');
+					$('body>.titre.ui-draggable').remove();
+					$.post('ajax.php',{
+						action:'edition/ass_casquette_categorie',
+						id_categorie:$(this).parent().attr('id').replace('sel_dynatree-id-',''),
+						id_casquette:$(ui.draggable).parent().dataset('id')
+						},
+						function(data){
+							if (data.succes==1) {
+								eval(data.js);
+							}
+						},
+						'json');
+				}
+			});
+		}
+	);
+	$("#sel_tree").on('mouseleave','span.dynatree-node', function(){$(this).droppable("destroy");});
 	
 	sel_ajuste=function(){
 		var hsel=$('#sel_humains').height()+50+$('#sel_filtres').height();

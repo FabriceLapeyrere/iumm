@@ -11,7 +11,7 @@
 	$form->prefixe="rncat$id";
 	
 	$form->ajoute_entree('id', 'hidden', $id, '', array(1));
-	$form->ajoute_entree('nom', 'texte_court', $c->nom, 'Nom', array(1));
+	$form->ajoute_entree('nom', 'texte_court', $c->nom(), 'Nom', array(1));
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'edition/ren_categorie');
@@ -36,7 +36,7 @@ $('#rncat$id input').select();
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']=$c->nom;
+		$reponse['titre']=$c->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

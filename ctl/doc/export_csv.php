@@ -11,9 +11,9 @@
 	foreach (Casquettes::liste('complete') as $id=>$casquette) {
 		$tab=array();
 		$c=new Casquette($id);
-		if ($c->casquette_etab==0) {
-			$tab['1_nom']=$c->nom_contact;
-			$tab['2_prenom']=$c->prenom_contact;
+		if ($c->casquette_etab()==0) {
+			$tab['1_nom']=$c->nom_contact();
+			$tab['2_prenom']=$c->prenom_contact();
 		} else {
 			$tab['1_nom']="";
 			$tab['2_prenom']="";
@@ -31,7 +31,7 @@
 				else $tab["3_contact_".$nom]=$donnee['valeur'];
 			}
 		}
-		$tab['4_structure']=$c->nom_structure;
+		$tab['4_structure']=$c->nom_structure();
 		$donnees=$c->donnees_etab();
 		foreach($donnees as $nom=>$donnee){
 			if ($donnee['valeur']!=""){
@@ -46,7 +46,7 @@
 			}
 		}
 		$tab['6_listes']="";
-		$categories=$c->categories;
+		$categories=$c->categories();
 		$listes=array();
 		foreach($categories as $categorie){
 			$listes[]=$categorie['nom'];

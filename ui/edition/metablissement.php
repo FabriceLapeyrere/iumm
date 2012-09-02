@@ -17,7 +17,7 @@
 	$test=1;
 	$adresse="";
 	foreach($e->donnees() as $nom=>$donnee){
-		if ($donnee['type']=='adresse') $test=0;
+		if ($donnee[2]=='adresse') $test=0;
 	}
 	$adresse="<li class='champ' data-type='adresse'>Adresse</li>";
 	$a="";
@@ -95,10 +95,9 @@ $('#metab$id ul.plus div.perso').on('click','button',function(){
 });
 	";
 	foreach($e->donnees() as $nom=>$donnee){
-		$rowid_d=$donnee['rowid'];
-		$label_d=$donnee['label'];
-		$type_d=$donnee['type'];
-		$valeur_d=$donnee['valeur'];
+		$label_d=$donnee[1];
+		$type_d=$donnee[2];
+		$valeur_d=$donnee[0];
 			
 		$form->ajoute_entree($nom, $type_d, $valeur_d, '',array(1),$label_d);
 	}
@@ -144,7 +143,7 @@ $('#metab$id ul.champs>li').on('click','.moins', function(){
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']="<b>".$e->nom_structure."</b>, ".$e->nom;
+		$reponse['titre']="<b>".$e->nom_structure()."</b>, ".$e->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

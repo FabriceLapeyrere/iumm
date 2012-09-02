@@ -42,6 +42,21 @@ $(function() {
 		}
 		else $('#ncat').dialog('moveToTop');
 	});
+
+	$('#ed_contacts').on('mouseenter', 'li.tab.ui-draggable', function(){
+		$('#etat').html($(this).dataset('id')).show();
+	});
+	$('#ed_structures').on('mouseenter', 'li.tab.ui-draggable', function(){
+		$('#etat').html($(this).dataset('idcas')).show();
+	});
+	$('#ed_contacts').on('mouseleave', 'li.tab.ui-draggable', function(){
+		$('#etat').html($(this).dataset('id')).hide();
+	});
+	$('#ed_structures').on('mouseleave', 'li.tab.ui-draggable', function(){
+		$('#etat').html($(this).dataset('idcas')).hide();
+	});
+
+
 	$('#ed_contacts-head').on('click', 'button.ajmain', function(){
 		if($('#ncont').length == 0) {
 			$('<div id="ncont" class="local_edition"></div>').dialog({
@@ -152,10 +167,12 @@ $(function() {
 	$('#ed_contacts').on('click', '.dynatree-node', function(){
 		var id=$(this).dataset('id');
 		$('#ed_tree').dynatree('getTree').getNodeByKey(id).activate();
+		ed_scatapi.scrollToElement($('#ed_dynatree-id-'+id),false,true);
 	});
 	$('#ed_structures').on('click', '.dynatree-node', function(){
 		var id=$(this).dataset('id');
 		$('#ed_tree').dynatree('getTree').getNodeByKey(id).activate();
+		ed_scatapi.scrollToElement($('#ed_dynatree-id-'+id),false,true);
 	});
 	$('#ed_contacts').on('click', '.bouton.suppr', function(){
 		var id=$(this).dataset('id');
@@ -580,10 +597,55 @@ $(function() {
 			}
 		},
 		onCreate: function(node, span){
-			$(span).contextMenu({menu: "ed_menu_categorie"},
+		},
+		onRender: function(dtnode, nodeSpan){
+			
+			if (dtnode.data.key==0) {dtnode.expand(true);}
+			if (dtnode.data.key>0) {
+				$(nodeSpan).droppable({
+					accept: ".contacts .tab, .structures .tab",
+					tolerance:'pointer',
+					drop: function( event, ui ) {
+						$( this ).effect('highlight');
+						$.post('ajax.php',{
+							action:'edition/ass_casquette_categorie',
+							id_categorie:$(this).parent().attr('id').replace('ed_dynatree-id-',''),
+							id_casquette:$(ui.draggable).dataset('idcas')
+							},
+							function(data){
+								if (data.succes==1) {
+									eval(data.js);
+								}
+							},
+							'json');
+					}
+				});
+			}
+		}
+	});
+	$("#ed_tree").on('mouseenter','span.dynatree-node',function(){
+		$(this).droppable({
+			accept: ".contacts .tab, .structures .tab",
+			tolerance:'pointer',
+			drop: function( event, ui ) {
+				$( this ).effect('highlight');
+				$.post('ajax.php',{
+					action:'edition/ass_casquette_categorie',
+					id_categorie:$(this).parent().attr('id').replace('ed_dynatree-id-',''),
+					id_casquette:$(ui.draggable).dataset('idcas')
+					},
+					function(data){
+						if (data.succes==1) {
+							eval(data.js);
+						}
+					},
+					'json');
+			}
+		});
+		$(this).contextMenu({menu: "ed_menu_categorie"},
 				function(action, el, pos) {
+					var id=$(el).parent().attr('id').replace('ed_dynatree-id-','');
 					if(action=='rename') {
-						var id=node.data.key;
 						if($('#rncat'+ id).length == 0) {
 							 $('<div id="rncat'+ id + '" class="local_edition"></div>').dialog({
 								position:pos,
@@ -612,7 +674,6 @@ $(function() {
 						}
 					}
 					if(action=='delete') {
-						var id=node.data.key;
 						$.post('ajax.php',{
 							action:'edition/verif_sup_categorie',
 							id_categorie:id
@@ -627,54 +688,10 @@ $(function() {
 					}
 				}
 			);
-		},
-		onRender: function(dtnode, nodeSpan){
-			
-			if (dtnode.data.key==0) {dtnode.expand(true);}
-			if (dtnode.data.key>0) {
-				$(nodeSpan).droppable({
-					accept: ".contacts .tab, .structures .tab",
-					tolerance:'pointer',
-					drop: function( event, ui ) {
-						$( this ).effect('highlight');
-						$.post('ajax.php',{
-							action:'edition/ass_casquette_categorie',
-							id_categorie:$(this).parent().attr('id').replace('ed_dynatree-id-',''),
-							id_casquette:$(ui.draggable).dataset('idcas')
-							},
-							function(data){
-								if (data.succes==1) {
-									eval(data.js);
-								}
-							},
-							'json');
-					}
-				});
-				/*$(nodeSpan).children('a').draggable({
-					revert: true,
-					cursor: 'pointer',
-					appendTo: 'body',
-					zIndex: 999,
-					cursorAt: { top: -10, left:0 },
-					helper: function(){return $(this).clone();}
-				});
-				$.post('ajax.php',{
-					action:'edition/nbincat',
-					id_categorie:$(nodeSpan).parent().attr('id').replace('dynatree-id-',''),
-					format:'html'
-					},
-					function(data){
-						if (data.succes==1) {
-							$(nodeSpan).find('.nbincat').first().html('('+data.html+')');
-							ed_scatapi.reinitialise();
-						}
-					},
-					'json'
-				);*/
-			}
 		}
-	});
-	
+	);
+	$("#ed_tree").on('mouseleave','span.dynatree-node',	function(){$(this).droppable("destroy");$(this).destroyContextMenu();});
+
 	ed_ajuste=function(){
 		W=window.innerWidth;
 		H=window.innerHeight-130;

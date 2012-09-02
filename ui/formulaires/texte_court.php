@@ -1,5 +1,5 @@
 <?php
-	$this->entrees[$nom]['html']="<label for=\"$prefixe"."_entree_$nom\">$label</label><br /><input id=\"$prefixe"."_entree_$nom\" type=\"text\" value=\"$valeur\" name=\"$nom\" class=\"$classes\" />
+	$this->entrees[$nom]['html']="<label for=\"$prefixe"."_entree_$nom\">$label</label><br /><input id=\"$prefixe"."_entree_$nom\" type=\"text\" value=\"".htmlentities($valeur, ENT_COMPAT,"UTF-8")."\" name=\"$nom\" class=\"$classes\" />
 <div id=\"$prefixe"."_entree_$nom-infos\" class=\"tooltip\"></div>";
 	$this->entrees[$nom]['js']="
 	$('#$prefixe"."_entree_$nom').bind('keyup change focus focusout',function(){

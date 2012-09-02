@@ -5,6 +5,7 @@
  */
 	$reponse=array();
 	$succes=1;
+	$js="";
 	if (isset($_POST['id_news'])) $id_news=$_POST['id_news'];
 	else $id_news=Newsletters::derniere();
 	if ($id_news==0) {

@@ -11,7 +11,7 @@
 	$form->prefixe="rnetab$id";
 	
 	$form->ajoute_entree('id', 'hidden', $id, '', array(1));
-	$form->ajoute_entree('nom', 'texte_court', $e->nom, '', array(1), "Nom de l'établissement");
+	$form->ajoute_entree('nom', 'texte_court', $e->nom(), '', array(1), "Nom de l'établissement");
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'edition/ren_etablissement');
@@ -36,7 +36,7 @@ $('#rnetab$id input').select();
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']=$e->nom_structure.", ".$e->nom;
+		$reponse['titre']=$e->nom_structure().", ".$e->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

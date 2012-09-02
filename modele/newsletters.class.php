@@ -69,8 +69,8 @@ class Newsletters {
 		$base->query($sql);
 		$id_news=$base->lastInsertRowID();
 		$base->close();
-		mkdir("fichiers/news/$id_news");
-		mkdir("fichiers/news/$id_news/thumbnails");
+		mkdir("fichiers/news/$id_news",0777,true);
+		mkdir("fichiers/news/$id_news/thumbnails",0777,true);
 		return $id_news;
 	}
 	function derniere() {
@@ -97,6 +97,26 @@ class Newsletters {
 			else $modeles['Divers'][stripslashes($tab['nom'])]=$tab['rowid'];
 		}
 		$base->close();
+		function cmpm($a, $b)
+		{
+			if ($a[1] == $b[1]) {
+				return 0;
+			}
+			return ($a[1] < $b[1]) ? -1 : 1;
+		}
+		foreach($modeles as $theme=>$ms) {
+			$sort=array();
+			foreach($ms as $nom=>$id){
+				preg_match('/(.*)#(.*)/', $nom, $matches);
+				if(isset($matches[1])) $sort[$nom]=array($matches[1],$matches[2]);
+				else $sort[$nom]=array($nom,$nom);
+			}
+			uasort($sort,"cmpm");
+			$modeles[$theme]=array();
+			foreach($sort as $nom=>$s){
+				$modeles[$theme][$s[0]]=$ms[$nom];
+			}
+		}
 		return $modeles;
 	}
 	function aj_modele($nom,$modele){
@@ -156,8 +176,9 @@ class Newsletters {
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$modele=$tab['nom'];
 		}
+		$tab=explode('#',$modele);
 		$base->close();
-		return $modele;
+		return $tab[0];
 	}
 	function aj_envoi($id_news,$id_expediteur,$liste_casquettes){
 		$n=new Newsletter($id_news);	

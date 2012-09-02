@@ -27,6 +27,10 @@
 		$id=$_POST['id']['valeur'];
 		$nom=$_POST['nom']['valeur'];
 	
+		#on rend le cache obsolete
+		Cache::set_obsolete('ed_categorie',$id);
+		Cache::set_obsolete('sel_categorie',$id);
+		
 		$c=new Categorie($id);
 		$c->mod_nom($nom, $_SESSION['user']['id']);
 		$casquettes=$c->casquettes();
@@ -35,11 +39,11 @@
 				var node=$('#ed_tree').dynatree('getTree').getNodeByKey('$id');
 				node.data.title=data.titre;
 				node.render();
-				$('#ed_tree').dynatree('getTree').getNodeByKey('".$c->id_parent."').sortChildren();
+				$('#ed_tree').dynatree('getTree').getNodeByKey('".$c->id_parent()."').sortChildren();
 				node=$('#sel_tree').dynatree('getTree').getNodeByKey('$id');
 				node.data.title=data.titre;
 				node.render();
-				$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id_parent."').sortChildren();
+				$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id_parent()."').sortChildren();
 				$('#rncat$id').remove();
 			},'json');
 			$.post('ajax.php',{
@@ -69,18 +73,18 @@
 				'json'
 			);		
 			";
-			if ($c->id_parent!=0) {
+			if ($c->id_parent()!=0) {
 				$js.="
 				$.post('ajax.php',{
 					action:'edition/nbincat',
-					id_categorie:".$c->id_parent.",
+					id_categorie:".$c->id_parent().",
 					format:'html'
 					},
 					function(data){
 						if (data.succes==1) {
-							$('#ed_dynatree-id-".$c->id_parent."').find('.nbincat').first().html('('+data.html+')');
+							$('#ed_dynatree-id-".$c->id_parent()."').find('.nbincat').first().html('('+data.html+')');
 							ed_scatapi.reinitialise();
-							$('#sel_dynatree-id-".$c->id_parent."').find('.nbincat').first().html('('+data.html+')');
+							$('#sel_dynatree-id-".$c->id_parent()."').find('.nbincat').first().html('('+data.html+')');
 							sel_scatapi.reinitialise();
 						}
 					},
@@ -88,11 +92,12 @@
 				);
 				";
 			}
-		foreach($casquettes as $id_cas=>$nom_cas){
+		foreach($casquettes as $id_cas){
 
 			#on rend le cache obsolete
 			Cache::set_obsolete('casquette',$id_cas);
-
+			Cache::set_obsolete('casquette_sel',$id_cas);
+				
 			$js.="
 			$.post('ajax.php',{
 					action:'edition/casquette',
@@ -107,8 +112,8 @@
 			);
 			";
 			$cas=new Casquette($id_cas);
-			if ($cas->id_etablissement!=0){
-				$id_etablissement=$cas->id_etablissement;
+			if ($cas->id_etablissement()!=0){
+				$id_etablissement=$cas->id_etablissement();
 				#on rend le cache obsolete
 				Cache::set_obsolete('etablissement',$id_etablissement);
 				$js.="

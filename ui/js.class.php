@@ -168,7 +168,7 @@ class js
 		});
 ";
 		$c=new Contact($id_contact);
-		foreach ($c->casquettes as $id=>$casquette) {
+		foreach ($c->casquettes() as $id=>$casquette) {
 			$js.=js::casquette($id);
 		}
 		return $js;		
@@ -289,7 +289,7 @@ class js
 		
 ";
 		$s=new Structure($id_structure);
-		foreach ($s->etablissements as $id=>$etablissement) {
+		foreach ($s->etablissements() as $id=>$etablissement) {
 			$js.=Js::etablissement($id);
 		}
 		return $js;		

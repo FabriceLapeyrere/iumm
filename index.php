@@ -131,6 +131,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <div class='loader'></div>
 </div>
 <div id="infos"></div>
+<div id="etat"></div>
 <div id='edition'>
 	<ul id="ed_menu_casquette" class="contextMenu">
 	    <li class="edit">

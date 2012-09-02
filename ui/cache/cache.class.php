@@ -7,73 +7,58 @@
  * la classe cache gère le cache des vues html de l'interface utilisateur
  */
 class cache {
-	function obsolete($table, $id){
-		$o=1;
-		$sql="select obsolete from $table where rowid=$id";
-		$base = new SQLite3('ui/cache/db/cache.sqlite');
-		$base->busyTimeout (10000);
-		$res = $base->query($sql);
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$o=$tab['obsolete'];
-		}
-		$base->close();
-		return $o;
+	function fichier($int){
+		$dix_mille=floor($int/10000);
+		$mille=floor(($int%10000)/1000);
+		$cent=floor(($int%1000)/100);
+		$dix=floor(($int%100)/10);
+		$un=floor($int%10);
+		return "$dix_mille/$mille/$cent/$dix";
 	}
-	function set_obsolete($table, $id){
-		$base = new SQLite3('ui/cache/db/cache.sqlite');
-		$base->busyTimeout (10000);
-		#on teste si le cache existe
-		$sql="select count(*) from $table where rowid=$id";
-		$res = $base->query($sql);
-		$n=0;
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$n=$tab['count(*)'];
-		}
-		
-		if ($n==0) {
-			#si non on crée le cache
-			$sql="insert into $table (rowid, html, obsolete) values ($id, '', 1)";
-			$res = $base->query($sql);
-		} else {
-			#si oui on met à jour
-			$sql="update $table set obsolete=1 where rowid=$id";
-			$res = $base->query($sql);
-		}
-		$base->close();
+	function dossier($int){
+		$dix_mille=floor($int/10000);
+		$mille=floor(($int%10000)/1000);
+		$cent=floor(($int%1000)/100);
+		return "$dix_mille/$mille/$cent";
+	}
+	function dearchive($id,$objet){
+		$tab=array();
+		$dossier="ui/cache/fichiers/$objet/".Cache::dossier($id);
+		$cache="ui/cache/fichiers/$objet/".Cache::fichier($id);
+		if (file_exists($cache))
+			$tab=unserialize(file_get_contents($cache));
+		return $tab;
+	}
+	function archive($id,$objet,$tab){
+		$dossier="ui/cache/fichiers/$objet/".Cache::dossier($id);
+		$cache="ui/cache/fichiers/$objet/".Cache::fichier($id);
+		if (!file_exists($dossier)) mkdir($dossier,0777,true);
+		file_put_contents($cache,serialize($tab));
+	}
+	function obsolete($objet, $id){
+		$tab=Cache::dearchive($id,$objet);
+		$key=($id%10);
+		$retour=array_key_exists($key, $tab) ? 0 : 1;
+		return $retour;
+	}
+	function set_obsolete($objet, $id){
+		error_log(date('d/m/Y H:i:s')." - ui/cache set_obsolete $objet($id)\n", 3, "tmp/cache.log");
+		$tab=Cache::dearchive($id,$objet);
+		$key=($id%10);
+		if(array_key_exists($key, $tab)) unset($tab[$key]);
+		Cache::archive($id,$objet,$tab);
 	}	
-	function put($table, $id, $html){
-		$html=SQLite3::escapeString($html);
-		$base = new SQLite3('ui/cache/db/cache.sqlite');
-		$base->busyTimeout (10000);
-		#on teste si le cache existe
-		$sql="select count(*) from $table where rowid=$id";
-		$res = $base->query($sql);
-		$n=0;
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$n=$tab['count(*)'];
-		}
-		
-		if ($n==0) {
-			#si non on crée le cache
-			$sql="insert into $table (rowid, html, obsolete) values ($id, '$html', 0)";
-			$res = $base->query($sql);
-		} else {
-			#si oui on met à jour
-			$sql="update $table set html='$html', obsolete=0 where rowid=$id";
-			$res = $base->query($sql);
-		}
-		$base->close();
+	function put($objet, $id, $html){
+		$tab=Cache::dearchive($id,$objet);
+		$key=($id%10);
+		$tab[$key]=$html;
+		Cache::archive($id,$objet,$tab);	
 	}	
-	function get($table, $id){
+	function get($objet, $id){
 		$html="";
-		$base = new SQLite3('ui/cache/db/cache.sqlite');
-		$base->busyTimeout (10000);
-		$sql="select html from $table where rowid=$id";
-		$res = $base->query($sql);
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$html=$tab['html'];
-		}
-		$base->close();
+		$tab=Cache::dearchive($id,$objet);
+		$key=($id%10);
+		if(array_key_exists($key, $tab)) $html=$tab[$key];
 		return $html;
 	}	
 }

@@ -29,6 +29,7 @@
 
 		#on rend le cache obsolete
 		Cache::set_obsolete('casquette',$id);
+		Cache::set_obsolete('casquette_sel',$id);
 		
 		$c=new Casquette($id);
 		$c->mod_nom($nom, $_SESSION['user']['id']);
@@ -51,7 +52,7 @@
 				'json'
 			);
 		";
-		$id_etablissement=$c->id_etablissement;
+		$id_etablissement=$c->id_etablissement();
 		if ($id_etablissement!=0){
 			Cache::set_obsolete('etablissement',$id_etablissement);
 			$js.="
@@ -62,8 +63,9 @@
 			ed_ssapi.reinitialise();
 			";
 			$e=new Etablissement($id_etablissement);
-			foreach($e->casquettes() as $id_cas=>$cas){
+			foreach($e->casquettes() as $id_cas){
 				Cache::set_obsolete('casquette',$id_cas);	
+				Cache::set_obsolete('casquette_sel',$id_cas);	
 				$js.="
 				$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
 				";

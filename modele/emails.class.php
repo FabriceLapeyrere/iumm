@@ -69,8 +69,8 @@ class Emails {
 		$base->query($sql);
 		$id_email=$base->lastInsertRowID();
 		$base->close();
-		mkdir("fichiers/emails/$id_email");
-		mkdir("fichiers/emails/$id_email/thumbnails");
+		mkdir("fichiers/emails/$id_email",0777,true);
+		mkdir("fichiers/emails/$id_email/thumbnails",0777,true);
 		return $id_email;
 	}
 	function dernier() {

@@ -33,6 +33,7 @@
 		$e=new Etablissement($id);
 		$e->mod_nom($nom, $_SESSION['user']['id']);
 		$casquettes=$e->casquettes();
+		$casquette_propre=$e->casquette_propre();
 		$js="";
 		$js.="
 			$('li[data-tab=\"#ed_etablissement-$id\"] a').html('".addslashes($nom)."');
@@ -57,11 +58,16 @@
 				'json'
 			);	
 		";
-		foreach($casquettes as $id_cas=>$nom_cas){
+		$js_cas="";
+		#on rend le cache obsolete
+		Cache::set_obsolete('casquette',$casquette_propre);
+		Cache::set_obsolete('casquette_sel',$casquette_propre);
+		foreach($casquettes as $id_cas){
 	
 			#on rend le cache obsolete
 			Cache::set_obsolete('casquette',$id_cas);
-		
+			Cache::set_obsolete('casquette_sel',$id_cas);
+			
 			$js_cas.="
 			$.post('ajax.php',{
 					action:'edition/casquette',

@@ -12,35 +12,36 @@ class Contacts {
 		$listes=array();
 		$tab_cond_motifs=array();
 		if ($motifs!="") {
-			$tab_motifs=explode(' ',str_replace(',','',$motifs));
+			$tab_motifs=explode(' ',str_replace(',',' ',$motifs));
 			foreach($tab_motifs as $motif){
-				$motif=SQLite3::escapeString(noaccent($motif));
-				$tab_cond_motifs[]="
-				(
-					t3.rowid IN (
-					select rowid from cache_contact where content MATCH '*$motif*'
-					)
-				)
-				";
+				if (trim($motif)!="") {
+					$motif=SQLite3::escapeString($motif);
+					$tab_cond_motifs[]="
+						select id_contact, nom_contact from indexes where nom_contact!='####' and nom_contact!='$$$$' and text MATCH '$motif*'
+					";
+				}
 			}
 		}
-		$cond=" AND ( ".implode($tab_cond_motifs,' AND ')." )";
-		if (count($tab_cond_motifs)==0) $cond="";
-		$sql="select t1.rowid as id, t1.nom as nom_cas, t3.nom as nom_cont, t3.prenom as prenom_cont, t3.rowid as id_contact from casquettes as t1 inner join ass_casquette_contact as t2 on t1.rowid=t2.id_casquette inner join contacts as t3 on t2.id_contact=t3.rowid where t1.nom!='####' and t3.nom!='$$$$' $cond group by t3.rowid order by nom_cont COLLATE NOCASE  limit $binf,20";
-		$base = new SQLite3('db/contacts.sqlite');
+		if (trim(implode(' intersect ',$tab_cond_motifs))=='') $sql="select id_contact, nom_contact from indexes where nom_contact!='####' and nom_contact!='$$$$' group by id_contact order by nom_contact";
+		else {
+			$cond=" select id_contact, nom_contact from ( ".implode(' intersect ',$tab_cond_motifs)." )";
+			$sql="$cond group by id_contact order by nom_contact";
+		}
+		error_log(date('d/m/Y H:i:s')."contacts\n----\n$sql\n----\n", 3, "tmp/fab.log");
+		$sql_page="$sql limit $binf,20";
+		$base = new SQLite3('db/index.sqlite');
 		$base->busyTimeout (10000);
-		$res = $base->query($sql);
 		$liste=array();
+		$res = $base->query($sql_page);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$liste[$tab['id_contact']]=array('nom_cont'=>$tab['nom_cont'], 'prenom_cont'=>$tab['prenom_cont']);
+			$liste[$tab['id_contact']]=$tab['id_contact'];
 		}
 		$listes['liste']=$liste;
-		$sql="select count(*) from (select * from casquettes as t1 inner join ass_casquette_contact as t2 on t1.rowid=t2.id_casquette inner join contacts as t3 on t2.id_contact=t3.rowid where t1.nom!='####' and t3.nom!='$$$$' $cond group by t3.rowid COLLATE NOCASE)";
+		$sql="select count(*) from ( $sql 	)";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$nb=$tab['count(*)'];
+			$listes['nb']=$tab['count(*)'];
 		}
-		$listes['nb']=$nb;
 		$base->close();
 		return $listes;
 	}

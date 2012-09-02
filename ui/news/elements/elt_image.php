@@ -12,7 +12,7 @@
 		$path_parts = pathinfo($valeur_mnews);
 		$dest=$path_parts['dirname']."/min/".$path_parts['filename']."_$w"."_$h"."_$in.png";
 		if (!file_exists($dest)) {
-			if (!file_exists($path_parts['dirname']."/min")) mkdir($path_parts['dirname']."/min");
+			if (!file_exists($path_parts['dirname']."/min")) mkdir($path_parts['dirname']."/min",0777,true);
 			// Calcul des nouvelles dimensions
 			list($largeur, $hauteur) = getimagesize($valeur_mnews); //list est un moyen plus pratique pour ne récupérer que ce qu'on veut
 			if ($in==0) {

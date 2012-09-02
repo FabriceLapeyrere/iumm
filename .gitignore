@@ -1,6 +1,7 @@
 *~
 db/*
-ui/cache/db/*
+modele/cache/fichiers/*
+ui/cache/fichiers/*
 fichiers/emails/*
 fichiers/news/*
 fichiers/envois/*

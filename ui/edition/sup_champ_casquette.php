@@ -29,9 +29,10 @@
 	
 		#on rend le cache obsolete
 		Cache::set_obsolete('casquette',$id);
-
+		Cache::set_obsolete('casquette_sel',$id);
+		
 		$c=new Casquette($id);
-		$liste=$c->sup_donnee($nom, $_SESSION['user']['id']);
+		$c->sup_donnee($nom, $_SESSION['user']['id']);
 		$js="";
 		$js.="
 	$.post('ajax.php',{

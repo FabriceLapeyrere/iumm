@@ -1,5 +1,5 @@
 *~
-db/*
+db/*.sqlite
 modele/cache/fichiers/*
 ui/cache/fichiers/*
 fichiers/emails/*

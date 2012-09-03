@@ -32,6 +32,9 @@
     if (file_exists('fichiers/emails')) {
 		rrmdir('fichiers/emails');
 	}
+    if (file_exists('ui/includes/upload/server/php/thumbnails')) {
+		rrmdir('ui/includes/upload/server/php/thumbnails');
+	}
     if (file_exists('fichiers/envois')) {
 		rrmdir('fichiers/envois');
 	}
@@ -57,6 +60,10 @@
     if (!file_exists('fichiers/emails')) {
 		mkdir('fichiers/emails');
 		touch('fichiers/emails/.gitkeep');
+	}
+    if (!file_exists('ui/includes/upload/server/php/thumbnails')) {
+		mkdir('ui/includes/upload/server/php/thumbnails');
+		touch('ui/includes/upload/server/php/thumbnails/.gitkeep');
 	}
     if (!file_exists('fichiers/envois')) {
 		mkdir('fichiers/envois');

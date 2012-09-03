@@ -46,6 +46,9 @@
 		echo "Fichiers\n";
 		$zip->addDirectory('fichiers');
 	}
+	if (file_exists('ui/includes/upload/server/php/thumbnails')) {
+		$zip->addDirectory('ui/includes/upload/server/php/thumbnails');
+	}
 	if (file_exists('modele/corbeille')) {
 		echo "Corbeille\n";
 		$zip->addDirectory('modele/corbeille');

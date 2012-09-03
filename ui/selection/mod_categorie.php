@@ -26,59 +26,45 @@
 		$reponse['move']=0;
 	}
 	else {
+		$reponse['move']=1;
 		$id=$_POST['id'];
 		$id_parent=$_POST['id_parent'];
+		
+		#on rend le cache obsolete
+		Cache::set_obsolete('ed_categorie',$id_parent);
+		Cache::set_obsolete('sel_categorie',$id_parent);
+		Cache::set_obsolete('ed_categorie',$id);
+		Cache::set_obsolete('sel_categorie',$id);
+		
 		$c=new Categorie($id);
-		$c->mod_parent($id_parent);
+		$c->mod_parent($id_parent, $_SESSION['user']['id']);
 		$js="
-	$.post('ajax.php',{
-		action:'edition/nbincat',
-		id_categorie:$id_parent,
-		format:'html'
-		},
-		function(data){
-			if (data.succes==1) {
-				$('#sel_dynatree-id-$id_parent').find('.nbincat').first().html('('+data.html+')');
-			}
-		},
-		'json'
-	);
-	$('#ed_tree').dynatree('getTree').reload();
+		ed_cat_reload=1;
 		";
-		while ($c->id_parent!=0){
-			$c=new Categorie($c->id_parent);
+		while ($c->id!=0){
+			
+			#on rend le cache obsolete
+			Cache::set_obsolete('ed_categorie',$c->id);
+			Cache::set_obsolete('sel_categorie',$c->id);
+			
 			$js.="
-			$.post('ajax.php',{
-					action:'edition/nbincat',
-					id_categorie:".$c->id.",
-					format:'html'
-				},function(data){
-					if(data.succes==1){
-						$('#sel_dynatree-id-".$c->id."').find('.nbincat').first().html('('+data.html+')');
-						sel_scatapi.reinitialise();
-					}
-				},
-				'json'
-			);
+			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').data.title='".addslashes(Html::titre_categorie($c->id))."';
+			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').render();
 			";
+			$c=new Categorie($c->id_parent());		
 		}
 		$c=new Categorie($id_parent);
-		while ($c->id_parent!=0){
-			$c=new Categorie($c->id_parent);
+		while ($c->id!=0){
+			
+			#on rend le cache obsolete
+			Cache::set_obsolete('ed_categorie',$c->id);
+			Cache::set_obsolete('sel_categorie',$c->id);
+			
 			$js.="
-			$.post('ajax.php',{
-					action:'edition/nbincat',
-					id_categorie:".$c->id.",
-					format:'html'
-				},function(data){
-					if(data.succes==1){
-						$('#sel_dynatree-id-".$c->id."').find('.nbincat').first().html('('+data.html+')');
-						sel_scatapi.reinitialise();
-					}
-				},
-				'json'
-			);
+			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').data.title='".addslashes(Html::titre_categorie($c->id))."';
+			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').render();
 			";
+			$c=new Categorie($c->id_parent());
 		}
 	}
 	if($succes) {

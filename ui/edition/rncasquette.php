@@ -11,7 +11,7 @@
 	$form->prefixe="rncas$id";
 	
 	$form->ajoute_entree('id', 'hidden', $id, '', array(1));
-	$form->ajoute_entree('nom', 'texte_court', $c->nom, '', array(1), "Nom de la casquette");
+	$form->ajoute_entree('nom', 'texte_court', $c->nom(), '', array(1), "Nom de la casquette");
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'edition/ren_casquette');
@@ -37,7 +37,7 @@ $('#rncas$id input').select();
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']=$c->prenom_contact." ".$c->nom_contact.", ".$c->nom;
+		$reponse['titre']=$c->prenom_contact()." ".$c->nom_contact().", ".$c->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

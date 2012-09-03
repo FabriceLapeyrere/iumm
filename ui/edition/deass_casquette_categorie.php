@@ -28,22 +28,28 @@
 		$id_categorie=$_POST['id_categorie'];
 		$c=new Casquette($id_casquette);
 		$c->deass_categorie($id_categorie, $_SESSION['user']['id']);
-		$id_etablissement=$c->id_etablissement;
+		$id_etablissement=$c->id_etablissement();
 		$e=new Etablissement($id_etablissement);
 	
 		#on rend le cache obsolete
+		Cache::set_obsolete('ed_categorie',$id_categorie);
+		Cache::set_obsolete('sel_categorie',$id_categorie);
 		Cache::set_obsolete('casquette',$id_casquette);
+		Cache::set_obsolete('casquette_sel',$id_casquette);
 		Cache::set_obsolete('etablissement',$id_etablissement);
 		$js="";
-		foreach($e->casquettes() as $id_cas=>$cas){
-			Cache::set_obsolete('casquette',$id_cas);
-			$js.="
-			$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
-			";
-			$js.=Js::casquette($id_cas);
-			$js.="
-			ed_scapi.reinitialise();
-			";	
+		foreach($e->casquettes() as $id_cas){
+			if($id_cas>0) {
+				Cache::set_obsolete('casquette',$id_cas);
+				Cache::set_obsolete('casquette_sel',$id_cas);
+				$js.="
+				$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+				";
+				$js.=Js::casquette($id_cas);
+				$js.="
+				ed_scapi.reinitialise();
+				";
+			}
 		}
 	
 		$js.="
@@ -68,7 +74,7 @@
 			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').data.title='".json_escape(Html::titre_categorie($c->id))."';
 			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').render();
 			";
-			$c=new Categorie($c->id_parent);
+			$c=new Categorie($c->id_parent());
 		}
 		$js.="
 		sel_scatapi.reinitialise();

@@ -224,6 +224,8 @@ function json_escape($string){
 }
 
 function async($action,$params=array()){
+	if (PHP_SAPI !== 'cli')
+	{
 	#c'est une ruse pour indexer de manière asynchrone
 	#(pour ne pas perdre de temps) merci à 'arr1 at hotmail dot co dot uk'
 	# http://www.php.net/manual/en/features.connection-handling.php#71172
@@ -232,11 +234,19 @@ function async($action,$params=array()){
 	
 	//open connection
 	$ch = curl_init();
-	$url=$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME'])."/services.php";
+	$url=$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME'])."/actions.php";
 	//url-ify the data for the POST
 	$params_string="";
-	foreach($params as $key=>$value) { $params_string .= $key.'='.urlencode($value).'&'; }
-	$params_string="cle=$cle&action=$action&".$params_string;
+	foreach($params as $key=>$value) {
+		if (is_array($value)) {
+			foreach($value as $v)
+				$params_string .= $key.'[]='.urlencode($v).'&';
+
+		} else {
+			$params_string .= $key.'='.urlencode($value).'&';
+		}
+	}
+	$params_string="auth_cle=$cle&action=$action&".$params_string;
 	rtrim($params_string,'&');
 	
 	//set the url, number of POST vars, POST data
@@ -249,5 +259,6 @@ function async($action,$params=array()){
 
 	//close connection
 	curl_close($ch);
+	}
 }
 ?>

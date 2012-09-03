@@ -18,7 +18,7 @@
 	$test2=1;
 	$adresse="";
 	foreach($c->donnees() as $nom=>$donnee){
-		if ($donnee['type']=='adresse') $test=0;
+		if ($donnee[2]=='adresse') $test=0;
 		if ($nom=='Fonction') $test2=0;
 	}
 	$adresse="<li class='champ' data-type='adresse'>Adresse</li>";
@@ -99,10 +99,9 @@ $('#mcas$id ul.plus div.perso').on('click','button',function(){
 	}
 });	";
 	foreach($c->donnees() as $nom=>$donnee){
-		$rowid_d=$donnee['rowid'];
-		$label_d=$donnee['label'];
-		$type_d=$donnee['type'];
-		$valeur_d=$donnee['valeur'];
+		$label_d=$donnee[1];
+		$type_d=$donnee[2];
+		$valeur_d=$donnee[0];
 			
 		$form->ajoute_entree($nom, $type_d, $valeur_d, '',array(1),$label_d);
 	}
@@ -147,11 +146,11 @@ $('#mcas$id').on('click',' ul.champs>li .moins', function(){
 });
 ";
 	$prenom="";
-	if($c->prenom_contact!="") $prenom=$c->prenom_contact." ";
+	if($c->prenom_contact()!="") $prenom=$c->prenom_contact()." ";
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']="<b>$prenom".$c->nom_contact."</b>, ".$c->nom;
+		$reponse['titre']="<b>$prenom".$c->nom_contact()."</b>, ".$c->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

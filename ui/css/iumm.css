@@ -1,6 +1,19 @@
 body {font-size:10px;margin:0px;}
 label{margin-right:10px;}
-#infos {background:#C1E2DB;display:none;position:absolute;left:0;bottom:0;padding:5px;z-index:9999;}
+textarea{width:270px;height:180px;}
+textarea[name="adresse"]{width:220px;height:50px;}
+#infos {background:white;display:none;position:absolute;right:20px;top:20px;padding:5px;z-index:9999;
+	-webkit-box-shadow: 0 0 5px black;
+	-moz-box-shadow: 0 0 5px black;
+	box-shadow: 0 0 5px black;
+	border-radius:4px;
+}
+#etat {background:white;display:none;position:absolute;right:20px;top:20px;padding:5px;z-index:9999;
+	-webkit-box-shadow: 0 0 5px black;
+	-moz-box-shadow: 0 0 5px black;
+	box-shadow: 0 0 5px black;
+	border-radius:4px;
+}
 div.menu {position:relative;height:30px;}
 ul {list-style:none;margin:0;padding:0;}
 ul.plus {display:none;position:absolute;margin-left:50%;top:0;left:-75px;width:152px;padding:2px;z-index:1;border-bottom-right-radius:4px;
@@ -125,6 +138,37 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #mail_editeur {margin:10px 0 10px 0;}
 
 #newsletter {position:absolute;background:#fff;z-index:0;}
+
+#news {position:absolute;background:#fff;z-index:0;}
+#news_entetes {position:absolute;}
+#news_entetes .news-entete {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#news_entetes .news-entete.actif {border-color:#FF8000; }
+#news_entetes_head {position:absolute;}
+#news_newsletter, #news_modeles {position:absolute;}
+#news_newsletter .enr-email.off {opacity:0.5;}
+#news .titre{color:#333; font-size:22px;font-family:sans-serif;}
+#news_newsletter .titre {font-size:22px;}
+#news_content {width:100%;}
+#news_content .bloc:nth-child(even) {width:100%;position:relative;background:#ccc;}
+#news_content .bloc:nth-child(odd) {width:100%;position:relative;background:#c0c0c0;}
+#news_content .bloc.actif {background:#eee;}
+.ui-sortable-helper.bloc {width:100%;position:relative;background:#ff8000;}
+#news_content .bloc.last, #news_content .bloc.actif.last {background:none;}
+#news .dessusBloc {border-top:1px solid #FF8000;}
+#news .menuBloc , .ui-sortable-helper.bloc .menuBloc {position:absolute;z-index:10;top:5px;left:5px;padding:5px;background:#fff;display:none;
+	-webkit-box-shadow: 0 6px 6px -6px black;
+	-moz-box-shadow: 0 6px 6px -6px black;
+	box-shadow: 0 6px 12px -6px black;
+	border-radius:4px;
+	border:1px solid #ccc;
+	font-family:sans-serif;
+	font-style:italic;
+}
+#news .menuBloc div {padding-bottom:2px;}
+#news .ajmain.modele {margin:5px;}
+.colorSelector {width:40px;height:18px;background:#e6e6e6;border-radius:4px;border:1px solid #ccc;float:left;}
+.colorSelector div {width:32px;height:10px;margin:4px;}
+.blocCouleur{float:left;margin:5px;}
 #emailing {position:absolute;background:#fff;z-index:0;}
 #emailing_envois {position:absolute;}
 #emailing_envois_head {position:absolute;}
@@ -133,6 +177,7 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #emailing .titre{color:#333; font-size:22px;font-family:sans-serif;}
 #emailing_envoi .meta {margin-top:10px;font-family:sans-serif;font-size:14px;}
 #emailing_envoi .titre {font-size:22px;}
+#emailing_envoi a.pj {color:#ff8000;}
 
 #publipostage {position:absolute;background:#fff;z-index:0;}
 #publipostage_support {position:absolute;}
@@ -153,4 +198,6 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #mask .loader{position:absolute;width:66px; height:66px; background:url('images/ajax-loader.gif');left:50%;top:50%;margin-left:-33px;margin-top:-33px;}
 select {width:270px;}
 ul.plus div.perso select {width:100px;}
+ul.sf-menu {font-size:14px;font-family:sans-serif;}
+ul.sf-menu a, ul.sf-menu a:visited {color:#000;}
 

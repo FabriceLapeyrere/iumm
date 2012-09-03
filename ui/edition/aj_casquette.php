@@ -28,20 +28,9 @@
 	$id_contact=$_POST['id_contact'];
 	$c=new Contact($id_contact);
 	$id_casquette=$c->aj_casquette('Perso', $_SESSION['user']['id']);
+	#on met à jour le cache
+	async('ui/cache/cache',array('objet'=>'contact','id_objet'=>$id_contact));
 	$js="
-	$.post('ajax.php',{
-			action:'edition/contact',
-			id_contact:$id_contact,
-			format:'html'
-		},function(data){
-			if(data.succes==1){
-				$('#ed_contact-$id_contact').html(data.html)
-				eval(data.js);
-			}
-			ed_scapi.reinitialise();
-		},
-		'json'
-	);
 	$('<div id=\'mcas$id_casquette\'></div>').dialog({
 		resizable: false,
 		close:function(){ 
@@ -49,19 +38,6 @@
 			delete window['formmcas$id_casquette'];
 		}
 	});	
-	$.post('ajax.php',{
-		action:'edition/mcasquette',
-		id_casquette:$id_casquette
-		},
-		function(data){
-			if (data.succes==1) {
-				$('#mcas$id_casquette').dialog('option',{title:data.titre});
-				$('#mcas$id_casquette').html(data.html);
-				eval(data.js);
-			}
-		},
-		'json'
-	);
 	$('<div id=\'rncas$id_casquette\'></div>').dialog({
 		resizable: false,
 		close:function(){ 
@@ -83,16 +59,45 @@
 		'json'
 	);
 	$.post('ajax.php',{
-			action:'selection/selection_humains',
-			format:'html'
-		},function(data){
-			if(data.succes==1){
-				$('#sel_humains').html(data.html);
+		action:'edition/mcasquette',
+		id_casquette:$id_casquette
+		},
+		function(data){
+			if (data.succes==1) {
+				$('#mcas$id_casquette').dialog('option',{title:data.titre});
+				$('#mcas$id_casquette').html(data.html);
 				eval(data.js);
 			}
 		},
 		'json'
 	);
+	var action=function(){
+		$.post('ajax.php',{
+				action:'edition/contact',
+				id_contact:$id_contact,
+				format:'html'
+			},function(data){
+				if(data.succes==1){
+					$('#ed_contact-$id_contact').html(data.html)
+					eval(data.js);
+				}
+				ed_scapi.reinitialise();
+			},
+			'json'
+		);
+		$.post('ajax.php',{
+				action:'selection/selection_humains',
+				format:'html'
+			},function(data){
+				if(data.succes==1){
+					$('#sel_humains').html(data.html);
+					eval(data.js);
+				}
+			},
+			'json'
+		);
+	}
+	setTimeout(action,5000);
 	";
 	}
 	if($succes) {

@@ -50,7 +50,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <head>
 <title>contacts</title>
 <meta http-equiv="Content-Type" Content="text/html; charset=UTF-8">
-<link rel="stylesheet" media="all" type="text/css" href="ui/includes/min/?f=ui/css/jquery-ui.css,ui/css/ui.dynatree.css,ui/css/jquery.jscrollpane.css,ui/css/jquery.contextMenu.css,ui/includes/upload/css/bootstrap.min.css,ui/includes/upload/css/bootstrap-responsive.min.css,ui/includes/upload/css/bootstrap-image-gallery.min.css,ui/includes/upload/css/jquery.fileupload-ui.css,ui/css/iumm.css">
+<link rel="stylesheet" media="all" type="text/css" href="ui/includes/min/?f=ui/css/jquery-ui.css,ui/css/ui.dynatree.css,ui/css/jquery.jscrollpane.css,ui/css/jquery.contextMenu.css,ui/includes/upload/css/bootstrap.min.css,ui/includes/upload/css/bootstrap-responsive.min.css,ui/includes/upload/css/bootstrap-image-gallery.min.css,ui/includes/upload/css/jquery.fileupload-ui.css,ui/css/iumm.css,ui/css/superfish.css,ui/css/colorpicker.css">
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="ui/includes/upload/js/html5.js"></script><![endif]-->
 <!-- Bootstrap CSS fixes for IE6 -->
@@ -115,10 +115,10 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 {% } %}
 </script>
 <?php if($_SESSION['user']['droits']>=4){ ?>
-<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js"></script>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/news.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/admin.js,ui/js/iumm.js,ui/js/supersubs.js,ui/js/superfish.js,ui/js/colorpicker.js"></script>
 <script src="ui/includes/min/?f=ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
 <?php } else { ?>
-<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/iumm.js"></script>
+<script src="ui/includes/min/?f=ui/js/jquery.min.js,ui/js/jquery-ui.min.js,ui/js/jquery.dataset.js,ui/js/jquery.mousewheel.js,ui/js/jquery.jscrollpane.js,ui/js/jquery.dynatree.js,ui/js/jquery.contextMenu.js,ui/js/jquery.ba-hashchange.js,ui/includes/ckeditor/ckeditor.js,ui/includes/ckeditor/adapters/jquery.js,ui/js/edition.js,ui/js/selection.js,ui/js/email.js,ui/js/news.js,ui/js/emailing.js,ui/js/publipostage.js,ui/js/iumm.js,ui/js/supersubs.js,ui/js/superfish.js,ui/js/colorpicker.js"></script>
 <script src="ui/includes/min/?f=ui/includes/upload/js/tmpl.min.js,ui/includes/upload/js/load-image.min.js,ui/includes/upload/js/canvas-to-blob.min.js,ui/includes/upload/js/bootstrap.min.js,ui/includes/upload/js/bootstrap-image-gallery.min.js,ui/includes/upload/js/jquery.iframe-transport.js,ui/includes/upload/js/jquery.fileupload.js,ui/includes/upload/js/jquery.fileupload-ip.js,ui/includes/upload/js/jquery.fileupload-ui.js,ui/includes/upload/js/locale.js"></script>
 <?php } ?>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
@@ -131,6 +131,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <div class='loader'></div>
 </div>
 <div id="infos"></div>
+<div id="etat"></div>
 <div id='edition'>
 	<ul id="ed_menu_casquette" class="contextMenu">
 	    <li class="edit">
@@ -262,8 +263,8 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 			<div><input type="checkbox" id="sel_sadresse" <?=$html_sadresse?>/> Sans adresse postale.</div>
 			<div><input type="checkbox" id="sel_Ncats" <?=$html_Ncats?>/> Pas dans les listes. </div>
 			<div><input type="checkbox" id="sel_Netabs" <?=$html_Netabs?>/> Pas dans les structures. </div>
-			<div><input type="checkbox" id="sel_cas" <?=$html_cas?>/> Parmi les contacts sélectionnés. </div>
-			<div><input type="checkbox" id="sel_scas" <?=$html_scas?>/> Exclure les contacts sélectionnés. </div>
+			<div><input type="checkbox" id="sel_cas" <?=$html_cas?>/> Parmi les contacts cochés. </div>
+			<div><input type="checkbox" id="sel_scas" <?=$html_scas?>/> Exclure les contacts cochés. </div>
 			<div><input type="checkbox" id="sel_N" <?=$html_N?>/> Inverser la selection.</div>
 	<div style='clear:both;'></div>
 	<div>
@@ -312,8 +313,48 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <?=Html::entetes_email()?>
 </div>
 </div>
-<div id="newsletter">
+
+
+<div id="news">
+	<ul id="news_menu_news" class="contextMenu">
+		<li class="edit">
+		<a href="#rename">Renommer</a>
+		</li>
+		<li class="copy">
+		<a href="#duplicate">Dupliquer</a>
+		</li>
+		<li class="delete">
+		<a href="#delete">Supprimer</a>
+		</li>
+	</ul>
+	<ul id="news_menu_modele" class="contextMenu">
+		<li class="edit">
+		<a href="#edit">Modifier</a>
+		</li>
+		<li class="delete">
+		<a href="#delete">Supprimer</a>
+		</li>
+	</ul>
+	<div id="news_modeles">
+	<?=Html::modeles_news()?>
+	</div>
+	<div id="news_newsletter">
+	</div>
+	<div id="news_entetes_head">
+		<div class='titre'>Newsletters</div>
+		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel e-mail">
+			<span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+			<span class="ui-button-text">Nouvelle newsletter</span>
+		</button>
+		<div class="filtre"><?=Html::filtre_news()?></div>
+		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['news']['binf'],Newsletters::nb_news())?></span>
+	</div>
+	<div id="news_entetes">
+	<?=Html::entetes_news()?>
+	</div>
 </div>
+
+
 <div id="emailing">
 	<div id="emailing_envois_head">
 		<div class='titre'>Envois</div>
@@ -386,6 +427,7 @@ $html_utilisateurs=Html::utilisateurs($binfadmin,$motifsadmin);
 <a href="#edition">edition</a> 
 <a href="#selection">selection</a> 
 <a href="#email">email</a> 
+<a href="#news">newsletter</a> 
 <a href="#emailing">e-mailing</a> 
 <a href="#publipostage">publipostage</a> 
 <?php if($_SESSION['user']['droits']>=4){ ?>

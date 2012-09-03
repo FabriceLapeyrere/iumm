@@ -25,15 +25,19 @@
 	}
 	else {
 		$id=$_POST['id_categorie'];
-	
+		
+		#on rend le cache obsolete
+		Cache::set_obsolete('ed_categorie',$id);
+		Cache::set_obsolete('sel_categorie',$id);
+			
 		$c=new Categorie($id);
 		if($c->nb_enfants()==0) {
 			$casquettes=$c->casquettes();
-			$id_parent=$c->id_parent;
+			$id_parent=$c->id_parent();
 			$c->suppr($_SESSION['user']['id']);
 			$js="
-				$('#sel_tree').dynatree('getTree').reload();
-				$('#ed_tree').dynatree('getTree').getNodeByKey('$id').remove();
+			sel_cat_reload=1;
+			$('#ed_tree').dynatree('getTree').getNodeByKey('$id').remove();
 			$.post('ajax.php',{
 					action:'selection/selection_humains',
 					format:'html'
@@ -52,13 +56,14 @@
 				$('#ed_tree').dynatree('getTree').getNodeByKey('".$c->id."').data.title='".addslashes(Html::titre_categorie($c->id))."';
 				$('#ed_tree').dynatree('getTree').getNodeByKey('".$c->id."').render();
 				";
-				$c=new Categorie($c->id_parent);		
+				$c=new Categorie($c->id_parent());		
 			}
-			foreach($casquettes as $id_cas=>$nom_cas){
+			foreach($casquettes as $id_cas){
 			
 				#on rend le cache obsolete
 				Cache::set_obsolete('casquette',$id_cas);
-		
+				Cache::set_obsolete('casquette_sel',$id_cas);
+				
 				$js.="
 				$.post('ajax.php',{
 						action:'edition/casquette',

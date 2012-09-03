@@ -10,7 +10,7 @@
 	$form=new formulaires;
 	$form->prefixe="eemail$id";
 	
-	$expediteurs=Emails::expediteurs();
+	$expediteurs=Emailing::expediteurs();
 	$liste=Casquettes::liste('email');
 	$nb_email=count($liste);
 	$options=array();

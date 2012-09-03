@@ -11,8 +11,8 @@
 	$form->prefixe="rncont$id";
 	
 	$form->ajoute_entree('id', 'hidden', $id, '', array(1));
-	$form->ajoute_entree('nom', 'texte_court', $c->nom, '', array(1), 'Nom');
-	$form->ajoute_entree('prenom', 'texte_court', $c->prenom, '', array(1), 'Prénom');
+	$form->ajoute_entree('nom', 'texte_court', $c->nom(), '', array(1), 'Nom');
+	$form->ajoute_entree('prenom', 'texte_court', $c->prenom(), '', array(1), 'Prénom');
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'edition/ren_contact');
@@ -35,7 +35,7 @@ $('#rncont$id .bouton').button();
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']=$c->prenom." ".$c->nom;
+		$reponse['titre']=$c->prenom()." ".$c->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

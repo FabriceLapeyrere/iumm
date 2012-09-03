@@ -26,7 +26,7 @@
 	else {
 		$id_contact=$_POST['id_contact'];
 		$c=new Contact($id_contact);
-		$casquettes=$c->casquettes;
+		$casquettes=$c->casquettes();
 		$js="";
 		$js.="
 		if ($('#ed_contact-$id_contact').length!=0){
@@ -34,67 +34,53 @@
 			ed_scapi.reinitialise();
 		}
 		if ($('#rncont$id_contact').length!=0) $('#rncont$id_contact').dialog('close');
+		$.post('ajax.php',{
+				action:'selection/selection_humains',
+				format:'html'
+			},function(data){
+				if(data.succes==1){
+					$('#sel_humains').html(data.html);
+					eval(data.js);
+				}
+			},
+			'json'
+		);
 		";
-		foreach($casquettes as $id_casquette=>$casquette){
+		foreach($casquettes as $id_casquette){
 			$cas=new Casquette($id_casquette);
+			$id_etablissement=$cas->id_etablissement();
+			Cache::set_obsolete('etablissement',$id_etablissement);
 			$js.="
 			if ($('#mcas$id_casquette').length!=0) $('#mcas$id_casquette').dialog('close');
 			if ($('#rncas$id_casquette').length!=0) $('#rncas$id_casquette').dialog('close');
-			if ($('#ed_etablissement-".$cas->id_etablissement."').length!=0)
-			$.post('ajax.php',{action:'edition/etablissement', id_etablissement:".$cas->id_etablissement.",format:'html'},function(data){
+			if ($('#ed_etablissement-$id_etablissement').length!=0)
+			$.post('ajax.php',{action:'edition/etablissement', id_etablissement:$id_etablissement,format:'html'},function(data){
 				if(data.succes==1){
-					$('#ed_etablissement-".$cas->id_etablissement."').html(data.html);
+					$('#ed_etablissement-$id_etablissement').html(data.html);
 					eval(data.js);
 					ed_ssapi.reinitialise();
 				}
 			},'json');
-			$.post('ajax.php',{
-					action:'selection/selection_humains',
-					format:'html'
-				},function(data){
-					if(data.succes==1){
-						$('#sel_humains').html(data.html);
-						eval(data.js);
-					}
-				},
-				'json'
-			);
 			";
-			foreach($cas->categories as $id_categorie=>$categorie){
+			foreach($cas->categories() as $id_categorie){
 				$cat=new Categorie($id_categorie);
 				$js.="
-				$.post('ajax.php',{
-						action:'edition/nbincat',
-						id_categorie:".$cat->id.",
-						format:'html'
-					},function(data){
-						if(data.succes==1){
-							$('#ed_dynatree-id-".$cat->id."').find('.nbincat').first().html('('+data.html+')');
-							ed_scatapi.reinitialise();
-							$('#sel_dynatree-id-".$cat->id."').find('.nbincat').first().html('('+data.html+')');
-							sel_scatapi.reinitialise();
-						}
-					},
-					'json'
-				);
+				$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
+				$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+				ed_scatapi.reinitialise();
+				$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
+				$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+				sel_scatapi.reinitialise();
 				";
-				while ($cat->id_parent!=0){
-					$cat=new Categorie($c->id_parent);
+				while ($cat->id_parent()!=0){
+					$cat=new Categorie($cat->id_parent());
 					$js.="
-					$.post('ajax.php',{
-							action:'edition/nbincat',
-							id_categorie:".$cat->id.",
-							format:'html'
-						},function(data){
-							if(data.succes==1){
-								$('#ed_dynatree-id-".$cat->id."').find('.nbincat').first().html('('+data.html+')');
-								ed_scatapi.reinitialise();
-								$('#sel_dynatree-id-".$cat->id."').find('.nbincat').first().html('('+data.html+')');
-								sel_scatapi.reinitialise();
-							}
-						},
-						'json'
-					);
+					$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
+					$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+					ed_scatapi.reinitialise();
+					$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
+					$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+					sel_scatapi.reinitialise();
 					";
 				}
 			}

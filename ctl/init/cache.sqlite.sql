@@ -1,2 +1,0 @@
-CREATE TABLE casquette (rowid INTEGER PRIMARY KEY AUTOINCREMENT, html TEXT, obsolete BOOL);
-CREATE TABLE etablissement (rowid INTEGER PRIMARY KEY AUTOINCREMENT, html TEXT, obsolete BOOL);

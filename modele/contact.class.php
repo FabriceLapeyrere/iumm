@@ -11,52 +11,115 @@
 							
 class Contact {
 	var $id=0;
-	var $nom='';
-	var $prenom='';
-	var $casquettes=array();	
 	function Contact($id) {
 		$this->id=$id;
-	
+	}
+	function tout() {
+		$id=$this->id;
+		$proprietes=array('nom', 'prenom', 'casquettes');
+		$all=array();
+		foreach ($proprietes as $prop){
+			$all[$prop]=$this->$prop();
+		}
+		$tout=$all;
+		return $all;
+	}
+	function nom_maj() {
+		$id=$this->id;
 		#on récupere le nom:
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select nom, prenom from contacts where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$this->nom=$tab['nom'];
-			$this->prenom=$tab['prenom'];
+			$nom=$tab['nom'];
 		}
-		
-		#on récupere les casquettes :
-		$sql="select t1.rowid, t1.nom from casquettes as t1 inner join ass_casquette_contact as t2 on t1.rowid=t2.id_casquette where t2.id_contact=$id order by nom";
+		$base->close();
+		return Cache_modele::set('contact',$id,'nom',$nom);
+	}
+	function nom() {
+		$id=$this->id;
+		$cache=Cache_modele::get('contact',$id,'nom');
+		if ($cache!='&&&&') {
+			return $cache;
+		} else {
+			return $this->nom_maj();	
+		}
+	}
+	function prenom_maj() {
+		$id=$this->id;
+		#on récupere le nom:
+		$base = new SQLite3('db/contacts.sqlite');
+		$base->busyTimeout (10000);
+		$sql="select prenom from contacts where rowid=$id";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$rowid=$tab['rowid'];
-			$nom=$tab['nom'];
-			$this->casquettes[$rowid]=array('nom'=>$nom);
+			$prenom=$tab['prenom'];
 		}
-		$base->close();		
+		$base->close();
+		Cache_modele::set('contact',$id,'prenom',$prenom);
+		return $prenom;
+	}
+	function prenom() {
+		$id=$this->id;
+		$cache=Cache_modele::get('contact',$id,'prenom');
+		if ($cache!='&&&&') {
+			return $cache;
+		} else {
+			return $this->prenom_maj();	
+		}
+	}
+	function casquettes_maj() {
+		$id=$this->id;
+		
+			$casquettes=array();
+			#on récupere les casquettes :
+			$base = new SQLite3('db/contacts.sqlite');
+			$base->busyTimeout (10000);
+			$sql="select t1.rowid from casquettes as t1 inner join ass_casquette_contact as t2 on t1.rowid=t2.id_casquette where t1.nom!='####' and t2.id_contact=$id order by nom";
+			$res = $base->query($sql);
+			while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+				$casquettes[]=$tab['rowid'];
+			}
+			$base->close();
+			return 	Cache_modele::set('contact',$id,'casquettes',$casquettes);
+	}
+	function casquettes() {
+		$id=$this->id;
+		$cache=Cache_modele::get('contact',$id,'casquettes');
+		if ($cache!='&&&&') {
+			if (!is_array($cache))	
+				$cache=array($cache);
+			return $cache;
+		} else {
+			return $this->casquettes_maj();	
+		}
 	}
 	function mod_nom($nom, $prenom, $id_utilisateur=1){
+		$id=$this->id;
 		$nom=SQLite3::escapeString($nom);
 		$prenom=SQLite3::escapeString($prenom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="update contacts set nom='$nom', prenom='$prenom' where rowid=".$this->id;
 		$base->query($sql);
-		foreach($this->casquettes as $id=>$casquette){
+		foreach($this->casquettes() as $id_casquette){
 			$tri=SQLite3::escapeString($nom." ".$prenom);
-			$sql="update casquettes set tri='$tri' where rowid=$id";
+			$sql="update casquettes set tri='$tri' where rowid=$id_casquette";
 			$base->query($sql);
-			$c=new Casquette($id);
-			$c->cache();	
 		}
 		$base->close();		
-		$this->cache();
+		Cache_modele::del('contact',$id,'nom, prenom');
+		foreach ($this->casquettes() as $id_casquette) {
+			Cache_modele::del('casquette',$id_casquette,'contact');
+			async('modele/cache/cache',array('objet'=>'Casquette','id_objet'=>$id_casquette,'prop'=>array('contact')));
+			async('modele/index/index',array('id'=>$id_casquette));
+		}
 	}
 	function aj_casquette($nom, $id_utilisateur=1) {
+		$id=$this->id;
 		$nom=SQLite3::escapeString($nom);
-		$tri=SQLite3::escapeString($this->nom." ".$this->prenom);
+		$tri=SQLite3::escapeString($this->nom()." ".$this->prenom());
 		$id_contact=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
@@ -67,15 +130,13 @@ class Contact {
 		$res = $base->query($sql);
 		$base->close();
 		$c=new Casquette($id_casquette);
-		$c->aj_donnee('Telephone_fixe','Téléphone fixe','telephone','',$id_utilisateur);
-		$c->aj_donnee('Telephone_portable','Téléphone portable','telephone','',$id_utilisateur);
-		$c->aj_donnee('Email','E-mail','email','',$id_utilisateur);
-		$c->aj_donnee('Fonction','Fonction','texte_court','',$id_utilisateur);
-		$this->cache();
+		Cache_modele::del('contact',$id,'casquettes');
+		Index::init($id_casquette);
 		return $id_casquette;
 	}
 	function suppr($id_utilisateur=1){
-		foreach($this->casquettes as $id_casquette=>$nom_casquette){
+		$id=$this->id;
+		foreach($this->casquettes() as $id_casquette){
 			$c=new Casquette($id_casquette);
 			$c->suppr($id_utilisateur);
 		}
@@ -84,67 +145,7 @@ class Contact {
 		$sql="update contacts set nom='####', prenom='####' where rowid=".$this->id;
 		$base->query($sql);
 		$base->close();
-		$this->de_index();
+		Cache_modele::suppr('contact',$id);
 	}
-	function cache(){
-		async('modele/cache/cache', array('objet'=>'Contact', 'id'=>$this->id));	
-	}
-	function index(){
-		error_log(date('d/m/Y H:i:s')." - Contact ".$this->id.", ".$this->nom." ".$this->prenom."\n", 3, "tmp/cache.log");
-		$content="";
-		foreach ($this->casquettes as $id=>$casquette){
-			$base = new SQLite3('db/contacts.sqlite');
-		$base->busyTimeout (10000);
-			$sql="select content from cache_casquette where rowid=$id";
-			$res = $base->query($sql);
-			while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-				$content.=$tab['content']." ";
-			}
-			$base->close();		
-		}
-		$id=$this->id;
-		$base = new SQLite3('db/contacts.sqlite');
-		$base->busyTimeout (10000);
-		#on teste si le cache existe
-		$sql="select count(*) from cache_contact where rowid=$id";
-		$res = $base->query($sql);
-		$n=0;
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$n=$tab['count(*)'];
-		}
-		$content=SQLite3::escapeString(noaccent($content));
-		if ($n==0) {
-			#si non on crée le cache
-			$sql="insert into cache_contact (rowid, content) values ($id, '$content')";
-			$res = $base->query($sql);
-		} else {
-			#si oui on met à jour
-			$sql="update cache_contact set content='$content' where rowid=$id";
-			$res = $base->query($sql);
-		}
-		$base->close();		
-	}
-	function index_existe(){
-		$id=$this->id;
-		#on teste si le cache existe
-		$sql="select count(*) from cache_contact where rowid=$id";
-		$base = new SQLite3('db/contacts.sqlite');
-		$base->busyTimeout (10000);
-		$res = $base->query($sql);
-		$n=0;
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$n=$tab['count(*)'];
-		}
-		$base->close();		
-		return $n;	
-	}
-	function de_index(){
-		$id=$this->id;
-		$base = new SQLite3('db/contacts.sqlite');
-		$base->busyTimeout (10000);
-		$sql="delete from cache_contact where rowid=$id";
-		$res = $base->query($sql);
-		$base->close();	
-	}	
 }
 ?>

@@ -16,7 +16,8 @@ CREATE TABLE 'donnees_casquette' (rowid INTEGER PRIMARY KEY AUTOINCREMENT,
 'nom' ,
 'type' ,
 'valeur' ,
-'date' DEFAULT (CURRENT_TIMESTAMP)
+'date' DEFAULT (CURRENT_TIMESTAMP),
+'actif'
 );
 CREATE TABLE 'donnees_etablissement' (rowid INTEGER PRIMARY KEY AUTOINCREMENT, 
 'id_utilisateur' INT,
@@ -25,13 +26,8 @@ CREATE TABLE 'donnees_etablissement' (rowid INTEGER PRIMARY KEY AUTOINCREMENT,
 'nom' ,
 'type' ,
 'valeur' ,
-'date' DEFAULT (CURRENT_TIMESTAMP)
+'date' DEFAULT (CURRENT_TIMESTAMP),
+'actif'
 );
 CREATE TABLE etablissements (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, date DEFAULT (CURRENT_TIMESTAMP));
 CREATE TABLE structures (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, date DEFAULT (CURRENT_TIMESTAMP));
-
-
-CREATE VIRTUAL TABLE cache_casquette USING fts3(content TEXT, cp TEXT, email TEXT, adresse TEXT);
-CREATE VIRTUAL TABLE cache_etablissement USING fts3(content TEXT);
-CREATE VIRTUAL TABLE cache_contact USING fts3(content TEXT);
-CREATE VIRTUAL TABLE cache_structure USING fts3(content TEXT);

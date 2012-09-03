@@ -37,30 +37,33 @@ class Structures {
 		$listes=array();
 		$tab_cond_motifs=array();
 		if ($motifs!="") {
-			$tab_motifs=explode(' ',str_replace(',','',$motifs));
+			$tab_motifs=explode(' ',str_replace(',',' ',$motifs));
 			foreach($tab_motifs as $motif){
-				$motif=SQLite3::escapeString($motif);
-				$tab_cond_motifs[]="
-				(
-					t3.rowid IN (
-					select rowid from cache_structure where content MATCH '*$motif*'
-					)
-				)
-				";
+				if (trim($motif)!="") {
+					$motif=SQLite3::escapeString($motif);
+					$tab_cond_motifs[]="
+						select id_structure, nom_structure from indexes where nom_structure!='####' and text MATCH '$motif*'
+					";
+				}
 			}
 		}
-		$cond=" AND ( ".implode($tab_cond_motifs,' AND ')." )";
-		if (count($tab_cond_motifs)==0) $cond="";
-		$sql="select t1.rowid as id, t1.nom as nom_etab, t3.nom as nom_str, t3.rowid as id_structure from etablissements as t1 inner join ass_etablissement_structure as t2 on t1.rowid=t2.id_etablissement inner join structures as t3 on t2.id_structure=t3.rowid where t1.nom!='####' $cond group by t3.rowid order by nom_str COLLATE NOCASE  limit $binf,20";
-		$base = new SQLite3('db/contacts.sqlite');
+		if (trim(implode(' intersect ',$tab_cond_motifs))=='') $sql="select id_structure, nom_structure from indexes where nom_structure!='####' and id_structure!='0'  group by id_structure order by nom_structure";
+		else {
+			$cond=" select id_structure, nom_structure from ( ".implode(' intersect ',$tab_cond_motifs)." )";
+			$sql="$cond where id_structure!='0' group by id_structure order by nom_structure";
+		}
+		error_log(date('d/m/Y H:i:s')."structures\n----\n$sql\n----\n", 3, "tmp/fab.log");
+		$sql_page="$sql limit $binf,20";
+		
+		$base = new SQLite3('db/index.sqlite');
 		$base->busyTimeout (10000);
 		$liste=array();
-		$res = $base->query($sql);
+		$res = $base->query($sql_page);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$liste[$tab['id_structure']]=array('nom_str'=>$tab['nom_str']);
+			$liste[$tab['id_structure']]=$tab['id_structure'];
 		}
 		$listes['liste']=$liste;
-		$sql="select count(*) from (select * from etablissements as t1 inner join ass_etablissement_structure as t2 on t1.rowid=t2.id_etablissement inner join structures as t3 on t2.id_structure=t3.rowid where t1.nom!='####' $cond group by t3.rowid COLLATE NOCASE)";
+		$sql="select count(*) from ( $sql 	)";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$listes['nb']=$tab['count(*)'];
@@ -78,6 +81,7 @@ class Structures {
 		$s=new Structure($id_structure);
 		$s->aj_etablissement('Siège social');
 		$base->close();
+		async('modele/cache/cache',array('objet'=>'Structure','id_objet'=>$id_structure,'prop'=>array('nom')));
 		return $id_structure;
 	}
 	function nb_structures($motifs="") {

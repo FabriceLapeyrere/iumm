@@ -69,7 +69,8 @@ class Emails {
 		$base->query($sql);
 		$id_email=$base->lastInsertRowID();
 		$base->close();
-		mkdir("fichiers/emails/$id_email");
+		mkdir("fichiers/emails/$id_email",0777,true);
+		mkdir("fichiers/emails/$id_email/thumbnails",0777,true);
 		return $id_email;
 	}
 	function dernier() {
@@ -84,35 +85,11 @@ class Emails {
 		$base->close();
 		return $id;
 	}
-	function expediteurs() {
-		$base = new SQLite3('db/mailing.sqlite');
-		$base->busyTimeout (10000);
-		$sql="select rowid, nom, email from expediteurs order by date desc";
-		$res = $base->query($sql);
-		$expediteurs=array();
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$expediteurs[$tab['rowid']]=array('nom'=>$tab['nom'],'email'=>$tab['email']);
-		}
-		$base->close();
-		return $expediteurs;
-	}
-	function expediteur($id) {
-		$base = new SQLite3('db/mailing.sqlite');
-		$base->busyTimeout (10000);
-		$sql="select rowid, nom, email from expediteurs where rowid=$id";
-		$res = $base->query($sql);
-		$expediteurs=array();
-		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$expediteurs[$tab['rowid']]=array('nom'=>$tab['nom'],'email'=>$tab['email']);
-		}
-		$base->close();
-		return $expediteurs[$id];
-	}
 	function aj_envoi($id_email,$id_expediteur,$liste_casquettes){
 		$e=new Email($id_email);	
 		$html='';
 		$sujet=SQLite3::escapeString($e->sujet);
-		$expediteur=Emails::expediteur($id_expediteur);
+		$expediteur=Emailing::expediteur($id_expediteur);
 		$from=SQLite3::escapeString(json_encode($expediteur));
 		$nb_email=count($liste_casquettes);
 		$base = new SQLite3('db/mailing.sqlite');
@@ -124,11 +101,13 @@ class Emails {
 		$sql="update envois set html='$html' where rowid=$id_envoi";
 		$base->query($sql);
 		$i=1;
+		$sql="BEGIN;";
 		foreach ($liste_casquettes as $id=>$casquette) {
-			$sql="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '')";
-			$base->query($sql);
+			$sql.="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '');";
 			$i++;
 		}
+		$sql.="COMMIT;";
+		$base->query($sql);
 		$base->close();
 		smartCopy("fichiers/emails/$id_email","fichiers/envois/$id_envoi");
 		return $id_envoi;

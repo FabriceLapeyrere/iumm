@@ -27,9 +27,9 @@
 		$nom=$_POST['nom']['valeur'];
 		$id_structure=Structures::aj_structure($nom, $_SESSION['user']['id']);
 		$str= new Structure($id_structure);
-		$etablissements=$str->etablissements;
+		$etablissements=$str->etablissements();
 		$id_etablissement=0;
-		foreach($etablissements as $id=>$etablissement ){
+		foreach($etablissements as $id ){
 			$id_etablissement=$id;
 		}
 		$js="

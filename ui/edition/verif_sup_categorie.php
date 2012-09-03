@@ -8,10 +8,10 @@
 	$id=$_POST['id_categorie'];
 	
 	$c=new Categorie($id);
-	$nom=$c->nom;
+	$nom=$c->nom();
 	if($c->nb_enfants()==0) {
 		$js="
-		$('<div>Suppression de <b>$nom</b> ?</div>').dialog({
+		$('<div>Suppression de <b>".addslashes($nom)."</b> ?</div>').dialog({
 			resizable: false,
 			title:'Etes vous sûr de vouloir supprimer ?',
 			modal: true,

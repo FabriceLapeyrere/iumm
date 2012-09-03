@@ -98,6 +98,17 @@ else $_SESSION['email']['binf'] = $binfe;
 if (isset($_SESSION['email']['motifs'])) $motifse=$_SESSION['email']['motifs'];
 else $_SESSION['email']['motifs'] = $motifse;
 
+#variables de session newsletter
+
+$binfn=0;
+$motifsn='';
+
+if (! isset($_SESSION['news'])) $_SESSION['email']= array();
+if (isset($_SESSION['news']['binf'])) $binfn=$_SESSION['email']['binf'];
+else $_SESSION['news']['binf'] = $binfn;
+if (isset($_SESSION['news']['motifs'])) $motifsn=$_SESSION['email']['motifs'];
+else $_SESSION['news']['motifs'] = $motifsn;
+
 #variables de session emailing
 
 $binfemailing=0;

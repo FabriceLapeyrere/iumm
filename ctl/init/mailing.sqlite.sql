@@ -1,12 +1,10 @@
 
 CREATE TABLE emails (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, sujet, date DEFAULT (CURRENT_TIMESTAMP) );
+CREATE TABLE news (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, sujet, date DEFAULT (CURRENT_TIMESTAMP) );
+CREATE TABLE donnees_news (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_news INT, news, date DEFAULT (CURRENT_TIMESTAMP) );
+CREATE TABLE news_modele (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, modele, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE donnees_email (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_email INT, html, pj, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE expediteurs (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, nom, email, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE envois (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, sujet, html, log, expediteur, nb INT, statut INT, pid INT, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE boite_envoi (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_casquette INT, id_envoi INT, i INT, erreurs INT, date DEFAULT (CURRENT_TIMESTAMP) );
-
-
-INSERT INTO emails (id_utilisateur, sujet) VALUES ('1', 'cool');
-
-INSERT INTO donnees_email (id_utilisateur, id_email, html, pj )VALUES ('1', '1','<p style=""><img width="400" height="63" src="/userfiles/image/entete.jpg" alt="" /></p>\r\n<p style="">\r\n<table width="400" height="290" cellspacing="1" cellpadding="1" border="0">\r\n    <tbody>\r\n        <tr>\r\n            <td>\r\n            <p><em><strong>Vox Bigerri vous adresse ses meilleurs voeux pour l''ann&eacute;e 2009.</strong></em></p>\r\n            <p align="justify"><strong><font size="2">&quot;D''aigas e de r&ograve;cas&quot;</font></strong><font size="2"><br />\r\n            Nous vous retrouverons prochainement par l''interm&eacute;diaire de notre nouveau disque qui sortira au printemps, intitul&eacute; &quot;D''aigas e de r&ograve;cas&quot;. Vous y trouverez de nouvelles pi&egrave;ces ainsi que des morceaux que nous chantons depuis les premiers concerts et qui n''&eacute;taient pas sur notre premier disque. Avec cet opus, nous parcourons les polyphonies du sud de l''Europe autour du th&egrave;me &quot;mer et montagne&quot;.</font></p>\r\n            <div align="justify">\r\n            <p><strong><font size="2">Vox Bigerri sur sc&egrave;ne</font></strong><br />\r\n            <font size="2">Nous vous retrouverons &eacute;galement avec grand plaisir sur sc&egrave;ne lors de l''un de nos concerts. Vous pouvez consulter notre agenda sur le site web de Vox Bigerri : <a href="http://www.voxbigerri.com">http://www.voxbigerri.com</a><br />\r\n            </font><br />\r\n            <font size="2">Meilleurs voeux,<br />\r\n            Vox Bigerri <br />\r\n            Ch&oelig;ur d''hommes du Grand Tarbes            </font></p>\r\n            </div>\r\n            </td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<img width="200" height="134" border="0" src="/userfiles/image/debout_200.jpg" alt="" /><img width="200" height="134" border="0" src="/userfiles/image/salut_200.jpg" alt="" /></p>', '');
 

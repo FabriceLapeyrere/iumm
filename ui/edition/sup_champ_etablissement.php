@@ -26,9 +26,11 @@
 	else {
 		$id=$_POST['id'];
 		$nom=$_POST['nom'];
+		#on rend le cache obsolete
+		Cache::set_obsolete('etablissement',$id);
 		$e=new Etablissement($id);
 		$casquettes=$e->casquettes();
-		$liste=$e->sup_donnee($nom, $_SESSION['user']['id']);
+		$e->sup_donnee($nom, $_SESSION['user']['id']);
 		$js="";
 		$js.="
 	$.post('ajax.php',{
@@ -56,11 +58,12 @@
 			'json'
 		);
 		";	
-		foreach($casquettes as $id_cas=>$nom_cas){
+		foreach($casquettes as $id_cas){
 	
 			#on rend le cache obsolete
 			Cache::set_obsolete('casquette',$id_cas);
-		
+			Cache::set_obsolete('casquette_sel',$id_cas);
+			
 			$js_cas.="
 			$.post('ajax.php',{
 					action:'edition/casquette',

@@ -27,56 +27,63 @@
 	else {
 		$id=$_POST['id']['valeur'];
 	
-		#on rend le cache obsolete
-		Cache::set_obsolete('etablissement',$id);
-	
+		
 		$donnees=array();
 		foreach($_POST as $nom=>$entree){
 			if ($nom!='action' && $nom!='id') {
-				$donnees[$nom]['type']=$entree['type'];
-				$donnees[$nom]['valeur']=$entree['valeur'];
+				$donnees[$nom][2]=$entree['type'];
+				$donnees[$nom][0]=$entree['valeur'];
 			}
 		}
 		$e= new Etablissement($id);
-		$tab_cas=$e->casquettes();
-		$old=$e->donnees();
+		$etout=$e->tout();
+		$tab_cas=$etout['casquettes'];
+		#on rend le cache obsolete
+		Cache::set_obsolete('etablissement',$id);
+		Cache::set_obsolete('structure',$etout['structure']['id']);
+		Cache::set_obsolete('casquette',$etout['casquette_propre']);
+		Cache::set_obsolete('casquette_sel',$etout['casquette_propre']);
+		$old=$etout['donnees'];
 		foreach ($donnees as $nom=>$donnee){
 			$test=0;
 			$message.="$nom =>";
-			if ($old[$nom]['valeur'] == $donnee['valeur']) $message.="inchangée.";
+			if ($old[$nom][0] == $donnee[0]) $message.="inchangée.";
 			else {
 				$message.="à changer.";
 				$test=1;
 			}
 			$message.="<br />";
 			if ($test==1) {
-				if (is_array($donnee['valeur'])) $valeur=json_encode($donnee['valeur']);
-				else $valeur=$donnee['valeur'];
-				$label=$old[$nom]['label'];
-				$type=$donnee['type'];
+				if (is_array($donnee[0])) $valeur=json_encode($donnee[0]);
+				else $valeur=$donnee[0];
+				$label=$old[$nom][1];
+				$type=$donnee[2];
 				$e->aj_donnee($nom,$label,$type,$valeur, $_SESSION['user']['id']);
 			}
 		}
 		$js_cas="";
-		foreach($tab_cas as $id_cas=>$nom_cas){
+		if (is_array($tab_cas)){
+			foreach($tab_cas as $id_cas){
 	
-			#on rend le cache obsolete
-			Cache::set_obsolete('casquette',$id_cas);
-		
-			$js_cas.="
-			$.post('ajax.php',{
-					action:'edition/casquette',
-					id_casquette:$id_cas,
-					format:'html'
-				},function(data){
-					if(data.succes==1) $('#ed_casquette-$id_cas').html(data.html)
-					eval(data.js);
-					ed_scapi.reinitialise();
-				},
-				'json'
-			);
-			";
-		};
+				#on rend le cache obsolete
+				Cache::set_obsolete('casquette',$id_cas);
+				Cache::set_obsolete('casquette_sel',$id_cas);
+			
+				$js_cas.="
+				$.post('ajax.php',{
+						action:'edition/casquette',
+						id_casquette:$id_cas,
+						format:'html'
+					},function(data){
+						if(data.succes==1) $('#ed_casquette-$id_cas').html(data.html)
+						eval(data.js);
+						ed_scapi.reinitialise();
+					},
+					'json'
+				);
+				";
+			}
+		}
 		$js="
 			$.post('ajax.php',{
 					action:'edition/etablissement',

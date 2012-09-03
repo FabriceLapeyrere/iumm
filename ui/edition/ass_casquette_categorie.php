@@ -29,47 +29,47 @@
 		$id_categorie=$_POST['id_categorie'];
 		$c=new Casquette($id_casquette);
 		$c->ass_categorie($id_categorie, $_SESSION['user']['id']);
-		$id_etablissement=$c->id_etablissement;
-		$e=new Etablissement($id_etablissement);
-	
+		
 		#on rend le cache obsolete
-		Cache::set_obsolete('casquette',$id_casquette);
-		Cache::set_obsolete('etablissement',$id_etablissement);
+		Cache::set_obsolete('ed_categorie',$id_categorie);
+		Cache::set_obsolete('sel_categorie',$id_categorie);
+		Cache::set_obsolete('casquette_sel',$id_casquette);
+		$cat=new Categorie($id_categorie);
+		$nom_cat=$cat->nom();
 		$js="";
-		foreach($e->casquettes() as $id_cas=>$cas){
-			Cache::set_obsolete('casquette',$id_cas);	
+		
+		$contact=$c->contact();
+		if ($contact['nom']!="$$$$") {
+			Cache::set_obsolete('casquette',$id_casquette);
 			$js.="
-			$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+			$('#ed_casquette-$id_casquette').html('".json_escape(Html::casquette($id_casquette))."');
 			";
-			$js.=Js::casquette($id_cas);
+			$js.=Js::casquette($id_casquette);
 			$js.="
 			ed_scapi.reinitialise();
 			";
+		} else {
+			$etablissement=$c->etablissement();
+			$id_etablissement=$etablissement['id'];
+			Cache::set_obsolete('etablissement',$id_etablissement);
+			$js.="
+			$('#ed_etablissement-$id_etablissement').html('".json_escape(Html::etablissement($id_etablissement))."');
+			";
+			$js.=Js::etablissement($id_etablissement);
+			$js.="
+			ed_ssapi.reinitialise();
+			";
 		}
-	
-		$js.="
-		$('#ed_casquette-$id_casquette').html('".json_escape(Html::casquette($id_casquette))."');
-		";
-		$js.=Js::casquette($id_casquette);
-		$js.="
-		ed_scapi.reinitialise();
-		$('#ed_etablissement-$id_etablissement').html('".json_escape(Html::etablissement($id_etablissement))."');
-		";
-		$js.=Js::etablissement($id_etablissement);
-		$js.="
-		ed_ssapi.reinitialise();
-		";
-		$c=new Categorie($id_categorie);
-		while ($c->id!=0){
+		while ($cat->id!=0){
 			$js.="
-			$('#ed_tree').dynatree('getTree').getNodeByKey('".$c->id."').data.title='".json_escape(Html::titre_categorie($c->id))."';
-			$('#ed_tree').dynatree('getTree').getNodeByKey('".$c->id."').render();
+			$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';
+			$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
 			";
 			$js.="
-			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').data.title='".json_escape(Html::titre_categorie($c->id))."';
-			$('#sel_tree').dynatree('getTree').getNodeByKey('".$c->id."').render();
+			$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';
+			$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
 			";
-			$c=new Categorie($c->id_parent);
+			$cat=new Categorie($cat->id_parent());
 		}
 		$js.="
 		sel_scatapi.reinitialise();

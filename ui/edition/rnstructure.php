@@ -11,7 +11,7 @@
 	$form->prefixe="rnstr$id";
 	
 	$form->ajoute_entree('id', 'hidden', $id, '', array(1));
-	$form->ajoute_entree('nom', 'texte_court', $s->nom, '', array(1),'Nom');
+	$form->ajoute_entree('nom', 'texte_court', $s->nom(), '', array(1),'Nom');
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'edition/ren_structure');
@@ -34,7 +34,7 @@ $('rnstr$id .bouton').button();
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']=$s->nom;
+		$reponse['titre']=$s->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

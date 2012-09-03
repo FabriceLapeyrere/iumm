@@ -30,9 +30,9 @@
 		$c= new Contacts();
 		$id_contact=$c->aj_contact($nom,$prenom, $_SESSION['user']['id']);
 		$cont= new Contact($id_contact);
-		$casquettes=$cont->casquettes;
+		$casquettes=$cont->casquettes();
 		$id_casquette=0;
-		foreach($casquettes as $id=>$casquette ){
+		foreach($casquettes as $id ){
 			$id_casquette=$id;
 		}
 		$js="

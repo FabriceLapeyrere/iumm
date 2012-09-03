@@ -4,7 +4,7 @@
  * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
  * @author     Fabrice Lapeyrere <fabrice@surlefil.org>
  */
-
+set_time_limit(0);
 include "ui/session.php";
 
 define('CLASS_DIR', 'modele/');

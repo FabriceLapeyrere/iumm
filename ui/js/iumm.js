@@ -3,6 +3,8 @@
  * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
  */
 $(function() {
+	sel_cat_reload=0;
+	ed_cat_reload=0;
 	$(window).hashchange( function(){
 		var hash = location.hash;
 		switch(hash)
@@ -11,40 +13,50 @@ $(function() {
 			$("#edition").css('z-index',1);
 			$("#selection").css('z-index',0);
 			$("#email").css('z-index',0);
+			$("#news").css('z-index',0);
 			$("#emailing").css('z-index',0);
 			$("#publipostage").css('z-index',0);
 			$("#admin").css('z-index',0);
-			$(".local_email, .local_selection, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
+			$(".local_email, .local_news, .local_selection, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
 			});
 			$('#menu a').css('color','#000');
 			$('a[href=#edition]').css('color','#ff8000');
-			break;
+			if (ed_cat_reload==1) {
+				$('#ed_tree').dynatree('getTree').reload();
+				ed_cat_reload=0;
+			}break;
 		case '#selection':
 			$("#edition").css('z-index',0);
 			$("#selection").css('z-index',1);
 			$("#email").css('z-index',0);
+			$("#news").css('z-index',0);
 			$("#emailing").css('z-index',0);
 			$("#publipostage").css('z-index',0);
 			$("#admin").css('z-index',0);
-			$(".local_email, .local_edition, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
+			$(".local_email, .local_news, .local_edition, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
 			});
 			$('#menu a').css('color','#000');
 			$('a[href=#selection]').css('color','#ff8000');
+			if (sel_cat_reload==1) {
+				$('#sel_tree').dynatree('getTree').reload();
+				sel_cat_reload=0;
+			}
 			break;
 		case '#email':
 			$("#edition").css('z-index',0);
 			$("#selection").css('z-index',0);
 			$("#email").css('z-index',1);
+			$("#news").css('z-index',0);
 			$("#emailing").css('z-index',0);
 			$("#publipostage").css('z-index',0);
 			$("#admin").css('z-index',0);
-			$(".local_selection, .local_edition, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
+			$(".local_news, .local_selection, .local_edition, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
@@ -52,14 +64,31 @@ $(function() {
 			$('#menu a').css('color','#000');
 			$('a[href=#email]').css('color','#ff8000');
 			break;
+		case '#news':
+			$("#edition").css('z-index',0);
+			$("#selection").css('z-index',0);
+			$("#email").css('z-index',0);
+			$("#news").css('z-index',1);
+			$("#emailing").css('z-index',0);
+			$("#publipostage").css('z-index',0);
+			$("#admin").css('z-index',0);
+			$(".local_selection, .local_edition, .local_email, .local_emailing, .local_publipostage, .local_admin").each(function(i,e){
+				var id=$(e).attr('id');
+				$(e).dialog('close');
+				delete window['form' + id];
+			});
+			$('#menu a').css('color','#000');
+			$('a[href=#news]').css('color','#ff8000');
+			break;
 		case '#emailing':
 			$("#edition").css('z-index',0);
 			$("#selection").css('z-index',0);
 			$("#email").css('z-index',0);
+			$("#news").css('z-index',0);
 			$("#emailing").css('z-index',1);
 			$("#publipostage").css('z-index',0);
 			$("#admin").css('z-index',0);
-			$(".local_selection, .local_edition, .local_email, .local_publipostage, .local_admin").each(function(i,e){
+			$(".local_selection, .local_edition, .local_email, .local_news, .local_publipostage, .local_admin").each(function(i,e){
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
@@ -71,10 +100,11 @@ $(function() {
 			$("#edition").css('z-index',0);
 			$("#selection").css('z-index',0);
 			$("#email").css('z-index',0);
+			$("#news").css('z-index',0);
 			$("#emailing").css('z-index',0);
 			$("#publipostage").css('z-index',1);
 			$("#admin").css('z-index',0);
-				$(".local_selection, .local_edition, .local_email, .local_emailing, .local_admin").each(function(i,e){
+				$(".local_selection, .local_edition, .local_email, .local_news, .local_emailing, .local_admin").each(function(i,e){
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];
@@ -86,11 +116,12 @@ $(function() {
 			$("#edition").css('z-index',0);
 			$("#selection").css('z-index',0);
 			$("#email").css('z-index',0);
+			$("#news").css('z-index',0);
 			$("#emailing").css('z-index',0);
 			$("#publipostage").css('z-index',0);
 			$("#admin").css('z-index',1);
 			
-			$(".local_selection, .local_edition, .local_email, .local_emailing, .local_emailing").each(function(i,e){
+			$(".local_selection, .local_edition, .local_email, .local_news, .local_emailing, .local_emailing").each(function(i,e){
 				var id=$(e).attr('id');
 				$(e).dialog('close');
 				delete window['form' + id];

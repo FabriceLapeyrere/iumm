@@ -1,4 +1,8 @@
 <?php
+ /**
+ * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
+ */
 $id_envoi=$argv[2];
 if(Emailing::statut_envoi($id_envoi)==1) {
 	Emailing::play_envoi($id_envoi);

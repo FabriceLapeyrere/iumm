@@ -1,4 +1,8 @@
 <?php
+ /**
+ * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
+ */
 	if (file_exists('db/contacts.sqlite')) unlink('db/contacts.sqlite');
 	if (file_exists('db/mailing.sqlite')) unlink('db/mailing.sqlite');
 	if (file_exists('db/publipostage.sqlite')) unlink('db/publipostage.sqlite');

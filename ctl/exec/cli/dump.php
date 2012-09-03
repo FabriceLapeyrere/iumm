@@ -1,4 +1,8 @@
 <?php
+ /**
+ * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
+ */
 	$t=time();
 	$nom_zip="sauvegarde_$t.zip";
 	class zip extends ZipArchive {

@@ -1,4 +1,8 @@
 <?php
+ /**
+ * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
+ */
 	$message="";
 	if (! file_exists("fichiers/emails/")) mkdir("fichiers/emails",755,true);
 	if (! file_exists("fichiers/news/")) mkdir("fichiers/news",755,true);

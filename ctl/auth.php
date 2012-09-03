@@ -1,4 +1,8 @@
 <?php
+ /**
+ * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
+ */
 if (isset($_POST['login']) AND isset($_POST['passwd'])) {
 	$mdp=crypt($_POST['passwd'],"keller");
 	$id=Utilisateurs::ok($_POST['login'],$mdp);

@@ -1,3 +1,6 @@
+--@license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
+--@author     Fabrice Lapeyrere <fabrice.lapeyrere@surlefil.org>
+
 CREATE TABLE ass_casquette_categorie (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_casquette INT, id_categorie INT, statut
 INT, date DEFAULT (CURRENT_TIMESTAMP) );
 CREATE TABLE ass_casquette_contact (rowid INTEGER PRIMARY KEY AUTOINCREMENT, id_utilisateur INT, id_casquette INT, id_contact INT, date DEFAULT (CURRENT_TIMESTAMP) );

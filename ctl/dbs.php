@@ -4,7 +4,7 @@
 	if (! is_writable("ui/cache/")) $message.="Le dossier \"ui/cache/\" doit être accessible en écriture.<br />";
 	if (! is_writable("modele/cache/")) $message.="Le dossier \"ui/cache/\" doit être accessible en écriture.<br />";
 	if (! is_writable("fichiers/emails/")) $message.="Le dossier \"fichiers/emails/\" doit être accessible en écriture.<br />";
-	if (! is_writable("fichiers/news/")) $message.="Le dossier \"fichiers/emails/\" doit être accessible en écriture.<br />";
+	if (! is_writable("fichiers/news/")) $message.="Le dossier \"fichiers/news/\" doit être accessible en écriture.<br />";
 	if (! is_writable("fichiers/envois/")) $message.="Le dossier \"fichiers/envois/\" doit être accessible en écriture.<br />";
 	if ($message!="") {
 		echo $message;

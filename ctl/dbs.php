@@ -1,5 +1,9 @@
 <?php
 	$message="";
+	if (! file_exists("fichiers/emails/")) mkdir("fichiers/emails",755,true);
+	if (! file_exists("fichiers/news/")) mkdir("fichiers/news",755,true);
+	if (! file_exists("fichiers/envois/")) mkdir("fichiers/envois",755,true);
+
 	if (! is_writable("db/")) $message.="Le dossier \"db/\" doit être accessible en écriture.<br />";
 	if (! is_writable("ui/cache/")) $message.="Le dossier \"ui/cache/\" doit être accessible en écriture.<br />";
 	if (! is_writable("modele/cache/")) $message.="Le dossier \"ui/cache/\" doit être accessible en écriture.<br />";

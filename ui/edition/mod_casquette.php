@@ -39,19 +39,14 @@
 		$c= new Casquette($id);	
 		$old=$c->donnees();
 
-		$t=microtime(true);
-		
 		foreach ($donnees as $nom=>$donnee){
 			$test=0;
-			$message.="$nom =>";
 			if (is_array($donnee[0])) $valeur=json_encode($donnee[0]);
 			else $valeur=$donnee[0];
-			if ($old[$nom][0] == $valeur) $message.="inchangée.";
-			else {
-				$message.="à changer.";
+			if ($old[$nom][0] != $valeur) {
+				$message.="$nom mis à jour.<br />";
 				$test=1;
 			}
-			$message.="<br />";
 			if ($test==1) {
 				$change=1;
 				if (is_array($donnee[0])) $valeur=json_encode($donnee[0]);
@@ -62,8 +57,7 @@
 				if ($nom=='Fonction') $etab=1;
 			}
 		}
-		$message.=microtime(true)-$t;
-
+		
 		$js="
 			$('#mcas$id').dialog('close');
 		";

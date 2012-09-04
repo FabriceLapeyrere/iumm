@@ -39,6 +39,6 @@
 		}
 	};
 	form$prefixe.entrees['$nom'].value='".addslashes($this->entrees[$nom]['valeur'])."';
-	$('#$prefixe"."_entree_$nom-infos').html(form$prefixe.entrees['$nom'].reecriture().html);
+	$('#$prefixe"."_entree_$nom-infos').html(form$prefixe.entrees['$nom'].test().ok==1 ? form$prefixe.entrees['$nom'].reecriture().html : form$prefixe.entrees['$nom'].test().message);
 	";
 ?>

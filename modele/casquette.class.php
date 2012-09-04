@@ -447,7 +447,7 @@ insert into ass_casquette_categorie (id_utilisateur, id_casquette, id_categorie)
 		$sql="update donnees_casquette set actif=0 where id_casquette=$id and nom='$nom';";
 		$base->query($sql);
 		$base->close();		
-		Cache_modele::del('casquette',$id,array('cp', 'adresse', 'donnees','emails'));
+		Cache_modele::del('casquette',$id,'cp, adresse, donnees, emails');
 		async('modele/index/index',array('id'=>$id));
 	}
 	function suppr($id_utilisateur=1){

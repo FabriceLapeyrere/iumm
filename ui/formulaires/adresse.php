@@ -51,6 +51,6 @@
 		}
 	};
 	form$prefixe.entrees['$nom'].value={adresse:$('#$prefixe"."_entree_$nom"."_adresse').html(),cp:$('#$prefixe"."_entree_$nom"."_cp').html(),ville:$('#$prefixe"."_entree_$nom"."_ville').html(),pays:$('#$prefixe"."_entree_$nom"."_adresse').html()};
-	$('#$prefixe"."_entree_$nom-infos').html(form$prefixe.entrees['$nom'].reecriture().html);
+	$('#$prefixe"."_entree_$nom-infos').html(form$prefixe.entrees['$nom'].test().ok==1 ? form$prefixe.entrees['$nom'].reecriture().html : form$prefixe.entrees['$nom'].test().message);
 	";
 ?>

@@ -14,10 +14,6 @@
 	if (! is_writable("fichiers/emails/")) $message.="Le dossier \"fichiers/emails/\" doit être accessible en écriture.<br />";
 	if (! is_writable("fichiers/news/")) $message.="Le dossier \"fichiers/news/\" doit être accessible en écriture.<br />";
 	if (! is_writable("fichiers/envois/")) $message.="Le dossier \"fichiers/envois/\" doit être accessible en écriture.<br />";
-	if ($message!="") {
-		echo $message;
-		exit;
-	}
 	if (!file_exists('db/contacts.sqlite')) {
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->exec(file_get_contents('ctl/init/contacts.sqlite.sql'));
@@ -43,4 +39,25 @@
 		$base->exec(file_get_contents('ctl/init/index.sqlite.sql'));
 		$base->close();
 	}
+
+	// Le .htaccess DOIT contenir la chaîne :
+	// SetEnv ENV_HTACCESS_READING true
+
+	if (!array_key_exists ('ENV_HTACCESS_READING', $_SERVER)) {
+		$message.= "Les fichiers .htaccess ne sont pas lus par votre serveur web, il faut ajouter 'AllowOverride All' dans la configuration du serveur, sinon les repertoires contenant les données de iumm ne sont pas protégés.<br />";
+	}
+	if ($message!="") {
+		echo "<!DOCTYPE HTML>
+<html>
+<head>
+<title>contacts</title>
+<meta http-equiv=\"Content-Type\" Content=\"text/html; charset=UTF-8\">
+</head>
+</body>
+$message
+</body>
+</html>";
+		exit;
+	}
+
 ?>

@@ -33,7 +33,7 @@
 		$js="";
 		if ($nb==1){
 			$js.="
-			$('<div>Impossible de supprimer l'établissement : une structure doit toujours contenir au moins un établissement.</div>').dialog({
+			$('<div>Impossible de supprimer l\'établissement : une structure doit toujours contenir au moins un établissement.</div>').dialog({
 				resizable: false,
 				title:'Suppression impossible',
 				modal: true,

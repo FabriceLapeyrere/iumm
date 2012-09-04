@@ -14,6 +14,9 @@
 	
 	#on rend le cache obsolete
 	Cache::set_obsolete('etablissement',$id_etablissement);
+	$id_propre=$e->casquette_propre();
+	Cache::set_obsolete('casquette',$id_propre);
+	Cache::set_obsolete('casquette_sel',$id_propre);
 	
 	$c->mod_nom("Perso");
 	$js="";

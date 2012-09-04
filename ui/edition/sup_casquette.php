@@ -51,7 +51,11 @@
 		else {
 			$c->suppr($_SESSION['user']['id']);
 			#on rend le cache obsolete
+			$e=new etablissement($id_etablissement);
+			$id_propre=$e-> casquette_propre();
 			Cache::set_obsolete('etablissement',$id_etablissement);
+			Cache::set_obsolete('casquette',$id_propre);
+			Cache::set_obsolete('casquette_sel',$id_propre);
 			Cache::set_obsolete('contact',$id_contact);
 
 			$js="";
@@ -82,6 +86,22 @@
 					'json'
 				);
 			";	
+			$e=new etablissement($id_etablissement);
+			foreach($e->casquettes() as $id_cas){
+				if($id_cas>0) {
+					$c=new casquette($id_cas);		
+					Cache::set_obsolete('contact',$c->id_contact());
+					Cache::set_obsolete('casquette',$id_cas);
+					Cache::set_obsolete('casquette_sel',$id_cas);
+					$js.="
+					$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+					";
+					$js.=Js::casquette($id_cas);
+					$js.="
+					ed_scapi.reinitialise();
+					";
+				}
+			}
 			foreach($c->categories() as $id_categorie){
 				$cat=new Categorie($id_categorie);
 				$js.="

@@ -46,13 +46,10 @@
 		$old=$etout['donnees'];
 		foreach ($donnees as $nom=>$donnee){
 			$test=0;
-			$message.="$nom =>";
-			if ($old[$nom][0] == $donnee[0]) $message.="inchangée.";
-			else {
-				$message.="à changer.";
+			if ($old[$nom][0] != $donnee[0]) {
+				$message.="$nom mis(e) à jour.<br />";
 				$test=1;
 			}
-			$message.="<br />";
 			if ($test==1) {
 				if (is_array($donnee[0])) $valeur=json_encode($donnee[0]);
 				else $valeur=$donnee[0];

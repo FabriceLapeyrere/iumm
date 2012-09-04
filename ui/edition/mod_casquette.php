@@ -44,7 +44,7 @@
 			if (is_array($donnee[0])) $valeur=json_encode($donnee[0]);
 			else $valeur=$donnee[0];
 			if ($old[$nom][0] != $valeur) {
-				$message.="$nom mis à jour.<br />";
+				$message.="$nom mis(e) à jour.<br />";
 				$test=1;
 			}
 			if ($test==1) {
@@ -83,9 +83,13 @@
 			if ($c->id_etablissement()>0 && $etab==1){
 				$id_etablissement=$c->id_etablissement();
 				$id_structure=$c->id_structure();
+				$e=new etablissement($id_etablissement);
+				$id_propre=$e->casquette_propre();
 				#on rend le cache obsolete
 				Cache::set_obsolete('etablissement',$id_etablissement);
 				Cache::set_obsolete('structure',$id_structure);
+				Cache::set_obsolete('casquette',$id_propre);
+				Cache::set_obsolete('casquette_sel',$id_propre);
 				$js.="
 				$.post('ajax.php',{
 						action:'edition/etablissement',
@@ -101,7 +105,26 @@
 					'json'
 				);
 				";
-			};
+				foreach ($e->casquettes() as $id_cas) {
+					Cache::set_obsolete('casquette',$id_cas);
+					Cache::set_obsolete('casquette_sel',$id_cas);
+					$js.="
+					$.post('ajax.php',{
+							action:'edition/casquette',
+							id_casquette:$id_cas,
+							format:'html'
+						},function(data){
+							if(data.succes==1) { 
+								$('#ed_casquette-$id_cas').html(data.html);
+							}
+							eval(data.js);
+							ed_ssapi.reinitialise();
+						},
+						'json'
+					);
+					";
+				}
+			}
 			$js.="
 			$.post('ajax.php',{
 					action:'selection/selection_humains',

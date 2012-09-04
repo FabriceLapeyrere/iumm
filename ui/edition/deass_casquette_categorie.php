@@ -29,6 +29,7 @@
 		$c=new Casquette($id_casquette);
 		$c->deass_categorie($id_categorie, $_SESSION['user']['id']);
 		$id_etablissement=$c->id_etablissement();
+		$id_structure=$c->id_structure();
 		$e=new Etablissement($id_etablissement);
 	
 		#on rend le cache obsolete
@@ -37,9 +38,12 @@
 		Cache::set_obsolete('casquette',$id_casquette);
 		Cache::set_obsolete('casquette_sel',$id_casquette);
 		Cache::set_obsolete('etablissement',$id_etablissement);
+		Cache::set_obsolete('structure',$id_structure);
 		$js="";
 		foreach($e->casquettes() as $id_cas){
 			if($id_cas>0) {
+				$c=new casquette($id_cas);		
+				Cache::set_obsolete('contact',$c->id_contact());
 				Cache::set_obsolete('casquette',$id_cas);
 				Cache::set_obsolete('casquette_sel',$id_cas);
 				$js.="

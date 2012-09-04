@@ -34,13 +34,14 @@
 		Cache::set_obsolete('ed_categorie',$id_categorie);
 		Cache::set_obsolete('sel_categorie',$id_categorie);
 		Cache::set_obsolete('casquette_sel',$id_casquette);
+		Cache::set_obsolete('casquette',$id_casquette);
 		$cat=new Categorie($id_categorie);
 		$nom_cat=$cat->nom();
 		$js="";
 		
 		$contact=$c->contact();
 		if ($contact['nom']!="$$$$") {
-			Cache::set_obsolete('casquette',$id_casquette);
+			Cache::set_obsolete('contact',$contact['id']);
 			$js.="
 			$('#ed_casquette-$id_casquette').html('".json_escape(Html::casquette($id_casquette))."');
 			";
@@ -49,9 +50,10 @@
 			ed_scapi.reinitialise();
 			";
 		} else {
-			$etablissement=$c->etablissement();
-			$id_etablissement=$etablissement['id'];
+			$id_etablissement=$c->id_etablissement();
+			$id_structure=$c->id_structure();
 			Cache::set_obsolete('etablissement',$id_etablissement);
+			Cache::set_obsolete('structure',$id_structure);
 			$js.="
 			$('#ed_etablissement-$id_etablissement').html('".json_escape(Html::etablissement($id_etablissement))."');
 			";
@@ -59,15 +61,35 @@
 			$js.="
 			ed_ssapi.reinitialise();
 			";
+			$e=new etablissement($id_etablissement);
+			foreach($e->casquettes() as $id_cas){
+				if($id_cas>0) {
+					$c=new casquette($id_cas);		
+					Cache::set_obsolete('contact',$c->id_contact());
+					Cache::set_obsolete('casquette',$id_cas);
+					Cache::set_obsolete('casquette_sel',$id_cas);
+					$js.="
+					$('#ed_casquette-$id_cas').html('".json_escape(Html::casquette($id_cas))."');
+					";
+					$js.=Js::casquette($id_cas);
+					$js.="
+					ed_scapi.reinitialise();
+					";
+				}
+			}
 		}
 		while ($cat->id!=0){
 			$js.="
+			if ($('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."')) {
 			$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';
 			$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+			}
 			";
 			$js.="
+			if ($('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."')) {
 			$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';
 			$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+			}
 			";
 			$cat=new Categorie($cat->id_parent());
 		}

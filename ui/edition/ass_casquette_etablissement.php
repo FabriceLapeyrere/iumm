@@ -36,7 +36,11 @@
 				$c->ass_etablissement($id_etablissement, $_SESSION['user']['id']);
 				#On supprime le cache du nouvel etablissement
 				Cache::set_obsolete('etablissement',$id_etablissement);
-				
+				$e=new etablissement($id_etablissement);
+				$id_propre=$e->casquette_propre();
+				Cache::set_obsolete('casquette',$id_propre);
+				Cache::set_obsolete('casquette_sel',$id_propre);
+	
 				#On met à jour le nom de la casquette
 				$e=new Etablissement($id_etablissement);
 				$etout=$e->tout();

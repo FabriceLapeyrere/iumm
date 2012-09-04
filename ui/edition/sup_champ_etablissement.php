@@ -30,6 +30,7 @@
 		Cache::set_obsolete('etablissement',$id);
 		$e=new Etablissement($id);
 		$casquettes=$e->casquettes();
+		$id_propre=$e->casquette_propre();
 		$e->sup_donnee($nom, $_SESSION['user']['id']);
 		$js="";
 		$js.="
@@ -58,6 +59,8 @@
 			'json'
 		);
 		";	
+		Cache::set_obsolete('casquette',$id_propre);
+		Cache::set_obsolete('casquette_sel',$id_propre);
 		foreach($casquettes as $id_cas){
 	
 			#on rend le cache obsolete
@@ -78,7 +81,6 @@
 			);
 			";
 		};
-		if ($type=='adresse') $js.="$('#metab$id ul.plus').prepend('<li class=\"champ\" data-nom=\"adresse\" data-type=\"adresse\">adresse</li>');";
 	}
 	if($succes) {
 		$reponse['succes']=1;

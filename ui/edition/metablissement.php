@@ -123,7 +123,6 @@ $('#metab$id ul.champs>li').on('click','.moins', function(){
 	var nom=$(this).parent().parent().dataset('nom');
 	var type=$(this).parent().parent().dataset('type');
 	if (type=='adresse') {
-		console.log('cool');
 		$('#metab$id ul.plus').prepend(\"$adresse\");
 	}
 	$.post('ajax.php',{

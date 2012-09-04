@@ -338,13 +338,16 @@ where t1.nom='$$$$' and t4.id_etablissement=".$this->id;
 		}		
 	}
 	function sup_donnee($nom, $id_utilisateur=1){
+		$id=$this->id;
 		$nom=SQLite3::escapeString($nom);
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="delete from donnees_etablissement where id_etablissement=".$this->id." and nom='$nom'";
 		$base->query($sql);
-		$base->close();		
+		$base->close();	
+		$id_propre=$this->casquette_propre();	
 		Cache_modele::del('etablissement',$id,'donnees');
+		Cache_modele::del('casquette',$id_propre,'donnees_etab');
 		async('modele/index/index',array('id'=>$id_propre));
 	}
 	function liste_champs(){

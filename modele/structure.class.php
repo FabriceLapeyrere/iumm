@@ -53,7 +53,7 @@ class Structure {
 		#on récupere les etablissements :
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select t1.rowid from etablissements as t1 inner join ass_etablissement_structure as t2 on t1.rowid=t2.id_etablissement where t2.id_structure=$id order by nom";
+		$sql="select t1.rowid from etablissements as t1 inner join ass_etablissement_structure as t2 on t1.rowid=t2.id_etablissement where t2.id_structure=$id order by nom COLLATE NOCASE";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$etablissements[]=$tab['rowid'];

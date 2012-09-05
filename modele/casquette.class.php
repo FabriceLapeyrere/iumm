@@ -206,7 +206,7 @@ from donnees_casquette as t1
 inner join ass_casquette_contact as t2 on t1.id_casquette=t2.id_casquette
 inner join contacts as t3 on t3.rowid=t2.id_contact
 left join ass_casquette_etablissement as t4 on t4.id_casquette=t1.id_casquette
-where t1.id_casquette=$id and t1.actif=1 order by nom
+where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 		";
 		$res = $base->query($sql);
 		$donnees=array();

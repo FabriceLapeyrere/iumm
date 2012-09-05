@@ -89,7 +89,7 @@ WHERE t3.nom!='####' and t4.id_categorie=".$this->id;
 		$id=$this->id;
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql_enfants="select rowid, nom, idparent from categories where idparent=$id and nom!='####' order by nom";
+		$sql_enfants="select rowid, nom, idparent from categories where idparent=$id and nom!='####' order by nom COLLATE NOCASE";
 		if ($res_enfants = $base->query($sql_enfants)){
 			while ($tab_enfants=$res_enfants->fetchArray(SQLITE3_ASSOC)) {
 				$categories[$tab_enfants['rowid']]=$tab_enfants['nom'];

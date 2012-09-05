@@ -47,10 +47,10 @@ class Structures {
 				}
 			}
 		}
-		if (trim(implode(' intersect ',$tab_cond_motifs))=='') $sql="select id_structure, nom_structure from indexes where nom_structure!='####' and id_structure!='0'  group by id_structure order by nom_structure";
+		if (trim(implode(' intersect ',$tab_cond_motifs))=='') $sql="select id_structure, nom_structure from indexes where nom_structure!='####' and id_structure!='0'  group by id_structure order by nom_structure COLLATE NOCASE";
 		else {
 			$cond=" select id_structure, nom_structure from ( ".implode(' intersect ',$tab_cond_motifs)." )";
-			$sql="$cond where id_structure!='0' group by id_structure order by nom_structure";
+			$sql="$cond where id_structure!='0' group by id_structure order by nom_structure COLLATE NOCASE";
 		}
 		error_log(date('d/m/Y H:i:s')."structures\n----\n$sql\n----\n", 3, "tmp/fab.log");
 		$sql_page="$sql limit $binf,20";

@@ -90,7 +90,7 @@ class Etablissement {
 from donnees_etablissement as t1
 inner join ass_etablissement_structure as t2 on t1.id_etablissement=t2.id_etablissement
 inner join structures as t3 on t3.rowid=t2.id_structure
-where t1.id_etablissement=$id and t1.actif=1 order by nom
+where t1.id_etablissement=$id and t1.actif=1 order by nom COLLATE NOCASE
 		";
 		$res = $base->query($sql);
 		$donnees=array();

@@ -22,10 +22,10 @@ class Contacts {
 				}
 			}
 		}
-		if (trim(implode(' intersect ',$tab_cond_motifs))=='') $sql="select id_contact, nom_contact from indexes where nom_contact!='####' and nom_contact!='$$$$' group by id_contact order by nom_contact";
+		if (trim(implode(' intersect ',$tab_cond_motifs))=='') $sql="select id_contact, nom_contact from indexes where nom_contact!='####' and nom_contact!='$$$$' group by id_contact order by nom_contact COLLATE NOCASE";
 		else {
 			$cond=" select id_contact, nom_contact from ( ".implode(' intersect ',$tab_cond_motifs)." )";
-			$sql="$cond group by id_contact order by nom_contact";
+			$sql="$cond group by id_contact order by nom_contact COLLATE NOCASE";
 		}
 		error_log(date('d/m/Y H:i:s')."contacts\n----\n$sql\n----\n", 3, "tmp/fab.log");
 		$sql_page="$sql limit $binf,20";

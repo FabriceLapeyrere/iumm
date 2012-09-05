@@ -56,7 +56,7 @@ class Categories {
 		error_log(date('d/m/Y H:i:s')." - total catégorie $id Parent : ".implode(', ',$casquettes)."\n", 3, "tmp/debug.log");
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
-		$sql_enfants="select rowid, nom, idparent from categories where idparent=$id and nom!='####' order by nom";
+		$sql_enfants="select rowid, nom, idparent from categories where idparent=$id and nom!='####' order by nom COLLATE NOCASE";
 		$enfants=array();
 		if ($res_enfants = $base->query($sql_enfants)){
 			while ($tab_enfants=$res_enfants->fetchArray(SQLITE3_ASSOC)) {

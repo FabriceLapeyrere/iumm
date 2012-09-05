@@ -76,7 +76,7 @@ class Contact {
 			#on récupere les casquettes :
 			$base = new SQLite3('db/contacts.sqlite');
 			$base->busyTimeout (10000);
-			$sql="select t1.rowid from casquettes as t1 inner join ass_casquette_contact as t2 on t1.rowid=t2.id_casquette where t1.nom!='####' and t2.id_contact=$id order by nom";
+			$sql="select t1.rowid from casquettes as t1 inner join ass_casquette_contact as t2 on t1.rowid=t2.id_casquette where t1.nom!='####' and t2.id_contact=$id order by nom COLLATE NOCASE";
 			$res = $base->query($sql);
 			while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 				$casquettes[]=$tab['rowid'];

@@ -103,10 +103,10 @@ else $_SESSION['email']['motifs'] = $motifse;
 $binfn=0;
 $motifsn='';
 
-if (! isset($_SESSION['news'])) $_SESSION['email']= array();
-if (isset($_SESSION['news']['binf'])) $binfn=$_SESSION['email']['binf'];
+if (! isset($_SESSION['news'])) $_SESSION['news']= array();
+if (isset($_SESSION['news']['binf'])) $binfn=$_SESSION['news']['binf'];
 else $_SESSION['news']['binf'] = $binfn;
-if (isset($_SESSION['news']['motifs'])) $motifsn=$_SESSION['email']['motifs'];
+if (isset($_SESSION['news']['motifs'])) $motifsn=$_SESSION['news']['motifs'];
 else $_SESSION['news']['motifs'] = $motifsn;
 
 #variables de session emailing

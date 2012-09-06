@@ -251,7 +251,7 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			$e= new Etablissement($etablissement['id']);
 			$etout=$e->tout();
 			#on met les emails de la structure si vide
-			error_log(date('d/m/Y H:i:s')." -  ".$etout['emails']."	 \n", 3, "tmp/fab.log");
+			error_log(date('d/m/Y H:i:s')." - tout tout tout  ".var_export($etout,true)."	 \n", 3, "tmp/debug.log");
 			if (count($emails)==0) {
 				$emails=$etout['emails'];
 			}

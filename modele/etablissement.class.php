@@ -159,26 +159,24 @@ where t1.id_etablissement=$id and t1.actif=1 order by nom COLLATE NOCASE
 	function adresse() {
 		$id=$this->id;
 		$adresse=array();
-		$cache=Cache_modele::get('casquette',$id,'adresse');
+		$cache=Cache_modele::get('etablissement',$id,'adresse');
 		if ($cache!='&&&&')
 			return $cache;
 		else {
 			$this->donnees_maj();
-			$cache=Cache_modele::get('casquette',$id,'adresse');
+			$cache=Cache_modele::get('etablissement',$id,'adresse');
 			return $cache;
 		}
 	}
 	function cp() {
 		$id=$this->id;
 		$cp="";
-		$cache=Cache_modele::get('casquette',$id,'cp');
+		$cache=Cache_modele::get('etablissement',$id,'cp');
 		if ($cache!='&&&&')
 			return $cache;
 		else {
 			$this->donnees_maj();
-			$cache=Cache_modele::get('casquette',$id,'cp');
-			if (!is_array($cache))
-				$cache=array($cache);
+			$cache=Cache_modele::get('etablissement',$id,'cp');
 			return $cache;
 		}
 	}
@@ -290,6 +288,10 @@ where t1.nom='$$$$' and t4.id_etablissement=".$this->id;
 		$base->query($sql);
 		$base->close();		
 		Cache_modele::del('etablissement',$id,'donnees');
+		$id_propre=$this->casquette_propre();
+		if ($type=='adresse') {
+			Cache_modele::del('casquette',$id_propre,'cp, adresse');
+		}
 		async('modele/cache/cache',array('objet'=>'Etablissement','id_objet'=>$id,'prop'=>array('donnees')));
 		$id_propre=$this->casquette_propre();
 		Cache_modele::del('casquette',$id_propre,'donnees_etab');

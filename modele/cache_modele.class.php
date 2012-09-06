@@ -27,8 +27,15 @@ class Cache_modele {
 		$tab=array();
 		$dossier="modele/cache/fichiers/$objet/".Cache_modele::dossier($id);
 		$cache="modele/cache/fichiers/$objet/".Cache_modele::fichier($id);
-		if (file_exists($cache))
-			$tab=unserialize(file_get_contents($cache));
+		if (file_exists($cache)) {
+			$t_dearchive=microtime(true);
+			while(trim(file_get_contents($cache))=="" && microtime(true)-$t_dearchive<1) {
+				sleep(0.01);
+			}
+			$content=file_get_contents($cache);
+			if (trim($content)!="")
+				$tab=unserialize($content);
+		}
 		return $tab;
 	}
 	function archive($id,$objet,$tab){
@@ -39,29 +46,29 @@ class Cache_modele {
 	}
 	function is_wlock($objet,$id){
 		$dossier="modele/cache/fichiers/$objet";
-		return file_exists("$dossier/$id");
+		return file_exists("$dossier/$id.lock");
 	}
 	function wlock($objet,$id){
 		$dossier="modele/cache/fichiers/$objet";
 		if (!file_exists($dossier)) mkdir($dossier,0777,true);
-		file_put_contents("$dossier/$id","lock");
+		touch("$dossier/$id.lock");
 	}
 	function un_wlock($objet,$id){
 		$dossier="modele/cache/fichiers/$objet";
-		unlink("$dossier/$id");
+		if (file_exists("$dossier/$id.lock")) unlink("$dossier/$id.lock");
 	}
 	function is_p_wlock($objet,$id,$cle){
 		$dossier="modele/cache/fichiers/$objet";
-		return file_exists("$dossier/$id$cle");
+		return file_exists("$dossier/$id$cle.lock");
 	}
 	function p_wlock($objet,$id,$cle){
 		$dossier="modele/cache/fichiers/$objet";
 		if (!file_exists($dossier)) mkdir($dossier,0777,true);
-		file_put_contents("$dossier/$id$cle","lock");
+		touch("$dossier/$id$cle.lock");
 	}
 	function un_p_wlock($objet,$id,$cle){
 		$dossier="modele/cache/fichiers/$objet";
-		if (file_exists("$dossier/$id$cle")) unlink("$dossier/$id$cle");
+		if (file_exists("$dossier/$id$cle.lock")) unlink("$dossier/$id$cle.lock");
 	}
 	function set($objet,$id,$cle,$valeur) {
 		if ($id>0) {

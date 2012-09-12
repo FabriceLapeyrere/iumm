@@ -456,12 +456,14 @@ $(function() {
 					},
 					'json'
 				);
-				
 			},
 			onDragLeave: function(node, sourceNode) {
 				/** Always called if onDragEnter was called.
 				 */
 			}
+		},
+		onExpand : function(dtnode, nodeSpan){
+			sel_ajuste_cat();
 		},
 		onRender: function(dtnode, nodeSpan){
 			if (isOneSelectedRec(dtnode) && !dtnode.isSelected()) $('#sel_dynatree-id-'+dtnode.data.key+'>span').addClass('dynatree-partsel');

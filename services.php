@@ -4,6 +4,7 @@
  * @license    GPL 3 (http://www.gnu.org/licenses/gpl.html)
  * @author     Fabrice Lapeyrere <fabrice@surlefil.org>
  */
+header("Access-Control-Allow-Origin: *");
 
 define('CLASS_MODELE_DIR', 'modele/');
 define('CLASS_CACHE_DIR', 'ui/cache/');

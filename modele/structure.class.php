@@ -92,9 +92,13 @@ class Structure {
 		Cache_modele::del('structure',$id,'nom');		
 		foreach ($this->etablissements() as $id_etablissement) {
 			Cache_modele::del('etablissement',$id_etablissement,'structure');
+			Cache_modele::del('etablissement',$id_etablissement,'donnees');
+			Cache_modele::del('etablissement',$id_etablissement,'adresse');
 			$e=new Etablissement($id_etablissement);
 			$id_propre=$e->casquette_propre();
 			Cache_modele::del('casquette',$id_propre,'structure');
+			Cache_modele::del('casquette',$id_propre,'donnees');
+			Cache_modele::del('casquette',$id_propre,'adresse');
 			async('modele/cache/cache',array('objet'=>'Casquette','id_objet'=>$id_propre,'prop'=>array('structure')));
 			async('modele/index/index',array('id'=>$id_propre));
 			$c=new Casquette($id_propre);

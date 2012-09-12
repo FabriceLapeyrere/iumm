@@ -598,8 +598,10 @@ $(function() {
 		},
 		onCreate: function(node, span){
 		},
+		onExpand : function(dtnode, nodeSpan){
+			sel_scatapi.reinitialise();
+		},
 		onRender: function(dtnode, nodeSpan){
-			
 			if (dtnode.data.key==0) {dtnode.expand(true);}
 			if (dtnode.data.key>0) {
 				$(nodeSpan).droppable({

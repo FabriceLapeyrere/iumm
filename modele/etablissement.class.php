@@ -295,10 +295,14 @@ where t1.nom='$$$$' and t4.id_etablissement=".$this->id;
 		async('modele/cache/cache',array('objet'=>'Etablissement','id_objet'=>$id,'prop'=>array('donnees')));
 		$id_propre=$this->casquette_propre();
 		Cache_modele::del('casquette',$id_propre,'donnees_etab');
+		Cache_modele::del('casquette',$id_propre,'donnees');
+		Cache_modele::del('casquette',$id_propre,'adresse');
 		async('modele/cache/cache',array('objet'=>'Casquette','id_objet'=>$id_propre,'prop'=>array('donnees')));
 		async('modele/index/index',array('id'=>$id_propre));
 		foreach($this->casquettes() as $id_casquette){
 			Cache_modele::del('casquette',$id_casquette,'donnees_etab');
+			Cache_modele::del('casquette',$id_casquette,'donnees');
+			Cache_modele::del('casquette',$id_casquette,'adresse');
 			async('modele/cache/cache',array('objet'=>'Casquette','id_objet'=>$id_casquette,'prop'=>array('donnees')));
 			async('modele/index/index',array('id'=>$id_casquette));
 		}

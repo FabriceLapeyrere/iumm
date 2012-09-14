@@ -225,6 +225,7 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			if ($tab['valeur']!="" && $tab['type']=='adresse') {
 				$adresse_complete="";
 				if (trim($prenom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=trim($prenom_contact)." ";
+				if (trim($prenom_contact)!="" and trim($nom_contact)=="") $adresse_complete.=" \n";
 				if (trim($nom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=$nom_contact;
 				$adresse="";
 				if (trim($adresse)!="") $adresse.="\n";
@@ -258,8 +259,14 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			#on met l'adresse de la structure si elle existe
 			$adresse_etab=$etout['adresse'];
 			if (trim($adresse_etab)!="") {
-				$adresse=$adresse_etab;
-				$cp=$etout['cp'];
+					$contact=$this->contact();
+					$prenom_contact=$contact['prenom'];
+					$nom_contact=$contact['nom'];
+					if (trim($prenom_contact)!="" and trim($nom_contact)!="$$$$") $adresse.=trim($prenom_contact)." ";
+					if (trim($prenom_contact)!="" and trim($nom_contact)=="") $adresse.=" \n";
+					if (trim($nom_contact)!="" and trim($nom_contact)!="$$$$") $adresse.=$nom_contact." \n";
+					$adresse.=$adresse_etab;
+					$cp=$etout['cp'];
 			}
 			$donnees_etab=$etout['donnees'];	
 		}

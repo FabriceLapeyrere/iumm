@@ -189,7 +189,7 @@ class Casquettes {
 				}
 				break;
 			case "toutes":
-				$sql="$cond order by tri order by tri COLLATE NOCASE";
+				$sql="$cond order by tri COLLATE NOCASE";
 				$res = $base->query($sql);
 				while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 					$liste[$tab['rowid']]=$tab['rowid'];

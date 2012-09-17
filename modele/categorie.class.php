@@ -77,8 +77,7 @@ WHERE t3.nom!='####' and t4.id_categorie=".$this->id;
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$rowid=$tab['rowid'];
-			$nom=$tab['nom'];
-			$casquettes[$rowid]=array('nom'=>$nom);
+			$casquettes[]=$rowid;
 		}
 		$base->close();
 		return $casquettes;

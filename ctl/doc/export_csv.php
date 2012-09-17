@@ -8,7 +8,7 @@
 	$fp = fopen('tmp/export.csv', 'w');
 	$csv=array();
 	$csv[0]=array();
-	foreach (Casquettes::liste('complete') as $id=>$casquette) {
+	foreach (Casquettes::liste('toutes') as $id) {
 		$tab=array();
 		$c=new Casquette($id);
 		if ($c->casquette_etab()==0) {

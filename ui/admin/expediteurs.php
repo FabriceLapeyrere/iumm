@@ -5,27 +5,27 @@
  */
 	if(isset($_POST['binf'])) {
 		$binf=$_POST['binf'];
-		$_SESSION['admin']['binf']=$binf;
+		$_SESSION['admin']['binfx']=$binf;
 	}
-	else $binf=$_SESSION['admin']['binf'];
+	else $binf=$_SESSION['admin']['binfx'];
 	if(isset($_POST['motifs'])) {
 		$motifs=$_POST['motifs'];
-		if($_SESSION['admin']['motifs']!=$motifs){
-			$_SESSION['admin']['motifs']=$motifs;
+		if($_SESSION['admin']['motifsx']!=$motifs){
+			$_SESSION['admin']['motifsx']=$motifs;
 			$binf=0;
-			$_SESSION['admin']['binf']=$binf;
+			$_SESSION['admin']['binfx']=$binf;
 		}
 	}
-	else $motifs=$_SESSION['admin']['motifs'];
+	else $motifs=$_SESSION['admin']['motifsx'];
 	$format=$_POST['format'];
 	$html="";
 	$js="";
 	
 	switch ($format){
 		case 'html':
-			$retour=Html::utilisateurs($binf,$motifs);
+			$retour=Html::expediteurs($binf,$motifs);
 			$js="
-			admin_utilisateurs();
+			admin_expediteurs();
 			admin_ajuste();
 			";			
 			$reponse['succes']=1;

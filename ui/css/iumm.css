@@ -193,6 +193,9 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #admin_utilisateurs_head {position:absolute;}
 #admin_utilisateurs {position:absolute;}
 #admin_utilisateurs .admin-utilisateur {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
+#admin_expediteurs_head {position:absolute;}
+#admin_expediteurs {position:absolute;}
+#admin_expediteurs .admin-expediteur {padding:5px; cursor:pointer; margin-bottom:5px;background:none;color:#000; }
 
 #mask {position:absolute;z-index:8;width:100%; height:100%; background:#FFF;}
 #mask .loader{position:absolute;width:66px; height:66px; background:url('images/ajax-loader.gif');left:50%;top:50%;margin-left:-33px;margin-top:-33px;}

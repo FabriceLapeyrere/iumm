@@ -211,6 +211,19 @@ class html
 		return $html;
 		
 	}
+	function filtre_expediteur($motifs="")
+		{
+		$motif=addslashes($motifs);
+		$html="
+		<input type='text' name='motif' value='$motifs'>
+		<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only' role='button' aria-disabled='false' title='rechercher'>
+			<span class='ui-button-icon-primary ui-icon ui-icon-search'></span>
+			<span class='ui-button-text'>rechercher</span>
+		</button>
+		";
+		return $html;
+		
+	}
 	function pagination_structures($binf=0,$motif='')
 		{
 		$c= new structures($motif);
@@ -1059,6 +1072,18 @@ class html
 		$retour=array();
 		$retour['html']=$html;
 		$retour['pagination']=Html::pagination($binf,$utilisateurs['nb']);
+		return $retour;
+	}
+	function expediteurs($binf,$motifs)
+		{
+		$expediteurs=Emailing::expediteurs($motifs,$binf);
+		$html="";
+		foreach($expediteurs['liste'] as $id=>$expediteur){
+			$html.="<div class='admin-expediteur ui-widget-header ui-corner-all' data-id='$id'>".$expediteur['nom']."</div>";
+		}
+		$retour=array();
+		$retour['html']=$html;
+		$retour['pagination']=Html::pagination($binf,$expediteurs['nb']);
 		return $retour;
 	}
 	function support($id)

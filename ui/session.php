@@ -145,5 +145,14 @@ else $_SESSION['admin']['binf'] = $binfadmin;
 if (isset($_SESSION['admin']['motifs'])) $motifsadmin=$_SESSION['admin']['motifs'];
 else $_SESSION['admin']['motifs'] = $motifsadmin;
 
+$binfadminx=0;
+$motifsadminx='';
+
+if (! isset($_SESSION['admin'])) $_SESSION['admin']= array();
+if (isset($_SESSION['admin']['binfx'])) $binfadminx=$_SESSION['admin']['binfx'];
+else $_SESSION['admin']['binfx'] = $binfadminx;
+if (isset($_SESSION['admin']['motifsx'])) $motifsadminx=$_SESSION['admin']['motifsx'];
+else $_SESSION['admin']['motifsx'] = $motifsadminx;
+
 
 ?>

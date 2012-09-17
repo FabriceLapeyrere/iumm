@@ -45,15 +45,11 @@
 	foreach ($form->interrupteurs as $key => $value) {
 		$js.=$value['js'];
 	}
-	$js.="
-$('#nutilisateur .bouton').button();
-$('#nutilisateur input').focus();
-";
 	
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']='Nouvel utilisateur';
+		$reponse['titre']='Modifier '.$u->nom();
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

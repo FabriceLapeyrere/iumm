@@ -247,17 +247,62 @@ class Emailing {
 		$base->close();
 		return $id;
 	}
-	function expediteurs() {
+	function expediteurs($motifs="", $binf=0) {
+		$listes=array();
+		$tab_cond_motifs=array();
+		if ($motifs!="") {
+			$tab_motifs=explode(' ',str_replace(',','',$motifs));
+			foreach($tab_motifs as $motif){
+				$motif=SQLite3::escapeString($motif);
+				$tab_cond_motifs[]="
+				(
+					nom like '%$motif%'
+				)
+				";
+			}
+		}
+		$cond=" WHERE ( ".implode($tab_cond_motifs,' AND ')." )";
+		if (count($tab_cond_motifs)==0) $cond="";
+		$sql="select * from expediteurs $cond limit $binf,20";
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select rowid, nom, email from expediteurs order by date desc";
+		$liste=array();
 		$res = $base->query($sql);
-		$expediteurs=array();
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
-			$expediteurs[$tab['rowid']]=array('nom'=>$tab['nom'],'email'=>$tab['email']);
+			$liste[$tab['rowid']]=$tab;
+		}
+		$listes['liste']=$liste;
+		$sql="select count(*) from expediteurs $cond";
+		$res = $base->query($sql);
+		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
+			$listes['nb']=$tab['count(*)'];
 		}
 		$base->close();
-		return $expediteurs;
+		return $listes;
+	}
+	function aj_expediteur($nom,$email) {
+		$base = new SQLite3('db/mailing.sqlite');
+		$nom=SQLite3::escapeString($nom);
+		$email=SQLite3::escapeString($email);
+		$base->busyTimeout (10000);
+		$sql="insert into expediteurs (nom, email) values ('$nom', '$email')";
+		$base->exec($sql);
+		$id_expediteur=$base->lastInsertRowID();
+		return $id_expediteur;
+	}
+	function mod_expediteur($id,$nom,$email) {
+		$base = new SQLite3('db/mailing.sqlite');
+		$nom=SQLite3::escapeString($nom);
+		$email=SQLite3::escapeString($email);
+		$base->busyTimeout (10000);
+		$sql="update expediteurs set nom='$nom', email='$email' where rowid=$id";
+		$base->exec($sql);
+	}
+	function suppr_expediteur($id) {
+		$base = new SQLite3('db/mailing.sqlite');
+		$base->busyTimeout (10000);
+		$sql="delete from expediteurs where rowid=$id";
+		$base->exec($sql);
 	}
 	function expediteur($id) {
 		$base = new SQLite3('db/mailing.sqlite');

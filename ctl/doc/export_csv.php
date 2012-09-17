@@ -20,36 +20,37 @@
 		}
 		$donnees=$c->donnees();
 		foreach($donnees as $nom=>$donnee){
-			if ($donnee['valeur']!=""){
-				if ($donnee['type']=='adresse') {
-					$adresse=json_decode($donnee['valeur']);
+			if ($donnee[0]!=""){
+				if ($donnee[2]=='adresse') {
+					$adresse=json_decode($donnee[0]);
 					$tab["3_contact_adresse_adresse"]=$adresse->adresse;
 					$tab["3_contact_adresse_cp"]=$adresse->cp;
 					$tab["3_contact_adresse_ville"]=$adresse->ville;
 					$tab["3_contact_adresse_pays"]=$adresse->pays;
 				}
-				else $tab["3_contact_".$nom]=$donnee['valeur'];
+				else $tab["3_contact_".$nom]=$donnee[0];
 			}
 		}
 		$tab['4_structure']=$c->nom_structure();
 		$donnees=$c->donnees_etab();
 		foreach($donnees as $nom=>$donnee){
-			if ($donnee['valeur']!=""){
-				if ($donnee['type']=='adresse') {
-					$adresse=json_decode($donnee['valeur']);
+			if ($donnee[0]!=""){
+				if ($donnee[2]=='adresse') {
+					$adresse=json_decode($donnee[0]);
 					$tab["5_structure_adresse_adresse"]=$adresse->adresse;
 					$tab["5_structure_adresse_cp"]=$adresse->cp;
 					$tab["5_structure_adresse_ville"]=$adresse->ville;
 					$tab["5_structure_adresse_pays"]=$adresse->pays;
 				}
-				else $tab["5_structure_".$nom]=$donnee['valeur'];
+				else $tab["5_structure_".$nom]=$donnee[0];
 			}
 		}
 		$tab['6_listes']="";
 		$categories=$c->categories();
 		$listes=array();
-		foreach($categories as $categorie){
-			$listes[]=$categorie['nom'];
+		foreach($categories as $id_cat){
+			$cat=new Categorie($id_cat);
+			$listes[]=$cat->nom();
 		}
 		$tab['6_listes']=implode(', ',$listes);
 		$csv[]=$tab;

@@ -30,6 +30,7 @@
 		$tab_cas=$e->casquettes();
 		$str=new Structure($id_structure);
 		$nb=count($str->etablissements());
+		Cache::set_obsolete('structure',$id_structure);
 		$js="";
 		if ($nb==1){
 			$js.="

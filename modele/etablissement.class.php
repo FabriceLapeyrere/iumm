@@ -321,6 +321,7 @@ where t1.nom='$$$$' and t4.id_etablissement=".$this->id;
 		$cpe=new Contact($cp->id_contact());
 		$cpe->suppr();
 		$casquettes=$this->casquettes();
+		$id_structure=$this->id_structure();
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="delete from ass_etablissement_structure where id_etablissement=".$this->id;
@@ -338,6 +339,7 @@ where t1.nom='$$$$' and t4.id_etablissement=".$this->id;
 		}
 		$_SESSION['selection']['etablissements']=$tab;
 		Cache_modele::suppr('etablissement',$id);
+		Cache_modele::del('structure',$id_structure,'etablissements');
 		foreach($casquettes as $id_casquette) {
 			Cache_modele::suppr('casquette',$id_casquette);
 			async('modele/index/index',array('id'=>$id_casquette));

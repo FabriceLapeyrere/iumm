@@ -5,6 +5,7 @@ ui/cache/fichiers/*
 fichiers/emails/*
 fichiers/news/*
 fichiers/envois/*
+fichiers/iumm/min/*
 tmp/*
 modele/corbeille/*
 ui/includes/upload/server/php/thumbnails/*

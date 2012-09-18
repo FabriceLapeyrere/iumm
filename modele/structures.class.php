@@ -52,7 +52,7 @@ class Structures {
 			$cond=" select id_structure, nom_structure from ( ".implode(' intersect ',$tab_cond_motifs)." )";
 			$sql="$cond where id_structure!='0' group by id_structure order by nom_structure COLLATE NOCASE";
 		}
-		error_log(date('d/m/Y H:i:s')."structures\n----\n$sql\n----\n", 3, "tmp/fab.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')."structures\n----\n$sql\n----\n", 3, "tmp/fab.log");
 		$sql_page="$sql limit $binf,20";
 		
 		$base = new SQLite3('db/index.sqlite');

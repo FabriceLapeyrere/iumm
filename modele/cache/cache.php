@@ -8,7 +8,7 @@ foreach($prop as $p){
 	$t=microtime();
 	$o->$p();
 	$t1=microtime()-$t;
-	error_log(date('d/m/Y H:i:s')." - cache-modele $objet($id_objet)::$p(); $t1 \n", 3, "tmp/fab.log");
+	if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele $objet($id_objet)::$p(); $t1 \n", 3, "tmp/fab.log");
 }
 
 ?>

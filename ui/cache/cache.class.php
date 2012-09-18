@@ -42,7 +42,7 @@ class cache {
 		return $retour;
 	}
 	function set_obsolete($objet, $id){
-		error_log(date('d/m/Y H:i:s')." - ui/cache set_obsolete $objet($id)\n", 3, "tmp/cache.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - ui/cache set_obsolete $objet($id)\n", 3, "tmp/cache.log");
 		$tab=Cache::dearchive($id,$objet);
 		$key=($id%10);
 		if(array_key_exists($key, $tab)) unset($tab[$key]);

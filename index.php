@@ -15,6 +15,7 @@ spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 include "ctl/auth.php";
+include "conf/conf.php";
 include "utils/toujours.php";
 include "ui/html.class.php";
 include "ui/js.class.php";

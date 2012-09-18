@@ -27,7 +27,7 @@ class Contacts {
 			$cond=" select id_contact, nom_contact from ( ".implode(' intersect ',$tab_cond_motifs)." )";
 			$sql="$cond group by id_contact order by nom_contact COLLATE NOCASE";
 		}
-		error_log(date('d/m/Y H:i:s')."contacts\n----\n$sql\n----\n", 3, "tmp/fab.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')."contacts\n----\n$sql\n----\n", 3, "tmp/fab.log");
 		$sql_page="$sql limit $binf,20";
 		$base = new SQLite3('db/index.sqlite');
 		$base->busyTimeout (10000);

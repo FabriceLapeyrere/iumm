@@ -55,7 +55,7 @@ class Emailing {
 					$path_parts = pathinfo($fichier);
 					$image=$path_parts['filename'];
 					if(!strstr($envoi['html'],$fichier) && !strstr($envoi['html'],"min/$image"."_") && $fichier!='.'  && $fichier!='..' && is_file($chemin.$fichier) ) {
-						error_log("pj : $chemin$fichier\n", 3, "tmp/fab.log");
+						if(DEBUG_LOG) error_log("pj : $chemin$fichier\n", 3, "tmp/fab.log");
 						$pjs[]=$chemin.$fichier;
 					}
 				}

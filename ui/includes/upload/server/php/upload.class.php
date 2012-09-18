@@ -296,8 +296,7 @@ class UploadHandler
             		$this->orient_image($file_path);
             	}
                 $file->url = $this->options['upload_url'].rawurlencode($file->name);
-                error_log($this->options['upload_url']."\n", 3, "../../../../../tmp/fab.log");			
-        		foreach($this->options['image_versions'] as $version => $options) {
+                foreach($this->options['image_versions'] as $version => $options) {
 					if ($this->create_scaled_image($file->name, $options)) {
                         if ($this->options['upload_dir'] !== $options['upload_dir']) {
                             $file->{$version.'_url'} = $options['upload_url']

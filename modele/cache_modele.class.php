@@ -72,9 +72,9 @@ class Cache_modele {
 	}
 	function set($objet,$id,$cle,$valeur) {
 		if ($id>0) {
-			error_log(date('d/m/Y H:i:s')." - cache-modele SET $objet $id $cle\n", 3, "tmp/cache.log");
+			if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele SET $objet $id $cle\n", 3, "tmp/cache.log");
 			while(Cache_modele::is_wlock($objet,$id)) {
-				error_log(date('d/m/Y H:i:s')." - cache-modele $objet $id vérrouillé\n", 3, "tmp/cache.log");
+				if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele $objet $id vérrouillé\n", 3, "tmp/cache.log");
 				sleep(0.01);
 			}
 			Cache_modele::wlock($objet,$id);
@@ -86,7 +86,7 @@ class Cache_modele {
 		return $valeur;
 	}
 	function del($objet,$id,$cle) {
-		error_log(date('d/m/Y H:i:s')." - cache-modele DEL $objet $id $cle\n", 3, "tmp/cache.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele DEL $objet $id $cle\n", 3, "tmp/cache.log");
 		$cles=explode(',',$cle);
 		$tab=Cache_modele::dearchive($id,$objet);
 		foreach($cles as $cle){
@@ -96,7 +96,7 @@ class Cache_modele {
 		Cache_modele::archive($id,$objet,$tab);
 	}
 	function suppr($objet,$id) {
-		error_log(date('d/m/Y H:i:s')." - cache-modele SUPPR $objet $id\n", 3, "tmp/cache.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele SUPPR $objet $id\n", 3, "tmp/cache.log");
 		$tab=Cache_modele::dearchive($id,$objet);
 		foreach($tab as $nom=>$valeur) {
 			if (substr($nom,0,1)==$id%10) unset($tab[$nom]);
@@ -107,10 +107,10 @@ class Cache_modele {
 		$valeur='&&&&';
 		if ($id>0) {
 			while(Cache_modele::is_p_wlock($objet,$id,$cle)) {
-				error_log(date('d/m/Y H:i:s')." - cache-modele GET $objet $id $cle mise à jour en cours\n", 3, "tmp/cache.log");
+				if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele GET $objet $id $cle mise à jour en cours\n", 3, "tmp/cache.log");
 				sleep(0.1);
 			}
-			error_log(date('d/m/Y H:i:s')." - cache-modele GET $objet $id $cle \n", 3, "tmp/cache.log");
+			if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - cache-modele GET $objet $id $cle \n", 3, "tmp/cache.log");
 			$tab=Cache_modele::dearchive($id,$objet);
 			$key=($id%10).trim($cle);
 			if(array_key_exists($key, $tab)) $valeur=$tab[$key];

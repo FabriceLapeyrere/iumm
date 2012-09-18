@@ -675,7 +675,7 @@ class html
 		{
 		$cat="";
 		if (is_array($cats) && isset($cats[0]) && $cats[0]!=""){
-			error_log(date('d/m/Y H:i:s')." CATEGORIES \n----\n".var_export($cats,true)."\n----\n", 3, "tmp/fab.log");
+			if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." CATEGORIES \n----\n".var_export($cats,true)."\n----\n", 3, "tmp/fab.log");
 			foreach($cats as $id_categorie) {
 				$cc=new Categorie($id_categorie);
 				$nom_cat=$cc->nom();

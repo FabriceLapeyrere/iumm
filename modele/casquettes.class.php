@@ -182,7 +182,7 @@ class Casquettes {
 		switch ($type) {
 			case "":
 				$sql="$cond order by tri COLLATE NOCASE limit $binf,20 ";
-				error_log(date('d/m/Y H:i:s')."\n----\n$sql\n----\n", 3, "tmp/fab.log");
+				if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')."\n----\n$sql\n----\n", 3, "tmp/fab.log");
 				$res = $base->query($sql);
 				while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 					$liste[$tab['rowid']]=$tab['rowid'];
@@ -197,7 +197,7 @@ class Casquettes {
 				break;
 			case "nb":
 				$sql="select count(*) from ( $cond )";
-				error_log(date('d/m/Y H:i:s')."\n----\n$sql\n----\n", 3, "tmp/fab.log");
+				if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')."\n----\n$sql\n----\n", 3, "tmp/fab.log");
 				$res = $base->query($sql);
 				while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 					$liste=$tab['count(*)'];

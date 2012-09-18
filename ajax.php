@@ -15,6 +15,7 @@ set_include_path(get_include_path().PATH_SEPARATOR.CLASS_MODELE_DIR.PATH_SEPARAT
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
+include "conf/conf.php";
 include "ui/formulaires.class.php";
 include "ui/html.class.php";
 include "ui/js.class.php";

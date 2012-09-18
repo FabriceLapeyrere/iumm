@@ -30,7 +30,7 @@ class Structure {
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select nom from structures where rowid=$id";
-		error_log(date('d/m/Y H:i:s')." - $sql, $id \n", 3, "tmp/fab.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - $sql, $id \n", 3, "tmp/fab.log");
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$nom=$tab['nom'];

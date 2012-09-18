@@ -6,7 +6,7 @@
 $id_envoi=$argv[2];
 if(Emailing::statut_envoi($id_envoi)==1) {
 	Emailing::play_envoi($id_envoi);
-	error_log(date('d/m/Y H:i:s')." - Envoi numéro $id_envoi commencé.\n", 3, "tmp/envoi.log");
+	if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - Envoi numéro $id_envoi commencé.\n", 3, "tmp/envoi.log");
 	require("ctl/includes/phpmailer/class.phpmailer.php");
 	require("ctl/includes/phpmailer/class.smtp.php");
 	require("conf/mailing.php");
@@ -40,14 +40,14 @@ if(Emailing::statut_envoi($id_envoi)==1) {
 	while (Emailing::nb_messages_boite_envoi($id_envoi)>0) {
 		if ($pas==$mailing_nbmail) {
 			$pas=1;
-			error_log(date('d/m/Y H:i:s')." - On attend\n", 3, "tmp/envoi.log");
+			if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - On attend\n", 3, "tmp/envoi.log");
 			for($j=1;$j<$mailing_t_pause;$j++) {
 				sleep(1);
 				if(Emailing::statut_envoi($id_envoi)==2) {
-					error_log(date('d/m/Y H:i:s')." - statut : ".Emailing::statut_envoi($id_envoi)." -> arret demandé\n", 3, "tmp/envoi.log");
+					if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - statut : ".Emailing::statut_envoi($id_envoi)." -> arret demandé\n", 3, "tmp/envoi.log");
 					Emailing::pause_envoi($id_envoi);
-					error_log(date('d/m/Y H:i:s')." - statut : ".Emailing::statut_envoi($id_envoi)."\n", 3, "tmp/envoi.log");
-					error_log(date('d/m/Y H:i:s')." - Envoi numéro $id_envoi arrété.\n", 3, "tmp/envoi.log");
+					if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - statut : ".Emailing::statut_envoi($id_envoi)."\n", 3, "tmp/envoi.log");
+					if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - Envoi numéro $id_envoi arrété.\n", 3, "tmp/envoi.log");
 					exit(0);
 				}
 			}
@@ -67,21 +67,21 @@ if(Emailing::statut_envoi($id_envoi)==1) {
 		{
 			$log=date('d/m/Y H:i:s')." - ERREUR - ".$mail->ErrorInfo." - $i/$nb ".$c->prenom_contact()." ".$c->nom_contact()." : ".implode($c->emails(),', ')." \n";
 			Emailing::message_erreur($tab['rowid'],$mail->ErrorInfo);
-			error_log($log, 3, "tmp/envoi.log");
+			if(DEBUG_LOG) error_log($log, 3, "tmp/envoi.log");
 		}
 		else
 		{
 			$log=date('d/m/Y H:i:s')." - $i/$nb ".$c->prenom_contact()." ".$c->nom_contact()." : ".implode($c->emails(),', ')." \n";
 			Emailing::log_envoi($id_envoi, $log);
 			Emailing::sup_message($tab['rowid']);
-			error_log($log, 3, "tmp/envoi.log");
+			if(DEBUG_LOG) error_log($log, 3, "tmp/envoi.log");
 		}
 		$mail->ClearAddresses();
 		#sleep(2);
 	}
 }
 Emailing::pause_envoi($id_envoi);
-error_log("statut : ".Emailing::statut_envoi($id_envoi)."\n", 3, "tmp/envoi.log");
-error_log("Envoi numéro $id_envoi arrété.\n", 3, "tmp/envoi.log");
+if(DEBUG_LOG) error_log("statut : ".Emailing::statut_envoi($id_envoi)."\n", 3, "tmp/envoi.log");
+if(DEBUG_LOG) error_log("Envoi numéro $id_envoi arrété.\n", 3, "tmp/envoi.log");
 exit(0);
 ?>

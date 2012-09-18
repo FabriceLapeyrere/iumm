@@ -98,6 +98,6 @@ class Index {
 		$sql="update indexes set tri='$tri', text='$texte', dept='$dept', email='$email', adresse='$adresse', id_contact='$id_contact', nom_contact='$nom_contact', id_etablissement='$id_etablissement', id_structure='$id_structure', nom_structure='$nom_structure', categories='$categories' where rowid=$id;";
 		$base->exec($sql);
 		$base->close();
-		error_log(date('d/m/Y H:i:s')." - index casquette $id ".var_export($tout,true)."\n", 3, "tmp/fab.log");
+		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - index casquette $id ".var_export($tout,true)."\n", 3, "tmp/fab.log");
 	}
 }

@@ -16,6 +16,9 @@ class Contacts {
 			foreach($tab_motifs as $motif){
 				if (trim($motif)!="") {
 					$motif=SQLite3::escapeString($motif);
+					$avant=$motif;
+					$motif=str_replace('!','',$motif);
+					if ($avant!=$motif) $motif="tri:$motif";
 					$tab_cond_motifs[]="
 						select id_contact, nom_contact from indexes where nom_contact!='####' and nom_contact!='$$$$' and text MATCH '$motif*'
 					";

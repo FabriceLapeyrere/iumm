@@ -562,8 +562,8 @@ class html
 			$id_contact=$ctout['contact']['id'];
 			$prenom_contact=$ctout['contact']['prenom'];
 			$nom_contact=$ctout['contact']['nom'];
-			if ($prenom_contact=='' && $nom_contact=='' ) $nom="(sans nom)";
 			if ($nom_structure=='' ) $nom_structure="(sans nom)";
+			if ($prenom_contact=='' && $nom_contact=='' ) $nom="(sans nom)";
 			else {
 				$prenom="";
 				if ($prenom_contact!='') $prenom=$prenom_contact." ";

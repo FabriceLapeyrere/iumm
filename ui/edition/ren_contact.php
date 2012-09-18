@@ -50,30 +50,16 @@
 			);	
 		";
 		foreach($casquettes as $id_casquette){
-
 			#on rend le cache obsolete
+			Cache::set_obsolete('casquette',$id_casquette);
+			Cache::set_obsolete('casquette_sel',$id_casquette);
 			$cas= new Casquette($id_casquette);
 			$id_etablissement=$cas->id_etablissement();
 			if($id_etablissement>0) {
-				Cache::set_obsolete('casquette',$id_casquette);
-				Cache::set_obsolete('casquette_sel',$id_casquette);
+				$e=new Etablissement($id_etablissement);
+				$cass_etab=$e->casquettes();
 				Cache::set_obsolete('etablissement',$id_etablissement);
 				Cache::set_obsolete('structure',$cas->id_structure());
-	
-				$js.="
-				$.post('ajax.php',{
-						action:'edition/casquette',
-						id_casquette:$id_casquette,
-						format:'html'
-					},function(data){
-						if(data.succes==1){
-							$('#ed_casquette-$id_casquette').html(data.html);
-							eval(data.js);
-						}
-					},
-					'json'
-				);	
-				";
 				$js.="
 				$.post('ajax.php',{
 						action:'edition/etablissement',
@@ -88,6 +74,25 @@
 					'json'
 				);	
 				";
+					
+				foreach($cass_etab as $id_cas) {
+					Cache::set_obsolete('casquette',$id_cas);
+					Cache::set_obsolete('casquette_sel',$id_cas);
+					$js.="
+					$.post('ajax.php',{
+							action:'edition/casquette',
+							id_casquette:$id_cas,
+							format:'html'
+						},function(data){
+							if(data.succes==1){
+								$('#ed_casquette-$id_cas').html(data.html);
+								eval(data.js);
+							}
+						},
+						'json'
+					);	
+					";
+				}
 			}
 		}
 	}

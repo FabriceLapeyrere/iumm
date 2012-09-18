@@ -77,6 +77,9 @@ class Casquettes {
 			foreach($tab_motifs as $motif){
 				if (trim($motif)!='') {
 					$motif=SQLite3::escapeString(noaccent($motif));
+					$avant=$motif;
+					$motif=str_replace('!','',$motif);
+					if ($avant!=$motif) $motif="tri:$motif";
 					$tab_cond_motifs[]="
 					select rowid,tri from indexes where text match '$motif*'
 					";
@@ -92,6 +95,9 @@ class Casquettes {
 			foreach($tab_mots as $mot){
 				if(trim($mot)!="") {
 					$mot=SQLite3::escapeString(noaccent($mot));
+					$avant=$mot;
+					$mot=str_replace('!','',$mot);
+					if ($avant!=$mot) $mot="tri:$mot";
 					$tab_cond_mots[]="
 					select rowid,tri from indexes where text match '$mot'
 					";

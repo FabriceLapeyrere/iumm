@@ -41,6 +41,9 @@ class Structures {
 			foreach($tab_motifs as $motif){
 				if (trim($motif)!="") {
 					$motif=SQLite3::escapeString($motif);
+					$avant=$motif;
+					$motif=str_replace('!','',$motif);
+					if ($avant!=$motif) $motif="tri:$motif";
 					$tab_cond_motifs[]="
 						select id_structure, nom_structure from indexes where nom_structure!='####' and text MATCH '$motif*'
 					";

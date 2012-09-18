@@ -1,5 +1,5 @@
 <?php
 
-define('DEBUG_LOG',true);
+define('DEBUG_LOG',false);
 
 ?>

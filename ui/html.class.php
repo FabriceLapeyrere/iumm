@@ -419,6 +419,7 @@ class html
 		if (Cache::obsolete('structure',$id_structure)) {
 			$s=new Structure($id_structure);
 			$nom_structure=$s->nom();
+			if ($nom_structure=="") $nom_structure="(sans nom)";
 			$html.="<div class='titre'><span class='titre'>$nom_structure</span> ".Html::bouton_suppr($id_structure,'bouton supprmain','supprimer','5px')." 
 	<span class='barre ui-buttonset'>
 	<button class='bouton mod ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-left' role='button' aria-disabled='false' title='renommer'>
@@ -562,6 +563,7 @@ class html
 			$prenom_contact=$ctout['contact']['prenom'];
 			$nom_contact=$ctout['contact']['nom'];
 			if ($prenom_contact=='' && $nom_contact=='' ) $nom="(sans nom)";
+			if ($nom_structure=='' ) $nom_structure="(sans nom)";
 			else {
 				$prenom="";
 				if ($prenom_contact!='') $prenom=$prenom_contact." ";

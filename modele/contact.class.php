@@ -132,6 +132,7 @@ class Contact {
 		$c=new Casquette($id_casquette);
 		Cache_modele::del('contact',$id,'casquettes');
 		Index::init($id_casquette);
+		async('modele/index/index',array('id'=>$id_casquette));
 		return $id_casquette;
 	}
 	function suppr($id_utilisateur=1){

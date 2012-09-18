@@ -45,7 +45,7 @@ class Structures {
 					$motif=str_replace('!','',$motif);
 					if ($avant!=$motif) $motif="tri:$motif";
 					$tab_cond_motifs[]="
-						select id_structure, nom_structure from indexes where nom_structure!='####' and nom_contact='$$$$' text MATCH '$motif*'
+						select id_structure, nom_structure from indexes where nom_structure!='####' and nom_contact='$$$$' and text MATCH '$motif*'
 					";
 				}
 			}

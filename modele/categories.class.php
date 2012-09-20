@@ -50,9 +50,7 @@ class Categories {
 	public function casquettes_arbre($id)
         {
 		$cat= new Categorie($id);
-		$c=$cat->casquettes();
-		$casquettes=array();
-		foreach($c as $idc=>$casquette) $casquettes[]=$idc;
+		$casquettes=$cat->casquettes();
 		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - total catégorie $id Parent : ".implode(', ',$casquettes)."\n", 3, "tmp/debug.log");
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);

@@ -468,6 +468,21 @@ $(function() {
 		onRender: function(dtnode, nodeSpan){
 			if (isOneSelectedRec(dtnode) && !dtnode.isSelected()) $('#sel_dynatree-id-'+dtnode.data.key+'>span').addClass('dynatree-partsel');
 			if (dtnode.data.key==0) {dtnode.expand(true);setTimeout(sel_ajuste_cat,1000);}
+		},
+		onPostInit: function(){
+				$.post('ajax.php',{
+						action:'selection/selection_humains',
+						format:'html'
+					},function(data){
+						if(data.succes==1){
+							$('#sel_humains').html(data.html);
+							eval(data.js);
+							sel_ajuste();
+							$("#mask").css('z-index',0);
+						}
+					},
+					'json'
+				);
 		}
 	});
 	$("#sel_tree").on('mouseenter','span.dynatree-node',function(){
@@ -763,17 +778,4 @@ $(function() {
 	sel_casquettes();
 	sel_ajuste();
 	$(window).resize(sel_ajuste);
-	$.post('ajax.php',{
-			action:'selection/selection_humains',
-			format:'html'
-		},function(data){
-			if(data.succes==1){
-				$('#sel_humains').html(data.html);
-				eval(data.js);
-				sel_ajuste();
-				$("#mask").css('z-index',0);
-			}
-		},
-		'json'
-	);
 });

@@ -60,21 +60,19 @@
 	$('#sel_motifs').val('".$_SESSION['selection']['motifs']."');
 	$('#sel_depts').val('".implode($_SESSION['selection']['depts'],', ')."');
 	";
-	if (isset($_POST['reload_cat'])) {
-		$js.="
-			var node=$('#sel_tree').dynatree('getTree').getNodeByKey('0');
-			selectRec(node,false);
-		";
-		foreach($_SESSION['selection']['categories'] as $key){
-		$js.="
-			node=$('#sel_tree').dynatree('getTree').getNodeByKey($key);
-			node.selectNoFire(true);
-			while(node.data.key!='0'){
-				node=node.parent;
-				if (!node.isSelected()) $('#sel_dynatree-id-'+node.data.key+'>span').addClass('dynatree-partsel');
-			}
-		";
+	$js.="
+		var node=$('#sel_tree').dynatree('getTree').getNodeByKey(0);
+		selectRec(node,false);
+	";
+	foreach($_SESSION['selection']['categories'] as $key){
+	$js.="
+		node=$('#sel_tree').dynatree('getTree').getNodeByKey($key);
+		node.selectNoFire(true);
+		while(node.data.key!='0'){
+			node=node.parent;
+			if (!node.isSelected()) $('#sel_dynatree-id-'+node.data.key+'>span').addClass('dynatree-partsel');
 		}
+	";
 	}
 	$js.="
 	$('#sel_structures .tab').removeClass('etab-sel');

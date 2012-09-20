@@ -344,7 +344,7 @@ $html_expediteurs=Html::expediteurs($binfadminx,$motifsadminx);
 	</div>
 	<div id="news_entetes_head">
 		<div class='titre'>Newsletters</div>
-		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvel e-mail">
+		<button class="ajmain ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" aria-disabled="false" title="Nouvelle newsletter">
 			<span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
 			<span class="ui-button-text">Nouvelle newsletter</span>
 		</button>

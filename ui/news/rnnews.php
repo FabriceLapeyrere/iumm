@@ -34,7 +34,7 @@ $('rnnews$id .bouton').button();
 	if($succes) {
 		$reponse['succes']=1;
 		$reponse['message']="";
-		$reponse['titre']=$e->sujet;
+		$reponse['titre']=$n->sujet;
 		$reponse['html']=$html;
 		$reponse['js']=$js;
 	} else {

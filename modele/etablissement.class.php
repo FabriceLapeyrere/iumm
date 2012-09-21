@@ -16,7 +16,7 @@ class Etablissement {
 	}
 	function tout() {
 		$id=$this->id;
-		$proprietes=array('nom', 'structure', 'donnees', 'emails', 'adresse', 'cp', 'contacts', 'casquettes', 'casquette_propre');
+		$proprietes=array('nom', 'structure', 'donnees', 'emails', 'adresse', 'cp', 'adr', 'ville', 'pays', 'contacts', 'casquettes', 'casquette_propre');
 		$all=array();
 		foreach ($proprietes as $prop){
 			$all[$prop]=$this->$prop();
@@ -97,6 +97,9 @@ where t1.id_etablissement=$id and t1.actif=1 order by nom COLLATE NOCASE
 		$emails=array();
 		$adresse="";
 		$cp="";
+		$adr="";
+		$ville="";
+		$pays="";
 		$adresse_complete="";
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$nom_structure=$tab['nom_structure'];
@@ -111,6 +114,9 @@ where t1.id_etablissement=$id and t1.actif=1 order by nom COLLATE NOCASE
 					if ($val!="") {
 						if ($cle!="cp") {
 							$adresse.=$val."\n";
+							if($cle=='adresse') $adr=$val;
+							if($cle=='ville') $ville=$val;
+							if($cle=='pays') $pays=$val;
 						}
 						else {
 							$cp=$val;
@@ -126,6 +132,9 @@ where t1.id_etablissement=$id and t1.actif=1 order by nom COLLATE NOCASE
 		elseif ($adresse!="" && $adresse_complete!="") $adresse_complete.="\n".$adresse;
 		else $adresse_complete="";
 		Cache_modele::set('etablissement',$id,'cp',$cp);
+		Cache_modele::set('etablissement',$id,'adr',$adr);
+		Cache_modele::set('etablissement',$id,'ville',$ville);
+		Cache_modele::set('etablissement',$id,'pays',$pays);
 		Cache_modele::set('etablissement',$id,'adresse',$adresse_complete);
 		Cache_modele::set('etablissement',$id,'emails',$emails);
 		return Cache_modele::set('etablissement',$id,'donnees',$donnees);
@@ -177,6 +186,42 @@ where t1.id_etablissement=$id and t1.actif=1 order by nom COLLATE NOCASE
 		else {
 			$this->donnees_maj();
 			$cache=Cache_modele::get('etablissement',$id,'cp');
+			return $cache;
+		}
+	}
+	function adr() {
+		$id=$this->id;
+		$cp="";
+		$cache=Cache_modele::get('etablissement',$id,'adr');
+		if ($cache!='&&&&')
+			return $cache;
+		else {
+			$this->donnees_maj();
+			$cache=Cache_modele::get('etablissement',$id,'adr');
+			return $cache;
+		}
+	}
+	function ville() {
+		$id=$this->id;
+		$cp="";
+		$cache=Cache_modele::get('etablissement',$id,'ville');
+		if ($cache!='&&&&')
+			return $cache;
+		else {
+			$this->donnees_maj();
+			$cache=Cache_modele::get('etablissement',$id,'ville');
+			return $cache;
+		}
+	}
+	function pays() {
+		$id=$this->id;
+		$cp="";
+		$cache=Cache_modele::get('etablissement',$id,'pays');
+		if ($cache!='&&&&')
+			return $cache;
+		else {
+			$this->donnees_maj();
+			$cache=Cache_modele::get('etablissement',$id,'pays');
 			return $cache;
 		}
 	}

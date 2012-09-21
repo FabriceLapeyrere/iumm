@@ -16,7 +16,7 @@ class Casquette {
 	}
 	function tout() {
 		$id=$this->id;
-		$proprietes=array('nom', 'contact', 'etablissement', 'structure', 'categories', 'donnees', 'emails', 'adresse', 'cp', 'fonction', 'donnees_etab');
+		$proprietes=array('nom', 'contact', 'etablissement', 'structure', 'categories', 'donnees', 'emails', 'adresse', 'cp', 'adr', 'ville', 'pays', 'fonction', 'donnees_etab');
 		$all=array();
 		foreach ($proprietes as $prop){
 			$all[$prop]=$this->$prop();
@@ -213,6 +213,9 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 		$emails=array();
 		$adresse="";
 		$cp="";
+		$adr="";
+		$ville="";
+		$pays="";
 		$adresse_complete="";
 		$fonction="";
 		$id_etablissement=0;
@@ -234,6 +237,9 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 					if ($val!="") {
 						if ($cle!="cp") {
 							$adresse.=$val."\n";
+							if($cle=='adresse') $adr=$val;
+							if($cle=='ville') $ville=$val;
+							if($cle=='pays') $pays=$val;
 						}
 						else {
 							$cp=$val;
@@ -259,14 +265,18 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			#on met l'adresse de la structure si elle existe
 			$adresse_etab=$etout['adresse'];
 			if (trim($adresse_etab)!="") {
-					$contact=$this->contact();
-					$prenom_contact=$contact['prenom'];
-					$nom_contact=$contact['nom'];
-					if (trim($prenom_contact)!="" and trim($nom_contact)!="$$$$") $adresse.=trim($prenom_contact)." ";
-					if (trim($prenom_contact)!="" and trim($nom_contact)=="") $adresse.=" \n";
-					if (trim($nom_contact)!="" and trim($nom_contact)!="$$$$") $adresse.=$nom_contact." \n";
-					$adresse.=$adresse_etab;
-					$cp=$etout['cp'];
+				$adresse="";
+				$contact=$this->contact();
+				$prenom_contact=$contact['prenom'];
+				$nom_contact=$contact['nom'];
+				$adresse.=$adresse_etab;
+				$cp=$etout['cp'];
+				if(trim($etout['structure']['nom'])!="")
+					$adr=$etout['structure']['nom']."\n".$etout['adr'];
+				else
+					$adr=$etout['adr'];
+				$ville=$etout['ville'];
+				$pays=$etout['pays'];
 			}
 			$donnees_etab=$etout['donnees'];	
 		}
@@ -274,6 +284,9 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 		elseif ($adresse!="" && $adresse_complete!="") $adresse_complete.="\n".$adresse;
 		else $adresse_complete="";
 		Cache_modele::set('casquette',$id,'cp',$cp);
+		Cache_modele::set('casquette',$id,'adr',$adr);
+		Cache_modele::set('casquette',$id,'ville',$ville);
+		Cache_modele::set('casquette',$id,'pays',$pays);
 		Cache_modele::set('casquette',$id,'adresse',$adresse_complete);
 		Cache_modele::set('casquette',$id,'emails',$emails);
 		Cache_modele::set('casquette',$id,'fonction',$fonction);
@@ -350,6 +363,39 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			return $cache;
 		}
 	}
+	function adr() {
+		$id=$this->id;
+		$cache=Cache_modele::get('casquette',$id,'adr');
+		if ($cache!='&&&&')
+			return $cache;
+		else {
+			$this->donnees_maj();
+			$cache=Cache_modele::get('casquette',$id,'adr');
+			return $cache;
+		}
+	}
+	function ville() {
+		$id=$this->id;
+		$cache=Cache_modele::get('casquette',$id,'ville');
+		if ($cache!='&&&&')
+			return $cache;
+		else {
+			$this->donnees_maj();
+			$cache=Cache_modele::get('casquette',$id,'ville');
+			return $cache;
+		}
+	}
+	function pays() {
+		$id=$this->id;
+		$cache=Cache_modele::get('casquette',$id,'pays');
+		if ($cache!='&&&&')
+			return $cache;
+		else {
+			$this->donnees_maj();
+			$cache=Cache_modele::get('casquette',$id,'pays');
+			return $cache;
+		}
+	}
 	function fonction() {
 		$id=$this->id;
 		$cache=Cache_modele::get('casquette',$id,'fonction');
@@ -401,7 +447,7 @@ insert into ass_casquette_categorie (id_utilisateur, id_casquette, id_categorie)
 			$base->query($sql);
 		}
 		$base->close();
-		Cache_modele::del('casquette',$id,'nom, structure, etablissement, donnees_etab');
+		Cache_modele::del('casquette',$id,'structure, etablissement, donnees_etab, adresse, adr, cp, ville, pays');
 		Cache_modele::del('etablissement',$id_etablissement,'casquettes, contacts');
 		if ($old_etablissement>0) Cache_modele::del('etablissement',$old_etablissement,'casquettes, contacts');
 		async('modele/index/index',array('id'=>$id));
@@ -415,7 +461,7 @@ insert into ass_casquette_categorie (id_utilisateur, id_casquette, id_categorie)
 		$sql="delete from ass_casquette_etablissement where id_casquette=$id_casquette";
 		$base->query($sql);
 		$base->close();
-		Cache_modele::del('casquette',$id,'structure, etablissement, donnees_etab');
+		Cache_modele::del('casquette',$id,'structure, etablissement, donnees_etab, adresse, adr, cp, ville, pays');
 		async('modele/cache/cache',array('objet'=>'Casquette','id_objet'=>$id,'prop'=>array('structure', 'etablissement')));
 		Cache_modele::del('etablissement',$id_etablissement,'casquettes, contacts');
 		async('modele/cache/cache',array('objet'=>'Etablissement','id_objet'=>$id_etablissement,'prop'=>array('casquettes', 'contacts')));

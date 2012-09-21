@@ -35,6 +35,7 @@ class Categorie {
 		$base->busyTimeout (10000);
 		$sql="select nom, idparent from categories where rowid=$id";
 		$res = $base->query($sql);
+		$id_parent=0;
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$id_parent=$tab['idparent'];
 		}

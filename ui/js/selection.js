@@ -448,9 +448,11 @@ $(function() {
 					},
 					function(data){
 						if (data.succes==1) {
-							sourceNode.move(node, hitMode);
-							// expand the drop target
-							sourceNode.expand(true);
+							if (data.move==1) {
+								sourceNode.move(node, hitMode);
+								// expand the drop target
+								sourceNode.expand(true);
+							}
 							eval(data.js);
 						}
 					},

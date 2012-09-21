@@ -37,9 +37,9 @@ function ldap_update($condition="1",$v=0) {
 		# on ecrit :
 		if ($v==1) echo "\nOn met à jour :\n";
 		foreach($liste as $id){
-			if ($v==1) echo "Mise à jour de la casquette $id            \r";
 			$c= new Casquette($id);
 			$ctout=$c->tout();
+			if ($v==1) echo "Mise à jour de la casquette $id            \r";
 			$entry=Array();
 			$entry['uid']=$id;
 			$entry['cn']="";

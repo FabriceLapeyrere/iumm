@@ -271,10 +271,7 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 				$nom_contact=$contact['nom'];
 				$adresse.=$adresse_etab;
 				$cp=$etout['cp'];
-				if(trim($etout['structure']['nom'])!="")
-					$adr=$etout['structure']['nom']."\n".$etout['adr'];
-				else
-					$adr=$etout['adr'];
+				$adr=$etout['adr'];
 				$ville=$etout['ville'];
 				$pays=$etout['pays'];
 			}

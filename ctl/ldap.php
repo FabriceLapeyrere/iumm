@@ -1,6 +1,6 @@
 <?php
 include 'conf/ldap.php';	
-function ldap_update($condition="1") {
+function ldap_update($condition="1",$v=0) {
 	// connect to ldap server
 	include 'conf/ldap.php';	
 	$ldapconn = ldap_connect($ldap_srv)
@@ -20,13 +20,17 @@ function ldap_update($condition="1") {
 			$liste[]=$tab['rowid'];
 		}
 		# on efface :
+		if ($v==1) echo "On efface :\n";
 		foreach($liste as $id){
 			$contact="uid=$id,$ldapbase";
-			ldap_delete($ldapconn,$contact);
+			if ($v==1) echo "Suppression de la casquette $id            \r";
+			@ldap_delete($ldapconn,$contact);
 		}
 				
 		# on ecrit :
+		if ($v==1) echo "\nOn met à jour :\n";
 		foreach($liste as $id){
+			if ($v==1) echo "Mise à jour de la casquette $id            \r";
 			$c= new Casquette($id);
 			$ctout=$c->tout();
 			$entry=Array();
@@ -40,7 +44,7 @@ function ldap_update($condition="1") {
 				if ($entry['cn']=="") $entry['cn']="(sans nom)";
 				if (trim($ctout['contact']['nom'])!="") $entry['sn']=$ctout['contact']['nom'];
 				else $entry['sn']="(sans nom)";
-				$entry['gn']=stripslashes($ctout['contact']['prenom']);
+				$entry['gn']=$ctout['contact']['prenom'];
 				$entry['o']=$ctout['structure']['nom'];
 				$entry['mail']=isset($ctout['emails'][0]) ? $ctout['emails'][0] : "";
 				$entry['telephoneNumber']= isset($ctout['donnees']['Telephone_fixe'][0]) ? $ctout['donnees']['Telephone_fixe'][0] : "";
@@ -66,10 +70,10 @@ function ldap_update($condition="1") {
 
 				$entry['cn'].=$ctout['structure']['nom'];
 				if ($entry['cn']=="") $entry['cn']="(sans nom)";
-				$entry['o']=$ctout['structure']['nom'];
-				$entry['mail']=$ctout['emails'][0];
-				$entry['telephoneNumber']=isset($ctout['donnees_etab']['Telephone_fixe'][0]) ? $ctout['donnees']['Telephone_fixe'][0] : "";
-				$entry['mobile']=isset($ctout['donnees_etab']['Telephone_portable'][0]) ? $ctout['donnees']['Telephone_fixe'][0] : "";
+				$entry['sn']=$entry['cn'];
+				$entry['mail']=isset($ctout['emails'][0]) ? $ctout['emails'][0] : "";
+				$entry['telephoneNumber']=isset($ctout['donnees_etab']['Telephone_fixe'][0]) ? $ctout['donnees_etab']['Telephone_fixe'][0] : "";
+				$entry['mobile']=isset($ctout['donnees_etab']['Telephone_portable'][0]) ? $ctout['donnees_etab']['Telephone_fixe'][0] : "";
 				$cats=$ctout['categories'];
 				$categories="";
 				foreach ($cats as $id_cat) {
@@ -78,15 +82,10 @@ function ldap_update($condition="1") {
 					else $categories.="; ".$cat->nom();
 				}
 				$entry['description']=$categories;
-				$adresse=$ctout['adresse'];
-				$tadresse=explode($adresse,$ctout['cp']);
-				$tnom=explode($tadresse[0],$entry['cn']);
-				$adresse=$tnom[1];
-				$ville=$tadresse[1];
-				if (strpos("\n",$ville)>0) $ville=substr($ville,0,strpos("\n",$ville));
-				$entry['postalAddress']=trim($adresse);
+				$entry['description'].=isset($ctout['donnees_etab']['Note'][0]) ? "\n".$ctout['donnees_etab']['Note'][0] : "";
+				$entry['postalAddress']=$ctout['adr'];
 				$entry['postalCode']=$ctout['cp'];
-				$entry['l']=$ville;
+				$entry['l']=$ctout['ville'];
 				$entry["objectclass"][0]="top";
 				$entry["objectclass"][1]="inetOrgPerson";
 				$entry["objectclass"][2]="person";
@@ -101,12 +100,12 @@ function ldap_update($condition="1") {
 							$entry_new[$key] = $value;
 					}
 			}
-
 			// Ajout des données dans l'annuaire
 			$contact="uid=$id,$ldapbase";
 			$r=ldap_add($ldapconn, $contact, $entry_new);
 		}
-		
+		if ($v==1) echo "\n";
+			
 		ldap_close($ldapconn);	
 	}
 }	

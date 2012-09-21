@@ -9,6 +9,7 @@
 	if (! file_exists("fichiers/envois/")) mkdir("fichiers/envois",755,true);
 
 	if (! is_writable("db/")) $message.="Le dossier \"db/\" doit être accessible en écriture.<br />";
+	if (! is_writable("conf/")) $message.="Le dossier \"conf/\" doit être accessible en écriture.<br />";
 	if (! is_writable("ui/cache/")) $message.="Le dossier \"ui/cache/\" doit être accessible en écriture.<br />";
 	if (! is_writable("modele/cache/")) $message.="Le dossier \"ui/cache/\" doit être accessible en écriture.<br />";
 	if (! is_writable("fichiers/emails/")) $message.="Le dossier \"fichiers/emails/\" doit être accessible en écriture.<br />";
@@ -39,6 +40,12 @@
 		$base->exec(file_get_contents('ctl/init/index.sqlite.sql'));
 		$base->close();
 	}
+	if (!file_exists('conf/conf.php'))
+		copy('conf/conf.php.dist','conf/conf.php');
+	if (!file_exists('conf/ldap.php'))
+		copy('conf/ldap.php.dist','conf/ldap.php');
+	if (!file_exists('conf/mailing.php'))
+		copy('conf/mailing.php.dist','conf/mailing.php');
 
 	// Le .htaccess DOIT contenir la chaîne :
 	// SetEnv ENV_HTACCESS_READING true

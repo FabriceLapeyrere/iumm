@@ -1,5 +1,39 @@
 <?php
 include 'conf/ldap.php';	
+/**
+ * function ldap_escape
+ * @author Chris Wright
+ * @version 2.0
+ * @param string $subject The subject string
+ * @param bool $dn Treat subject as a DN if TRUE
+ * @param string|array $ignore Set of characters to leave untouched
+ * @return string The escaped string
+ */
+function ldap_escape ($subject, $dn = FALSE, $ignore = NULL) {
+
+    // The base array of characters to escape
+    // Flip to keys for easy use of unset()
+    $search = array_flip($dn ? array('\\', ',', '=', '+', '<', '>', ';', '"', '#') : array('\\', '*', '(', ')', "\x00"));
+
+    // Process characters to ignore
+    if (is_array($ignore)) {
+        $ignore = array_values($ignore);
+    }
+    for ($char = 0; isset($ignore[$char]); $char++) {
+        unset($search[$ignore[$char]]);
+    }
+
+    // Flip $search back to values and build $replace array
+    $search = array_keys($search); 
+    $replace = array();
+    foreach ($search as $char) {
+        $replace[] = sprintf("\\%02x", ord($char));
+    }
+
+    // Do the replacement and return the result
+    return str_replace($search, $replace, $subject);
+
+}
 function ldap_update($condition="1",$v=0) {
 	// connect to ldap server
 	include 'conf/ldap.php';	
@@ -48,7 +82,7 @@ function ldap_update($condition="1",$v=0) {
 				$entry['o']=$ctout['structure']['nom'];
 				$entry['mail']=isset($ctout['emails'][0]) ? $ctout['emails'][0] : "";
 				$entry['telephoneNumber']= isset($ctout['donnees']['Telephone_fixe'][0]) ? $ctout['donnees']['Telephone_fixe'][0] : "";
-				$entry['mobile']=isset($ctout['donnees']['Telephone_portable'][0]) ? $ctout['donnees']['Telephone_fixe'][0] : "";
+				$entry['mobile']=isset($ctout['donnees']['Telephone_portable'][0]) ? $ctout['donnees']['Telephone_portable'][0] : "";
 				$cats=$ctout['categories'];
 				$categories="";
 				foreach ($cats as $id_cat) {

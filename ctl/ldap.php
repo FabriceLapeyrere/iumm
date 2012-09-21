@@ -1,38 +1,11 @@
 <?php
 include 'conf/ldap.php';	
 /**
- * function ldap_escape
- * @author Chris Wright
- * @version 2.0
- * @param string $subject The subject string
- * @param bool $dn Treat subject as a DN if TRUE
- * @param string|array $ignore Set of characters to leave untouched
- * @return string The escaped string
- */
-function ldap_escape ($subject, $dn = FALSE, $ignore = NULL) {
-
-    // The base array of characters to escape
-    // Flip to keys for easy use of unset()
-    $search = array_flip($dn ? array('\\', ',', '=', '+', '<', '>', ';', '"', '#') : array('\\', '*', '(', ')', "\x00"));
-
-    // Process characters to ignore
-    if (is_array($ignore)) {
-        $ignore = array_values($ignore);
-    }
-    for ($char = 0; isset($ignore[$char]); $char++) {
-        unset($search[$ignore[$char]]);
-    }
-
-    // Flip $search back to values and build $replace array
-    $search = array_keys($search); 
-    $replace = array();
-    foreach ($search as $char) {
-        $replace[] = sprintf("\\%02x", ord($char));
-    }
-
-    // Do the replacement and return the result
-    return str_replace($search, $replace, $subject);
-
+* Escapes an LDAP AttributeValue
+*/
+function ldap_escape($string)
+{
+    return stripslashes($string);
 }
 function ldap_update($condition="1",$v=0) {
 	// connect to ldap server
@@ -72,29 +45,29 @@ function ldap_update($condition="1",$v=0) {
 			$entry['cn']="";
 			if ($ctout['contact']['nom']!='$$$$'){
 
-				if (trim($ctout['contact']['prenom'])!="") $entry['cn'].=$ctout['contact']['prenom'];
+				if (trim($ctout['contact']['prenom'])!="") $entry['cn'].=ldap_escape($ctout['contact']['prenom']);
 				if (trim($entry['cn'])!="" && trim($ctout['contact']['prenom'])!="") $entry['cn'].=" ";
-				if (trim($ctout['contact']['nom'])!="") $entry['cn'].=$ctout['contact']['nom'];
-				if ($entry['cn']=="") $entry['cn']="(sans nom)";
-				if (trim($ctout['contact']['nom'])!="") $entry['sn']=$ctout['contact']['nom'];
-				else $entry['sn']="(sans nom)";
-				$entry['gn']=$ctout['contact']['prenom'];
-				$entry['o']=$ctout['structure']['nom'];
-				$entry['mail']=isset($ctout['emails'][0]) ? $ctout['emails'][0] : "";
-				$entry['telephoneNumber']= isset($ctout['donnees']['Telephone_fixe'][0]) ? $ctout['donnees']['Telephone_fixe'][0] : "";
-				$entry['mobile']=isset($ctout['donnees']['Telephone_portable'][0]) ? $ctout['donnees']['Telephone_portable'][0] : "";
+				if (trim($ctout['contact']['nom'])!="") $entry['cn'].=ldap_escape($ctout['contact']['nom']);
+				if ($entry['cn']=="") $entry['cn']=ldap_escape("(sans nom)");
+				if (trim($ctout['contact']['nom'])!="") $entry['sn']=ldap_escape($ctout['contact']['nom']);
+				else $entry['sn']=ldap_escape("(sans nom)");
+				$entry['gn']=ldap_escape($ctout['contact']['prenom']);
+				$entry['o']=ldap_escape($ctout['structure']['nom']);
+				$entry['mail']=isset($ctout['emails'][0]) ? ldap_escape($ctout['emails'][0]) : "";
+				$entry['telephoneNumber']= isset($ctout['donnees']['Telephone_fixe'][0]) ? ldap_escape($ctout['donnees']['Telephone_fixe'][0]) : "";
+				$entry['mobile']=isset($ctout['donnees']['Telephone_portable'][0]) ? ldap_escape($ctout['donnees']['Telephone_portable'][0]) : "";
 				$cats=$ctout['categories'];
 				$categories="";
 				foreach ($cats as $id_cat) {
 					$cat=new Categorie($id_cat);
-					if ($categories=="") $categories.=$cat->nom();
-					else $categories.="; ".$cat->nom();
+					if ($categories=="") $categories.=ldap_escape($cat->nom());
+					else $categories.="; ".ldap_escape($cat->nom());
 				}
 				$entry['description']=$categories;
-				$entry['description'].=isset($ctout['donnees']['Note'][0]) ? "\n".$ctout['donnees']['Note'][0] : "";
-				$entry['postalAddress']=$ctout['adr'];
-				$entry['postalCode']=$ctout['cp'];
-				$entry['l']=$ctout['ville'];
+				$entry['description'].=isset($ctout['donnees']['Note'][0]) ? "\n".ldap_escape($ctout['donnees']['Note'][0]) : "";
+				$entry['postalAddress']=ldap_escape($ctout['adr']);
+				$entry['postalCode']=ldap_escape($ctout['cp']);
+				$entry['l']=ldap_escape($ctout['ville']);
 				$entry["objectclass"][0]="top";
 				$entry["objectclass"][1]="inetOrgPerson";
 				$entry["objectclass"][2]="person";
@@ -102,24 +75,24 @@ function ldap_update($condition="1",$v=0) {
 				
 			} else {
 
-				$entry['cn'].=$ctout['structure']['nom'];
-				if ($entry['cn']=="") $entry['cn']="(sans nom)";
-				$entry['sn']=$entry['cn'];
-				$entry['mail']=isset($ctout['emails'][0]) ? $ctout['emails'][0] : "";
-				$entry['telephoneNumber']=isset($ctout['donnees_etab']['Telephone_fixe'][0]) ? $ctout['donnees_etab']['Telephone_fixe'][0] : "";
-				$entry['mobile']=isset($ctout['donnees_etab']['Telephone_portable'][0]) ? $ctout['donnees_etab']['Telephone_fixe'][0] : "";
+				$entry['cn'].=ldap_escape($ctout['structure']['nom']);
+				if ($entry['cn']=="") $entry['cn']=ldap_escape("(sans nom)");
+				$entry['sn']=ldap_escape($entry['cn']);
+				$entry['mail']=isset($ctout['emails'][0]) ? ldap_escape($ctout['emails'][0]) : "";
+				$entry['telephoneNumber']=isset($ctout['donnees_etab']['Telephone_fixe'][0]) ? ldap_escape($ctout['donnees_etab']['Telephone_fixe'][0]) : "";
+				$entry['mobile']=isset($ctout['donnees_etab']['Telephone_portable'][0]) ? ldap_escape($ctout['donnees_etab']['Telephone_portable'][0]) : "";
 				$cats=$ctout['categories'];
 				$categories="";
 				foreach ($cats as $id_cat) {
 					$cat=new Categorie($id_cat);
-					if ($categories=="") $categories.=$cat->nom();
-					else $categories.="; ".$cat->nom();
+					if ($categories=="") $categories.=ldap_escape($cat->nom());
+					else $categories.="; ".ldap_escape($cat->nom());
 				}
-				$entry['description']=$categories;
-				$entry['description'].=isset($ctout['donnees_etab']['Note'][0]) ? "\n".$ctout['donnees_etab']['Note'][0] : "";
-				$entry['postalAddress']=$ctout['adr'];
-				$entry['postalCode']=$ctout['cp'];
-				$entry['l']=$ctout['ville'];
+				$entry['description']=ldap_escape($categories);
+				$entry['description'].=isset($ctout['donnees_etab']['Note'][0]) ? "\n".ldap_escape($ctout['donnees_etab']['Note'][0]) : "";
+				$entry['postalAddress']=ldap_escape($ctout['adr']);
+				$entry['postalCode']=ldap_escape($ctout['cp']);
+				$entry['l']=ldap_escape($ctout['ville']);
 				$entry["objectclass"][0]="top";
 				$entry["objectclass"][1]="inetOrgPerson";
 				$entry["objectclass"][2]="person";

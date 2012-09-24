@@ -15,7 +15,7 @@ class Contacts {
 			$tab_motifs=explode(' ',str_replace(',',' ',$motifs));
 			foreach($tab_motifs as $motif){
 				if (trim($motif)!="") {
-					$motif=SQLite3::escapeString($motif);
+					$motif=SQLite3::escapeString(noaccent($motif));
 					$avant=$motif;
 					$motif=str_replace('!','',$motif);
 					if ($avant!=$motif) $motif="tri:$motif";

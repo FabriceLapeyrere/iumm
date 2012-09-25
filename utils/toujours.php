@@ -220,7 +220,13 @@ $departements['95']=array('nom'=>'Val-d\'Oise ', 'prefecture'=>'Pontoise ', 'reg
 
 
 function json_escape($string){
-	return addslashes(preg_replace("/\R/"," ",$string));
+	$p=array();
+	$p[0]="/\R/";
+	$p[1]="/ /";
+	$r=array();
+	$r[0]=" ";
+	$r[1]=" ";
+	return addslashes(preg_replace($p,$r,$string));
 }
 
 function async($action,$params=array()){

@@ -31,8 +31,6 @@
 		$c->ass_categorie($id_categorie, $_SESSION['user']['id']);
 		
 		#on rend le cache obsolete
-		Cache::set_obsolete('ed_categorie',$id_categorie);
-		Cache::set_obsolete('sel_categorie',$id_categorie);
 		Cache::set_obsolete('casquette_sel',$id_casquette);
 		Cache::set_obsolete('casquette',$id_casquette);
 		$cat=new Categorie($id_categorie);
@@ -79,6 +77,8 @@
 			}
 		}
 		while ($cat->id!=0){
+			Cache::set_obsolete('ed_categorie',$cat->id);
+			Cache::set_obsolete('sel_categorie',$cat->id);
 			$js.="
 			if ($('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."')) {
 			$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';

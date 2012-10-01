@@ -30,7 +30,7 @@
 			return obj;
 		},
 		reecriture : function () {
-			var email=no_accent(this.value.replace(/ at /,'@').replace(/\(at\)/,'@').replace(/ /g,''));
+			var email=no_accent(this.value.replace(/ at /,'@').replace(/\(at\)/,'@').replace(/\[at\]/,'@').replace(/ /g,''));
 			var obj = {
 				html : '<span style=\"color:green;\"> '+email+'</span>',
 				value : email

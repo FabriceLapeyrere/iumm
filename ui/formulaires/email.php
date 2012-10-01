@@ -20,7 +20,7 @@
 		test : function () {
 			var obj = {ok : 0, message : ''}
 			var test=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-			var email=no_accent(this.value.replace(/ at /,'@').replace(/\(at\)/,'@').replace(/ /g,''));
+			var email=no_accent(this.value.replace(/ at /,'@').replace(/\(at\)/,'@').replace(/\[at\]/,'@').replace(/ /g,''));
 			if (this.value=='' || test.test(email)) {
 				obj.ok=1;
 			}

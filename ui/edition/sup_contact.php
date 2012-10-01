@@ -62,6 +62,20 @@
 				}
 			},'json');
 			";
+			$e=new Etablissement($id_etablissement);
+			foreach($e->casquettes() as $id_cas){
+				Cache::set_obsolete('casquette',$id_cas);
+				$js.="
+					$.post('ajax.php',{action:'edition/casquette', id_casquette:$id_cas,format:'html'},function(data){
+						if(data.succes==1){
+							$('#ed_casquette-$id_cas').html(data.html);
+							eval(data.js);
+							ed_ssapi.reinitialise();
+						}
+					},'json');
+			
+				";
+			}
 			foreach($cas->categories() as $id_categorie){
 				$cat=new Categorie($id_categorie);
 				$js.="

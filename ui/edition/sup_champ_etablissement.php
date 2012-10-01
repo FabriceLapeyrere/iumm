@@ -61,6 +61,7 @@
 		";	
 		Cache::set_obsolete('casquette',$id_propre);
 		Cache::set_obsolete('casquette_sel',$id_propre);
+		$js_cas="";
 		foreach($casquettes as $id_cas){
 	
 			#on rend le cache obsolete

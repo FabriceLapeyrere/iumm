@@ -26,16 +26,8 @@ function ldap_update($condition="1",$v=0) {
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$liste[]=$tab['rowid'];
 		}
-		# on efface :
-		if ($v==1) echo "On efface :\n";
-		foreach($liste as $id){
-			$contact="uid=$id,$ldapbase";
-			if ($v==1) echo "Suppression de la casquette $id            \r";
-			@ldap_delete($ldapconn,$contact);
-		}
-				
+	
 		# on ecrit :
-		if ($v==1) echo "\nOn met à jour :\n";
 		foreach($liste as $id){
 			$c= new Casquette($id);
 			$ctout=$c->tout();
@@ -109,6 +101,7 @@ function ldap_update($condition="1",$v=0) {
 			}
 			// Ajout des données dans l'annuaire
 			$contact="uid=$id,$ldapbase";
+			@ldap_delete($ldapconn,$contact);
 			$r=ldap_add($ldapconn, $contact, $entry_new);
 		}
 		if ($v==1) echo "\n";

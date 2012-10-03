@@ -1,9 +1,8 @@
 <?php
 #ldap
-$ldap=0;
-
-$ldap_srv='localhost';
-$ldaprdn  = 'cn=admin,dc=local';     // ldap rdn or dn
-$ldappass = 'passwd';  // associated password
-$ldapbase = 'ou=iumm,dc=local';
+define('LDAP',0);
+define('LDAP_SRV','localhost');
+define('LDAP_RDN','cn=admin,dc=local');
+define('LDAP_PWD','passwd');
+define('LDAP_BASE','ou=iumm,dc=local');
 ?>

@@ -7,13 +7,23 @@
 set_time_limit(0);
 include "ui/session.php";
 
-define('CLASS_DIR', 'modele/');
-set_include_path(get_include_path().PATH_SEPARATOR.CLASS_DIR);
+if (!file_exists('conf/conf.php'))
+	copy('conf/conf.php.dist','conf/conf.php');
+if (!file_exists('conf/ldap.php'))
+	copy('conf/ldap.php.dist','conf/ldap.php');
+if (!file_exists('conf/mailing.php'))
+	copy('conf/mailing.php.dist','conf/mailing.php');
+
+include "conf/conf.php";
+include "conf/ldap.php";
+include "utils/toujours.php";
+
+define('CLASS_MODELE_DIR', 'modele/');
+define('CLASS_CACHE_DIR', 'ui/cache/');
+set_include_path(get_include_path().PATH_SEPARATOR.CLASS_MODELE_DIR.PATH_SEPARATOR.CLASS_CACHE_DIR);
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-include "conf/conf.php";
-include "utils/toujours.php";
 include "ui/html.class.php";
 include "ui/js.class.php";
 

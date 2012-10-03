@@ -99,7 +99,6 @@ class Index {
 		$base->exec($sql);
 		$base->close();
 		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - index casquette $id ".var_export($tout,true)."\n", 3, "tmp/fab.log");
-		include 'ctl/ldap.php';
-		if ($ldap==1) ldap_update("rowid=$id");
+		if (LDAP==1) ldap_update("rowid=$id");
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-include 'conf/ldap.php';	
 /**
 * Escapes an LDAP AttributeValue
 */
@@ -9,15 +8,14 @@ function ldap_escape($string)
 }
 function ldap_update($condition="1",$v=0) {
 	// connect to ldap server
-	include 'conf/ldap.php';	
-	$ldapconn = ldap_connect($ldap_srv)
+	$ldapconn = ldap_connect(LDAP_SRV)
 		or die("Could not connect to LDAP server.");
 	ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
 	if ($ldapconn) {
 
 		// binding to ldap server
-		$ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
+		$ldapbind = ldap_bind($ldapconn, LDAP_RDN, LDAP_PWD);
 		$base = new SQLite3('db/index.sqlite');
 		$base->busyTimeout (10000);
 		$sql="select rowid,tri from indexes where $condition";
@@ -100,7 +98,7 @@ function ldap_update($condition="1",$v=0) {
 					}
 			}
 			// Ajout des données dans l'annuaire
-			$contact="uid=$id,$ldapbase";
+			$contact="uid=$id,".LDAP_BASE;
 			@ldap_delete($ldapconn,$contact);
 			$r=ldap_add($ldapconn, $contact, $entry_new);
 		}

@@ -55,7 +55,7 @@ class Cache_modele {
 	}
 	function un_wlock($objet,$id){
 		$dossier="modele/cache/fichiers/$objet";
-		if (file_exists("$dossier/$id.lock")) unlink("$dossier/$id.lock");
+		if (file_exists("$dossier/$id.lock")) @unlink("$dossier/$id.lock");
 	}
 	function is_p_wlock($objet,$id,$cle){
 		$dossier="modele/cache/fichiers/$objet";

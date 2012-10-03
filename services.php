@@ -15,7 +15,6 @@ if (!file_exists('conf/mailing.php'))
 
 include "conf/conf.php";
 include "conf/ldap.php";
-include "ctl/auth.php";
 include "ctl/ldap.php";
 include "utils/toujours.php";
 

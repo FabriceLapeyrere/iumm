@@ -7,51 +7,25 @@
 		var $aligns;
 		function NbLines($w, $txt)
 		{
-			//Computes the number of lines a MultiCell of width w will take
-			$cw=&$this->CurrentFont['cw'];
-			if($w==0)
-				$w=$this->w-$this->rMargin-$this->x;
-			$wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
-			$s=str_replace("\r", '', $txt);
-			$nb=strlen($s);
-			if($nb>0 and $s[$nb-1]=="\n")
-				$nb--;
-			$sep=-1;
-			$i=0;
-			$j=0;
-			$l=0;
-			$nl=1;
-			while($i<$nb)
-			{
-				$c=$s[$i];
-				if($c=="\n")
-				{
-				    $i++;
-				    $sep=-1;
-				    $j=$i;
-				    $l=0;
-				    $nl++;
-				    continue;
+			$tab=explode("\n",$txt);
+			$nl=0;
+			foreach($tab as $line) {
+				$ttab=explode(' ',$line);
+				$ligne="";
+				foreach($ttab as $mot) {
+					$nligne="$ligne $mot";
+					if ($this->GetStringWidth($nligne)>$w*0.9) {
+						$nl++;
+						$ligne=$mot;
+					} else {
+						if ($ligne=="")
+							$ligne.="$mot";
+						else
+							$ligne.=" $mot";
+					}
 				}
-				if($c==' ')
-				    $sep=$i;
-				$l+=$cw[$c];
-				if($l>$wmax)
-				{
-				    if($sep==-1)
-				    {
-				        if($i==$j)
-				            $i++;
-				    }
-				    else
-				        $i=$sep+1;
-				    $sep=-1;
-				    $j=$i;
-				    $l=0;
-				    $nl++;
-				}
-				else
-				    $i++;
+				if ($ligne!="")
+					$nl++;
 			}
 			return $nl;
 		}

@@ -222,14 +222,13 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$nom_contact=$tab['nom_contact'];
 			$prenom_contact=$tab['prenom_contact'];
+			$adresse_complete="";
+			if (trim($prenom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=trim($prenom_contact)." ";
+			if (trim($nom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=$nom_contact;
 			if ($tab['id_etablissement']>0) $id_etablissement=$tab['id_etablissement'];
 			$donnees[$tab['nom']]=array($tab['valeur'], $tab['label'], $tab['type'], $tab['date']);
 			if ($tab['valeur']!="" && $tab['type']=='email') $emails[]=$tab['valeur'];
 			if ($tab['valeur']!="" && $tab['type']=='adresse') {
-				$adresse_complete="";
-				if (trim($prenom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=trim($prenom_contact)." ";
-				if (trim($prenom_contact)!="" and trim($nom_contact)=="") $adresse_complete.=" \n";
-				if (trim($nom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=$nom_contact;
 				$adresse="";
 				if (trim($adresse)!="") $adresse.="\n";
 				$t=json_decode($tab['valeur']);
@@ -243,13 +242,13 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 						}
 						else {
 							$cp=$val;
-							$adresse.=rtrim($val)." ";
+							$adresse.=trim($val)." ";
 						}
 					}
 				}
-				$adresse=rtrim($adresse);				
+				$adresse=trim($adresse);				
 			}
-			if ($tab['valeur']!="" && $tab['nom']=='Fonction') $fonction=rtrim($tab['valeur']);
+			if ($tab['valeur']!="" && $tab['nom']=='Fonction') $fonction=trim($tab['valeur']);
 		}
 		$base->close();
 		$donnees_etab=array();
@@ -258,7 +257,6 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			$e= new Etablissement($etablissement['id']);
 			$etout=$e->tout();
 			#on met les emails de la structure si vide
-			if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - tout tout tout  ".var_export($etout,true)."	 \n", 3, "tmp/debug.log");
 			if (count($emails)==0) {
 				$emails=$etout['emails'];
 			}

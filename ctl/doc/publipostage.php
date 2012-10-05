@@ -14,7 +14,7 @@
 				$ligne="";
 				foreach($ttab as $mot) {
 					$nligne="$ligne $mot";
-					if ($this->GetStringWidth($nligne)>$w*0.9) {
+					if ($this->GetStringWidth($nligne)>$w*0.92) {
 						$nl++;
 						$ligne=$mot;
 					} else {

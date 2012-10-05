@@ -103,7 +103,6 @@
 					if ($cle==$k) $valeur=$v[0];
 				}
 			}
-			error_log(date('d/m/Y H:i:s')."\n----\n$cle -> $valeur\n----\n", 3, "tmp/fab.log");
 			$tpl=str_replace("::".$cle."::",$valeur,$tpl);
 		}
 		$tpl_tab=explode("\n",$tpl);

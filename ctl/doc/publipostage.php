@@ -5,54 +5,55 @@
 	{
 		var $widths;
 		var $aligns;
-		function NbLines($w,$txt)
+		function NbLines($w, $txt)
 		{
-		    //Calcule le nombre de lignes qu'occupe un MultiCell de largeur w
-		    if($w==0)
-			$w=$this->w-$this->rMargin-$this->x;
-		    $s=str_replace("\r",'',$txt);
-		    $nb=strlen($s);
-		    if($nb>0 and $s[$nb-1]=="\n")
-			$nb--;
-		    $sep=-1;
-		    $i=0;
-		    $j=0;
-		    $l=0;
-		    $nl=1;
-		    while($i<$nb)
-		    {
-			$c=$s[$i];
-			if($c=="\n")
+			//Computes the number of lines a MultiCell of width w will take
+			$cw=&$this->CurrentFont['cw'];
+			if($w==0)
+				$w=$this->w-$this->rMargin-$this->x;
+			$wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
+			$s=str_replace("\r", '', $txt);
+			$nb=strlen($s);
+			if($nb>0 and $s[$nb-1]=="\n")
+				$nb--;
+			$sep=-1;
+			$i=0;
+			$j=0;
+			$l=0;
+			$nl=1;
+			while($i<$nb)
 			{
-			    $i++;
-			    $sep=-1;
-			    $j=$i;
-			    $l=0;
-			    $nl++;
-			    continue;
-			}
-			if($c==' ')
-			    $sep=$i;
-			$l+=$this->GetStringWidth($c);
-			if($l>$w*0.88)
-			{
-			    if($sep==-1)
-			    {
-				if($i==$j)
+				$c=$s[$i];
+				if($c=="\n")
+				{
 				    $i++;
-			    }
-			    else
-				$i=$sep+1;
-			    $sep=-1;
-			    $j=$i;
-			    $l=0;
-			    $nl++;
+				    $sep=-1;
+				    $j=$i;
+				    $l=0;
+				    $nl++;
+				    continue;
+				}
+				if($c==' ')
+				    $sep=$i;
+				$l+=$cw[$c];
+				if($l>$wmax)
+				{
+				    if($sep==-1)
+				    {
+				        if($i==$j)
+				            $i++;
+				    }
+				    else
+				        $i=$sep+1;
+				    $sep=-1;
+				    $j=$i;
+				    $l=0;
+				    $nl++;
+				}
+				else
+				    $i++;
 			}
-			else
-			    $i++;
-		    }
-		    #echo "$w, $nl\n";
-		    return $nl;
+			return $nl;
 		}
 	}
 	$id_support=$_GET['id_support'];
@@ -108,7 +109,7 @@
 		$tpl_tab=explode("\n",$tpl);
 		$adresse="";
 		foreach($tpl_tab as $ligne)
-			if (trim($ligne)!="") $adresse.=$ligne."\n";
+			if (trim($ligne)!="") $adresse.=trim($ligne)."\n";
 		$adresse=trim($adresse);
 		if($adresse!="") {
 			$htexte=10000;

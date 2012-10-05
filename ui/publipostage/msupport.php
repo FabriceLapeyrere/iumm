@@ -22,6 +22,7 @@
 	$form->ajoute_entree('mc_droite', 'entier', $s['mc_droite'], '', array(1), 'Marge de case (droite).');
 	$form->ajoute_entree('mc_haut', 'entier', $s['mc_haut'], '', array(1), 'Marge de case (haut).');
 	$form->ajoute_entree('mc_bas', 'entier', $s['mc_bas'], '', array(1), 'Marge de case (bas).');
+	$form->ajoute_entree('tpl', 'texte_long', $s['tpl'], '', array(1), 'Modele.');
 	$html="";
 	$js="";
 	$form->ajoute_interrupteur('valider', 'bouton', 'Enregistrer', 'bouton', 1, 'publipostage/mod_support');

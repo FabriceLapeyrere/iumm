@@ -80,8 +80,37 @@
 	$mp_bas=$support['mp_bas'];
 	$h_page=$support['h_page'];
 	$l_page=$support['l_page'];
-	function rectangle($pdf,$x,$y,$l,$h,$id_casquette,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$taille_police) {
-		$adresse=Casquettes::adresse_cache($id_casquette);
+	$tpl=$support['tpl'];
+	function rectangle($pdf,$x,$y,$l,$h,$id_casquette,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$taille_police,$tpl) {
+		$tab=array();
+		$tab['adresse']=Casquettes::adresse_cache($id_casquette);
+		$pattern = "/::([^:: \n]*)::/s";
+		preg_match_all($pattern, $tpl, $matches);
+		foreach($matches[1] as $key=>$cle){
+			$valeur="";
+			if ($cle=='ADRESSE') {
+				$valeur=Casquettes::adresse_cache($id_casquette);
+			}
+			elseif($cle=='NOM_COMPLET') {
+				$c=new Casquette($id_casquette);
+				$contact=$c->contact();
+				if (trim($contact['prenom'])!="" and trim($contact['nom'])!="$$$$") $valeur.=trim($contact['prenom'])." ";
+				if (trim($contact['prenom'])!="" and trim($contact['nom'])!="$$$$") $valeur.=$contact['nom'];
+			}
+			else {
+				$donnees=Cache_modele::get('casquette',$id_casquette,'donnees');
+				foreach($donnees as $k=>$v){
+					if ($cle==$k) $valeur=$v[0];
+				}
+			}
+			error_log(date('d/m/Y H:i:s')."\n----\n$cle -> $valeur\n----\n", 3, "tmp/fab.log");
+			$tpl=str_replace("::".$cle."::",$valeur,$tpl);
+		}
+		$tpl_tab=explode("\n",$tpl);
+		$adresse="";
+		foreach($tpl_tab as $ligne)
+			if (trim($ligne)!="") $adresse.=$ligne."\n";
+		$adresse=trim($adresse);
 		if($adresse!="") {
 			$htexte=10000;
 			$hcase=$h-$mc_haut-$mc_bas;
@@ -123,7 +152,7 @@
 		for ($i=0;$i<$nb_lignes;$i++) {
 			for ($k=0;$k<$nb_colonnes;$k++) {
 				if (($k+$i*$nb_colonnes)>=$ipcase && $j<$nb_enr) {
-				rectangle($pdf, $mp_gauche + $k*($l_page - $mp_gauche - $mp_droite)/$nb_colonnes, $mp_haut + $i * ($h_page - $mp_haut - $mp_bas)/$nb_lignes, ($l_page - $mp_gauche - $mp_droite)/$nb_colonnes, ($h_page - $mp_haut - $mp_bas)/$nb_lignes, $ids[$j],$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$taille_police);
+				rectangle($pdf, $mp_gauche + $k*($l_page - $mp_gauche - $mp_droite)/$nb_colonnes, $mp_haut + $i * ($h_page - $mp_haut - $mp_bas)/$nb_lignes, ($l_page - $mp_gauche - $mp_droite)/$nb_colonnes, ($h_page - $mp_haut - $mp_bas)/$nb_lignes, $ids[$j],$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$taille_police,$tpl);
 				}
 				$j++;
 			}

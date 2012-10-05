@@ -222,9 +222,6 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$nom_contact=$tab['nom_contact'];
 			$prenom_contact=$tab['prenom_contact'];
-			$adresse_complete="";
-			if (trim($prenom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=trim($prenom_contact)." ";
-			if (trim($nom_contact)!="" and trim($nom_contact)!="$$$$") $adresse_complete.=$nom_contact;
 			if ($tab['id_etablissement']>0) $id_etablissement=$tab['id_etablissement'];
 			$donnees[$tab['nom']]=array($tab['valeur'], $tab['label'], $tab['type'], $tab['date']);
 			if ($tab['valeur']!="" && $tab['type']=='email') $emails[]=$tab['valeur'];
@@ -275,14 +272,11 @@ where t1.id_casquette=$id and t1.actif=1 order by nom COLLATE NOCASE
 			}
 			$donnees_etab=$etout['donnees'];	
 		}
-		if ($adresse!="" && $adresse_complete=="") $adresse_complete=$adresse;
-		elseif ($adresse!="" && $adresse_complete!="") $adresse_complete.="\n".$adresse;
-		else $adresse_complete="";
 		Cache_modele::set('casquette',$id,'cp',$cp);
 		Cache_modele::set('casquette',$id,'adr',$adr);
 		Cache_modele::set('casquette',$id,'ville',$ville);
 		Cache_modele::set('casquette',$id,'pays',$pays);
-		Cache_modele::set('casquette',$id,'adresse',$adresse_complete);
+		Cache_modele::set('casquette',$id,'adresse',$adresse);
 		Cache_modele::set('casquette',$id,'emails',$emails);
 		Cache_modele::set('casquette',$id,'fonction',$fonction);
 		Cache_modele::set('casquette',$id,'donnees_etab',$donnees_etab);

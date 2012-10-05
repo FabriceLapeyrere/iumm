@@ -26,7 +26,7 @@
 	else {
 		$nom=$_POST['nom']['valeur'];
 		$id=Publipostage::aj_support($nom);
-		Publipostage::mod_support($id,297,210,1,1,0,0,0,0,0,0,0,0);
+		Publipostage::mod_support($id,297,210,1,1,0,0,0,0,0,0,0,0,"::NOM_COMPLET::\n::ADRESSE::");
 		$js="
 		$('#nsup').remove();
 		$.post('ajax.php',{action:'publipostage/supports', format:'html'},function(data){

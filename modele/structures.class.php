@@ -37,10 +37,10 @@ class Structures {
 		$listes=array();
 		$tab_cond_motifs=array();
 		if ($motifs!="") {
-			$tab_motifs=explode(' ',str_replace(',',' ',$motifs));
+			$tab_motifs=explode(' ',str_replace(',',' ',noaccent($motifs)));
 			foreach($tab_motifs as $motif){
 				if (trim($motif)!="") {
-					$motif=SQLite3::escapeString(noaccent($motif));
+					$motif=SQLite3::escapeString($motif);
 					$avant=$motif;
 					$motif=str_replace('!','',$motif);
 					if ($avant!=$motif) $motif="tri:$motif";

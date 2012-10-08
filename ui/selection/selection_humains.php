@@ -56,8 +56,8 @@
 	$('#sel_Netabs').attr('checked',".($_SESSION['selection']['Netabs']==1 ? 'true' : 'false').");
 	$('#sel_N').attr('checked',".($_SESSION['N']==1 ? 'true' : 'false').");
 	$('#sel_scombinaison').attr('checked',".($_SESSION['scombinaison']==1 ? 'true' : 'false').");
-	$('#sel_mots').val('".$_SESSION['selection']['mots']."');
-	$('#sel_motifs').val('".$_SESSION['selection']['motifs']."');
+	$('#sel_mots').val('".noaccent($_SESSION['selection']['mots'])."');
+	$('#sel_motifs').val('".noaccent($_SESSION['selection']['motifs'])."');
 	$('#sel_depts').val('".implode($_SESSION['selection']['depts'],', ')."');
 	";
 	$js.="

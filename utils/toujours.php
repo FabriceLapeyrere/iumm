@@ -11,9 +11,12 @@ function filter($txt) {
 	return preg_replace($search, $replace, $txt);
 }
 function noaccent($txt) {
-	$search = array ('@(é|è|ê|ë|Ê|Ë)@i','@(á|ã|à|â|ä|Â|Ä)@i','@(ì|í|i|i|î|ï|Î|Ï)@i','@(ú|û|ù|ü|Û|Ü)@i','@(ò|ó|õ|ô|ö|Ô|Ö)@i','@(ñ|Ñ)@i','@(ý|ÿ|Ý)@i','@(ç)@i','@(’)@i');
-	$replace = array ('e','a','i','u','o','n','y','c',"'");
-	return preg_replace($search, $replace, $txt);
+	$search = array ('@(é|è|ê|ë|Ê|Ë|È)@i','@(á|ã|à|â|ä|Â|Ä|À)@i','@(ì|í|i|i|î|ï|Î|Ï)@i','@(ú|û|ù|ü|Û|Ü)@i','@(ò|ó|õ|ô|ö|Ô|Ö)@i','@(ñ|Ñ)@i','@(ý|ÿ|Ý)@i','@(ç)@i','@[^a-zA-Z0-9_!]@');
+	$replace = array ('e','a','i','u','o','n','y','c',' ');
+	$res=strtolower(trim(preg_replace($search, $replace, $txt)));
+	$res=preg_replace('@([ ]+)@i', ' ', $res);
+	#error_log("-----$res-----\n",3,"tmp/fab.log");
+	return $res;
 }
 function mot($mot, $string)
 {

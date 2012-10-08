@@ -921,11 +921,11 @@ class html
 		
 		#motifs
 		$html_motifs="";
-		if ($motifs!="") $html_motifs="<b>Contient les mots :</b><br /> $motifs <br />";
+		if (noaccent($motifs)!="") $html_motifs="<b>Contient les mots :</b><br /> ".noaccent($motifs)." <br />";
 	
 		#mots
 		$html_mots="";
-		if ($mots!="") $html_mots="<b>Contient les mots entiers :</b><br /> $mots <br />";
+		if (noaccent($mots)!="") $html_mots="<b>Contient les mots entiers :</b><br /> ".noaccent($mots)." <br />";
 	
 		#départements
 		$html_depts="";

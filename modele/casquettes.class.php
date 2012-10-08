@@ -73,10 +73,10 @@ class Casquettes {
 		#motifs
 		$tab_cond_motifs=array();
 		if ($motifs!="") {
-			$tab_motifs=explode(' ',str_replace(',','',$motifs));
+			$tab_motifs=explode(' ',str_replace(',','',noaccent($motifs)));
 			foreach($tab_motifs as $motif){
 				if (trim($motif)!='') {
-					$motif=SQLite3::escapeString(noaccent($motif));
+					$motif=SQLite3::escapeString($motif);
 					$avant=$motif;
 					$motif=str_replace('!','',$motif);
 					if ($avant!=$motif) $motif="tri:$motif";
@@ -91,10 +91,10 @@ class Casquettes {
 		#mots
 		$tab_cond_mots=array();
 		if ($mots!="") {
-			$tab_mots=explode(' ',str_replace(',','',$mots));
+			$tab_mots=explode(' ',str_replace(',','',noaccent($mots)));
 			foreach($tab_mots as $mot){
 				if(trim($mot)!="") {
-					$mot=SQLite3::escapeString(noaccent($mot));
+					$mot=SQLite3::escapeString($mot);
 					$avant=$mot;
 					$mot=str_replace('!','',$mot);
 					if ($avant!=$mot) $mot="tri:$mot";

@@ -52,7 +52,7 @@
 				<span class='ui-button-text'>supprimer le bloc</span>
 			</button>
 				</div>\n";
-				$html.="$modele\n";
+				$html.=html_entity_decode($modele)."\n";
 				$html.="</div>\n";
 				$i++;			
 			}

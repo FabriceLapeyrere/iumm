@@ -58,20 +58,23 @@ if(Emailing::statut_envoi($id_envoi)==1) {
 		$i=$tab['i'];
 		$id_casquette=$tab['id_casquette'];
 	
-		$c=new Casquette($tab['id_casquette']);		
+		$c=new Casquette($tab['id_casquette']);
+		$nom="";
+		if ($c->nom_contact()=='$$$$') $nom=$c->nom_structure();
+		else $nom=trim($c->prenom_contact()." ".$c->nom_contact());
 		foreach($c->emails() as $id=>$email){
-			$mail->AddAddress($email,$c->prenom_contact()." ".$c->nom_contact());
+			$mail->AddAddress($email,$nom);
 		}
 	
 		if (!$mail->Send())
 		{
-			$log=date('d/m/Y H:i:s')." - ERREUR - ".$mail->ErrorInfo." - $i/$nb ".$c->prenom_contact()." ".$c->nom_contact()." : ".implode($c->emails(),', ')." \n";
+			$log=date('d/m/Y H:i:s')." - ERREUR - ".$mail->ErrorInfo." - $i/$nb $nom : ".implode($c->emails(),', ')." \n";
 			Emailing::message_erreur($tab['rowid'],$mail->ErrorInfo);
 			if(DEBUG_LOG) error_log($log, 3, "tmp/envoi.log");
 		}
 		else
 		{
-			$log=date('d/m/Y H:i:s')." - $i/$nb ".$c->prenom_contact()." ".$c->nom_contact()." : ".implode($c->emails(),', ')." \n";
+			$log=date('d/m/Y H:i:s')." - $i/$nb $nom : ".implode($c->emails(),', ')." \n";
 			Emailing::log_envoi($id_envoi, $log);
 			Emailing::sup_message($tab['rowid']);
 			if(DEBUG_LOG) error_log($log, 3, "tmp/envoi.log");

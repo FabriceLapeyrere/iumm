@@ -113,6 +113,7 @@ WHERE t3.nom!='####' and t4.id_categorie=".$this->id;
 		return $nb;
 	}
 	function suppr($id_utilisateur=1){
+		$casquettes=$this->casquettes();
 		$base = new SQLite3('db/contacts.sqlite');
 		$base->busyTimeout (10000);
 		$sql="delete from ass_casquette_categorie where id_categorie=".$this->id;
@@ -124,6 +125,9 @@ WHERE t3.nom!='####' and t4.id_categorie=".$this->id;
 			if ($this->id!=$id_categorie) $tab[]=$id_categorie;
 		}
 		$_SESSION['selection']['categories']=$tab;
+		foreach($casquettes as $id_cas){
+			Cache_modele::del('casquette',$id_cas,'categories');
+		}
 		$base->close();		
 	}
 }

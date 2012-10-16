@@ -24,7 +24,7 @@ class Emailing {
 		$envois=array();
 		$base = new SQLite3('db/mailing.sqlite');
 		$base->busyTimeout (10000);
-		$sql="select rowid, sujet, nb, date from envois $cond_motifs order by date desc limit $binf,20";
+		$sql="select rowid, sujet, nb, datetime(date,'localtime') as date from envois $cond_motifs order by date desc limit $binf,20";
 		$res = $base->query($sql);
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$envois[$tab['rowid']]=array('sujet'=>$tab['sujet'], 'nb'=>$tab['nb'], 'date'=>$tab['date']);

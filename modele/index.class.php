@@ -45,21 +45,19 @@ class Index {
 		}
 		$texte.=noaccent($tout['structure']['nom'])." ";
 		foreach ($tout['donnees'] as $donnee){
-			$search=noaccent($donnee[0]);
-			$search=str_replace('{"adresse":"',' ',$search);
-			$search=str_replace('","cp":"',' ',$search);
-			$search=str_replace('","ville":"',' ',$search);
-			$search=str_replace('","pays":"',' ',$search);
-			$search=str_replace('"}',' ',$search);
+			if ($donnee[2]=='adresse') {
+				$tab=json_decode($donnee[0],true);
+				$search=noaccent(implode(' ',$tab));
+			}
+			else $search=noaccent($donnee[0]);
 			$texte.=$search." ";
 		}
 		foreach ($tout['donnees_etab'] as $donnee){
-			$search=noaccent($donnee[0]);
-			$search=str_replace('{"adresse":"',' ',$search);
-			$search=str_replace('","cp":"',' ',$search);
-			$search=str_replace('","ville":"',' ',$search);
-			$search=str_replace('","pays":"',' ',$search);
-			$search=str_replace('"}',' ',$search);
+			if ($donnee[2]=='adresse') {
+				$tab=json_decode($donnee[0],true);
+				$search=noaccent(implode(' ',$tab));
+			}
+			else $search=noaccent($donnee[0]);
 			$texte.=$search." ";
 		}
 		$texte=SQLite3::escapeString($texte);

@@ -37,10 +37,11 @@
 		$mc_droite=$_POST['mc_droite']['valeur'];
 		$mc_haut=$_POST['mc_haut']['valeur'];
 		$mc_bas=$_POST['mc_bas']['valeur'];
+		$police=$_POST['police']['valeur'];
 		$tpl=$_POST['tpl']['valeur'];
 	
 		$s=Publipostage::support($id);
-		Publipostage::mod_support($id,$h_page,$l_page,$nb_lignes,$nb_colonnes,$mp_gauche,$mp_droite,$mp_haut,$mp_bas,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$tpl);
+		Publipostage::mod_support($id,$h_page,$l_page,$nb_lignes,$nb_colonnes,$mp_gauche,$mp_droite,$mp_haut,$mp_bas,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$police,$tpl);
 		$js="
 			$.post('ajax.php',{
 				action:'publipostage/support',

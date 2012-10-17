@@ -68,11 +68,11 @@ class Publipostage {
 		$res = $base->query($sql);
 		$base->close();
 	}
-	function mod_support($id,$h_page,$l_page,$nb_lignes,$nb_colonnes,$mp_gauche,$mp_droite,$mp_haut,$mp_bas,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$tpl) {
+	function mod_support($id,$h_page,$l_page,$nb_lignes,$nb_colonnes,$mp_gauche,$mp_droite,$mp_haut,$mp_bas,$mc_gauche,$mc_droite,$mc_haut,$mc_bas,$police,$tpl) {
 		$tpl=SQLite3::escapeString($tpl);
 		$base = new SQLite3('db/publipostage.sqlite');
 		$base->busyTimeout (10000);
-		$sql="update supports set h_page=$h_page,l_page=$l_page,nb_lignes=$nb_lignes,nb_colonnes=$nb_colonnes,mp_gauche=$mp_gauche,mp_droite=$mp_droite,mp_haut=$mp_haut,mp_bas=$mp_bas,mc_gauche=$mc_gauche,mc_droite=$mc_droite,mc_haut=$mc_haut,mc_bas=$mc_bas, tpl='$tpl' where rowid=$id";
+		$sql="update supports set h_page=$h_page,l_page=$l_page,nb_lignes=$nb_lignes,nb_colonnes=$nb_colonnes,mp_gauche=$mp_gauche,mp_droite=$mp_droite,mp_haut=$mp_haut,mp_bas=$mp_bas,mc_gauche=$mc_gauche,mc_droite=$mc_droite,mc_haut=$mc_haut,mc_bas=$mc_bas,police=$police, tpl='$tpl' where rowid=$id";
 		$res = $base->query($sql);
 		$base->close();
 	}

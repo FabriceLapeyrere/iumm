@@ -170,8 +170,7 @@
 			elseif($cle=='NOM_COMPLET') {
 				$c=new Casquette($id_casquette);
 				$contact=$c->contact();
-				if (trim($contact['prenom'])!="" and trim($contact['nom'])!="$$$$") $valeur.=trim($contact['prenom'])." ";
-				if (trim($contact['prenom'])!="" and trim($contact['nom'])!="$$$$") $valeur.=$contact['nom'];
+				if (trim($contact['nom'])!="$$$$") $valeur.=trim($contact['prenom']." ".$contact['nom'])." ";
 			}
 			else {
 				$donnees=Cache_modele::get('casquette',$id_casquette,'donnees');

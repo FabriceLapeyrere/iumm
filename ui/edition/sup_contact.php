@@ -46,6 +46,7 @@
 			'json'
 		);
 		";
+		$cats=array();
 		foreach($casquettes as $id_casquette){
 			$cas=new Casquette($id_casquette);
 			$id_etablissement=$cas->id_etablissement();
@@ -62,44 +63,45 @@
 				}
 			},'json');
 			";
-			$e=new Etablissement($id_etablissement);
-			foreach($e->casquettes() as $id_cas){
-				Cache::set_obsolete('casquette',$id_cas);
-				$js.="
-					$.post('ajax.php',{action:'edition/casquette', id_casquette:$id_cas,format:'html'},function(data){
-						if(data.succes==1){
-							$('#ed_casquette-$id_cas').html(data.html);
-							eval(data.js);
-							ed_ssapi.reinitialise();
-						}
-					},'json');
-			
-				";
-			}
-			foreach($cas->categories() as $id_categorie){
-				$cat=new Categorie($id_categorie);
-				$js.="
-				$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
-				$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
-				ed_scatapi.reinitialise();
-				$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
-				$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
-				sel_scatapi.reinitialise();
-				";
-				while ($cat->id_parent()!=0){
-					$cat=new Categorie($cat->id_parent());
+			if ($id_etablissement!=0) {
+				$e=new Etablissement($id_etablissement);
+				foreach($e->casquettes() as $id_cas){
+					Cache::set_obsolete('casquette',$id_cas);
 					$js.="
-					$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
-					$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
-					ed_scatapi.reinitialise();
-					$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".addslashes(Html::titre_categorie($cat->id))."';
-					$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
-					sel_scatapi.reinitialise();
+						$.post('ajax.php',{action:'edition/casquette', id_casquette:$id_cas,format:'html'},function(data){
+							if(data.succes==1){
+								$('#ed_casquette-$id_cas').html(data.html);
+								eval(data.js);
+								ed_ssapi.reinitialise();
+							}
+						},'json');
+			
 					";
 				}
 			}
+			$cats=array_merge($cats,$cas->categories());
 		}
 		$c->suppr($_SESSION['user']['id']);
+		foreach($cats as $id_categorie){
+			$cat=new Categorie($id_categorie);	
+			while ($cat->id!=0){
+				Cache::set_obsolete('ed_categorie',$cat->id);
+				Cache::set_obsolete('sel_categorie',$cat->id);
+				$js.="
+				if ($('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."')) {
+				$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';
+				$('#ed_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+				}
+				";
+				$js.="
+				if ($('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."')) {
+				$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').data.title='".json_escape(Html::titre_categorie($cat->id))."';
+				$('#sel_tree').dynatree('getTree').getNodeByKey('".$cat->id."').render();
+				}
+				";
+				$cat=new Categorie($cat->id_parent());
+			}
+		}
 	}
 	if($succes) {
 		$reponse['succes']=1;

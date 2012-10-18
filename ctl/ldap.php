@@ -24,7 +24,8 @@ function ldap_update($condition="1",$v=0) {
 		while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 			$liste[]=$tab['rowid'];
 		}
-	
+		$base->close();
+		
 		# on ecrit :
 		foreach($liste as $id){
 			$c= new Casquette($id);

@@ -55,7 +55,8 @@ class Index {
 		foreach ($tout['donnees_etab'] as $donnee){
 			if ($donnee[2]=='adresse') {
 				$tab=json_decode($donnee[0],true);
-				$search=noaccent(implode(' ',$tab));
+				$search="";
+				if (is_array($tab)) $search=noaccent(implode(' ',$tab));
 			}
 			else $search=noaccent($donnee[0]);
 			$texte.=$search." ";
@@ -97,6 +98,7 @@ class Index {
 		$base->exec($sql);
 		$base->close();
 		if(DEBUG_LOG) error_log(date('d/m/Y H:i:s')." - index casquette $id ".var_export($tout,true)."\n", 3, "tmp/fab.log");
-		if (LDAP==1) ldap_update("rowid=$id");
+		if (LDAP==1)
+			ldap_update("rowid=$id");
 	}
 }

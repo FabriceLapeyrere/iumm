@@ -195,12 +195,12 @@ class Newsletters {
 		$html=SQLite3::escapeString(str_replace("fichiers/news/$id_news","fichiers/envois/$id_envoi",$n->html()));
 		$sql="update envois set html='$html' where rowid=$id_envoi";
 		$base->query($sql);
-		$i=1;
+		$sql="BEGIN;";
 		foreach ($liste_casquettes as $id=>$casquette) {
-			$sql="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '')";
-			$base->query($sql);
+			$sql.="insert into boite_envoi (id_casquette, id_envoi, i, erreurs) VALUES ($id, $id_envoi, $i, '');";
 			$i++;
 		}
+		$sql.="COMMIT;";
 		$base->close();
 		smartCopy("fichiers/news/$id_news","fichiers/envois/$id_envoi");
 		return $id_envoi;

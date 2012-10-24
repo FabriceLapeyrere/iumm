@@ -202,6 +202,7 @@ class Newsletters {
 			$i++;
 		}
 		$sql.="COMMIT;";
+		$base->query($sql);
 		$base->close();
 		smartCopy("fichiers/news/$id_news","fichiers/envois/$id_envoi");
 		return $id_envoi;

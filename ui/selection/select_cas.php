@@ -9,7 +9,6 @@
 		$select_cass[]=$id_casquette;
 	}
 	$_SESSION['selection']['casquettes']=$select_cass;
-	$_SESSION['sel_binfc']=0;
 	$html="";
 	$js="
 	$.post('ajax.php',{

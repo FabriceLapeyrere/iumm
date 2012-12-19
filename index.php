@@ -255,52 +255,53 @@ echo "<script src='$js'></script>";
 
 	<div id="sel_humains"></div>
 	<div id="sel_filtres">
-	<div>
-	<input type="text" name="motifs" id="sel_motifs" value="<?=$sel_motifs?>">
-	<button class="motifs ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="rechercher">
-		<span class="ui-button-text">rechercher</span>
-	</button>
+		<div>
+		<input type="text" name="motifs" id="sel_motifs" value="<?=$sel_motifs?>">
+		<button class="motifs ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="rechercher">
+			<span class="ui-button-text">rechercher</span>
+		</button>
+		</div>
+		<div>
+		<input type="text" name="mots" id="sel_mots" value="<?=$sel_mots?>">
+		<button class="mots ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="rechercher">
+			<span class="ui-button-text">rechercher des mots entiers</span>
+		</button></div>
+		<div>
+		<input type="text" name="depts" id="sel_depts" value="<?=$html_depts?>">
+		<button class="depts ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="rechercher">
+			<span class="ui-button-text">départements</span>
+		</button>
+		</div>
+		<div style='clear:both;'></div>
+				<div><input type="checkbox" id="sel_email" <?=$html_email?>/> Avec e-mail. </div>
+				<div><input type="checkbox" id="sel_semail" <?=$html_semail?>/> Sans e-mail. </div>
+				<div><input type="checkbox" id="sel_adresse" <?=$html_adresse?>/> Avec adresse postale.</div>
+				<div><input type="checkbox" id="sel_sadresse" <?=$html_sadresse?>/> Sans adresse postale.</div>
+				<div><input type="checkbox" id="sel_Ncats" <?=$html_Ncats?>/> Pas dans les listes. </div>
+				<div><input type="checkbox" id="sel_Netabs" <?=$html_Netabs?>/> Pas dans les structures. </div>
+				<div><input type="checkbox" id="sel_cas" <?=$html_cas?>/> Parmi les contacts cochés. </div>
+				<div><input type="checkbox" id="sel_scas" <?=$html_scas?>/> Exclure les contacts cochés. </div>
+				<div><input type="checkbox" id="sel_N" <?=$html_N?>/> Inverser la selection.</div>
+		<div style='clear:both;'></div>
+		<div>
+		<span class="ui-buttonset">
+			<a id="sel_decoche" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="Tout décocher">
+				<span class="ui-button-text">Tout décocher</span>
+			</a>
+		</span>
+		<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['sel_binfc'],Casquettes::liste('nb'))?></span>
+		</div>
+<?php
+#		<ul class='sf-menu'>
+#			<li>
+#				<a href='#'>Actions</a>
+#				<ul>
+#					<li><a id="sel_action_cat" style="cursor:pointer;">ajouter à une catégorie</a></li>
+#				</ul>
+#			</li>
+#		</ul>
+?>
 	</div>
-	<div>
-	<input type="text" name="mots" id="sel_mots" value="<?=$sel_mots?>">
-	<button class="mots ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="rechercher">
-		<span class="ui-button-text">rechercher des mots entiers</span>
-	</button></div>
-	<div>
-	<input type="text" name="depts" id="sel_depts" value="<?=$html_depts?>">
-	<button class="depts ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="rechercher">
-		<span class="ui-button-text">départements</span>
-	</button>
-	</div>
-	<div style='clear:both;'></div>
-			<div><input type="checkbox" id="sel_email" <?=$html_email?>/> Avec e-mail. </div>
-			<div><input type="checkbox" id="sel_semail" <?=$html_semail?>/> Sans e-mail. </div>
-			<div><input type="checkbox" id="sel_adresse" <?=$html_adresse?>/> Avec adresse postale.</div>
-			<div><input type="checkbox" id="sel_sadresse" <?=$html_sadresse?>/> Sans adresse postale.</div>
-			<div><input type="checkbox" id="sel_Ncats" <?=$html_Ncats?>/> Pas dans les listes. </div>
-			<div><input type="checkbox" id="sel_Netabs" <?=$html_Netabs?>/> Pas dans les structures. </div>
-			<div><input type="checkbox" id="sel_cas" <?=$html_cas?>/> Parmi les contacts cochés. </div>
-			<div><input type="checkbox" id="sel_scas" <?=$html_scas?>/> Exclure les contacts cochés. </div>
-			<div><input type="checkbox" id="sel_N" <?=$html_N?>/> Inverser la selection.</div>
-	<div style='clear:both;'></div>
-	<div>
-	<span class="ui-buttonset">
-		<a id="sel_decoche" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" title="Tout décocher">
-			<span class="ui-button-text">Tout décocher</span>
-		</a>
-	</span>
-	<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['sel_binfc'],Casquettes::liste('nb'))?></span>
-	</div>
-	<ul class='sf-menu'>
-		<li>
-			<a href='#'>Actions</a>
-			<ul>
-				<li><a id="sel_action_cat" style="cursor:pointer;">ajouter à une catégorie</a></li>
-			</ul>
-		</li>
-	</ul>
-	</div>
-
 	<div id="sel_casquettes"><?=Html::casquettes_selection()?></div>
 	<div id="sel_categories"><div id="sel_tree"></div></div>
 	<div id="sel_structures">

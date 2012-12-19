@@ -57,6 +57,10 @@
 		echo "Corbeille\n";
 		$zip->addDirectory('modele/corbeille');
 	}
+	foreach(glob('conf/*.php') as $file) {
+		echo "$file\n";
+		$zip->addFile($file);
+	}
 	foreach(glob('tmp/*.log') as $file) {
 		echo "$file\n";
 		$zip->addFile($file);

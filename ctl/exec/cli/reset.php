@@ -24,7 +24,10 @@
 		}
 		rmdir($dir);
 	}
-    if (file_exists('ui/cache/fichiers')) {
+  	foreach(glob('conf/*.php') as $file) {
+	        unlink($file);
+	}
+	if (file_exists('ui/cache/fichiers')) {
 		rrmdir('ui/cache/fichiers');
 	}
     if (file_exists('modele/cache/fichiers')) {

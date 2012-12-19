@@ -14,9 +14,7 @@
 		$_SESSION['news_rep']="news/$id_news/";
 		$n=new Newsletter($id_news);
 		$html="
-		<button data-id='$id_news' class='env-news ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' role='button' aria-disabled='false' title='envoyer à la selection'>
-			<span class='ui-button-text'>envoyer à la selection</span>
-		</button><div class='titre'>".$n->sujet."</div>";
+		<div class='titre'>".$n->sujet."</div>";
 		$html.="<div id='news_content' data-id='$id_news'>\n";
 		$news=$n->news();
 		if ($news!=""){

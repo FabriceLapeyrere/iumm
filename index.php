@@ -136,6 +136,11 @@ $html_expediteurs=Html::expediteurs($binfadminx,$motifsadminx);
 <!--[if gte IE 8]><script src="ui/includes/upload/js/cors/jquery.xdr-transport.js"></script><![endif]-->
 
 <!-- fin fonctionnalité d'upload -->
+<?php
+foreach(glob('ui/plugs/*.js') as $js){
+echo "<script src='$js'></script>";
+}
+?>
 </head>
 <body>
 <div id="mask">
@@ -286,6 +291,14 @@ $html_expediteurs=Html::expediteurs($binfadminx,$motifsadminx);
 	</span>
 	<span class="pagination ui-buttonset"><?=Html::pagination($_SESSION['sel_binfc'],Casquettes::liste('nb'))?></span>
 	</div>
+	<ul class='sf-menu'>
+		<li>
+			<a href='#'>Actions</a>
+			<ul>
+				<li><a id="sel_action_cat" style="cursor:pointer;">ajouter à une catégorie</a></li>
+			</ul>
+		</li>
+	</ul>
 	</div>
 
 	<div id="sel_casquettes"><?=Html::casquettes_selection()?></div>
@@ -348,6 +361,9 @@ $html_expediteurs=Html::expediteurs($binfadminx,$motifsadminx);
 	</ul>
 	<div id="news_modeles">
 	<?=Html::modeles_news()?>
+	<button class='env-news ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' role='button' aria-disabled='false' title='envoyer à la selection'>
+		<span class='ui-button-text'>envoyer à la selection</span>
+	</button>
 	</div>
 	<div id="news_newsletter">
 	</div>

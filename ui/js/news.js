@@ -376,8 +376,8 @@ $(function() {
 		news_seapi.reinitialise();
 		news_snapi.reinitialise();
 	}
-	$('#news_newsletter').on('click', '.env-news', function(){
-		var id=$(this).dataset('id');
+	$('.env-news').click(function(){
+		var id=$('#news_content').dataset('id');
 		if($('#enews'+id).length == 0) {
 			$('<div id="enews'+id+'" class="local_news"></div>').dialog({
 				resizable: false,

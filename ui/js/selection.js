@@ -21,7 +21,32 @@ $(function() {
 	$('#sel_casquettes').on('mouseleave', '.casquette', function(){
 		$('#etat').html($(this).dataset('id')).hide();
 	});
-
+	$('#sel_action_cat').click(function(){
+		if($('#s_action_cat').length == 0) {
+			 $('<div id="s_action_cat" class="local_selection"></div>').dialog({
+				resizable: false,
+				close:function(){ 
+					$(this).remove();
+					delete window['form' + $(el).attr('id')];
+				},
+			});	
+		$.post('ajax.php',{
+			action:'selection/s_action_cat',
+			id_casquette:1
+			},
+			function(data){
+				if (data.succes==1) {
+					$('#s_action_cat').dialog('option',{title:data.titre});
+					$('#s_action_cat').html(data.html);
+					eval(data.js);
+				}
+			},
+			'json');
+		}
+		else {
+			$('#s_action_cat').dialog( 'moveToTop' );
+		}
+	});
 	$('#sel_casquettes').on({
 			mouseenter: function(){
 				var interieur=$(this).find('.titre').height()+$(this).find('.cas').height()

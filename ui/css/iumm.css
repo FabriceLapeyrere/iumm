@@ -91,7 +91,7 @@ a.dynatree-title{border:1px solid #aaa; border-radius:4px;text-decoration:none;}
 #sel_casquettes .casquette div.nomstr {padding:5px;}
 #sel_casquettes .casquette div.nometab {margin:5px;}
 #sel_casquettes .etabcas{margin-bottom:5px;}
-#sel_casquettes .cas {padding:5px;}
+#sel_casquettes .cas {padding:5px;position:relative;}
 #sel_categories{position:absolute;}
 #sel_structures{position:absolute;}
 #sel_filtres{position:absolute;}

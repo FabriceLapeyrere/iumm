@@ -31,6 +31,7 @@
 <button class='plus'>Ajouter un champ</button>
 <ul class='plus ui-widget-content'>
 	$a
+	<li class='champ' data-type='texte_court'>surnom</li>
 	<li class='champ' data-type='telephone'>Téléphone fixe</li>
 	<li class='champ' data-type='telephone'>Téléphone portable</li>
 	<li class='champ' data-type='email'>E-mail</li>

@@ -10,7 +10,7 @@ $base->busyTimeout (10000);
 $email=SQLite3::escapeString($email);		
 $sql="select rowid from indexes where text match '$email'";
 $res = $base->query($sql);
-$retour='';
+$retour=array();
 $id=0;
 while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 	$id=$tab['rowid'];
@@ -18,7 +18,8 @@ while ($tab=$res->fetchArray(SQLITE3_ASSOC)) {
 $base->close();
 if ($id>0) {
 	$c=new Casquette($id);
-	$retour=json_encode($c->tout());
+	$retour=$c->tout();
+	$retour['id']=$c->id;
 }
-echo $retour;
+echo json_encode($retour);
 ?>

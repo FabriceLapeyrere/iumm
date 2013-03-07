@@ -362,9 +362,6 @@ echo "<script src='$js'></script>";
 	</ul>
 	<div id="news_modeles">
 	<?=Html::modeles_news()?>
-	<button class='env-news ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' role='button' aria-disabled='false' title='envoyer à la selection'>
-		<span class='ui-button-text'>envoyer à la selection</span>
-	</button>
 	</div>
 	<div id="news_newsletter">
 	</div>

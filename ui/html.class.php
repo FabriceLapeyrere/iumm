@@ -1331,6 +1331,9 @@ class html
 			<span class='ui-button-icon-primary ui-icon ui-icon-plusthick'></span>
 			<span class='ui-button-text'>Nouveau modèle</span>
 		</button>";
+		$html.="<button class='env-news ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' role='button' aria-disabled='false' title='envoyer à la selection'>
+			<span class='ui-button-text'>envoyer à la selection</span>
+		</button>";
 		return $html;
 	}
 }

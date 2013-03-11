@@ -28,8 +28,12 @@
 		$nom=$_POST['nom']['valeur'];
 	
 		#on rend le cache obsolete
-		Cache::set_obsolete('ed_categorie',$id);
-		Cache::set_obsolete('sel_categorie',$id);
+		$cat=new Categorie($id);
+		while ($cat->id!=0){
+			Cache::set_obsolete('ed_categorie',$cat->id);
+			Cache::set_obsolete('sel_categorie',$cat->id);
+			$cat=new Categorie($cat->id_parent());
+		}
 		
 		$c=new Categorie($id);
 		$c->mod_nom($nom, $_SESSION['user']['id']);

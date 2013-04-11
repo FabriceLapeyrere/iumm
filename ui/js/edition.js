@@ -571,25 +571,25 @@ $(function() {
 				/** This function MUST be defined to enable dropping of items on
 				 * the tree.
 				 */
-				$.post('ajax.php',{
-					action:'edition/mod_categorie',
-					id:sourceNode.data.key,
-					id_parent:node.data.key
-					},
-					function(data){
-						if (data.succes==1) {
-							if (data.move==1) {
-								sourceNode.move(node, hitMode);
-								// expand the drop target
-								sourceNode.expand(true);
+				if (hitMode=="over"){
+					$.post('ajax.php',{
+						action:'edition/mod_categorie',
+						id:sourceNode.data.key,
+						id_parent:node.data.key
+						},
+						function(data){
+							if (data.succes==1) {
+								if (data.move==1) {
+									sourceNode.move(node, hitMode);
+									// expand the drop target
+									sourceNode.expand(true);
+								}
+								eval(data.js);
 							}
-							eval(data.js);
-						}
-					},
-					'json'
-				);
-				
-				
+						},
+						'json'
+					);
+				}
 			},
 			onDragLeave: function(node, sourceNode) {
 				/** Always called if onDragEnter was called.
